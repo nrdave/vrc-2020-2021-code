@@ -79,6 +79,18 @@ void Chassis::chassisPID(float leftTarg, float rightTarg, int maxVelo)
     //Enter a while loop that runs until both sides are within 20 degrees of target rotation
     while(abs(leftError) > 20 && abs(rightError) > 20)
     {
-        
+
     }
+}
+
+void Chassis::setVelocity(int leftVelo, int rightVelo)
+{
+    /**
+     * As noted in chassis.hpp, setVelocity simply encapsulates
+     * the okapi moveVelocity function into a cleaner package,
+     * while also allowing manual velocity setting in an
+     * autonomous routine
+     */ 
+    leftBase.moveVelocity(leftVelo);
+    rightBase.moveVelocity(rightVelo);
 }

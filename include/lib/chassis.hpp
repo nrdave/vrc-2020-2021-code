@@ -100,4 +100,18 @@ class Chassis {
          *          speed in autonomous, to minimize overshooting
          */
         void chassisPID(float leftTarg, float rightTarg, int maxVelo); 
+
+        /**
+         * The setVelocity function encapsulates the okapi moveVelocity motor group function
+         * for each base motor group into 1 function. This serves 2 purposes:
+         * 1. More convenient setting of motor group velocities in Chassis member functions
+         * 2. In the case of extreme emergency (i.e. all autonomous code has broken for some
+         *      reason and the team has a match soon), setVelocity can be used to manually
+         *      control the motors in a timer-based autonomous.
+         * 
+         * Parameters:
+         * leftVelo: the velocity to set the leftBase motor group to
+         * rightVelo: the velocity to set the rightBase motor group to
+         */
+        void setVelocity(int leftVelo, int rightVelo); 
 };
