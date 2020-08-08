@@ -15,6 +15,11 @@
 #define RED okapi::AbstractMotor::gearset::red
 #define BLUE okapi::AbstractMotor::gearset::blue
 
+//Defining PID function constants
+#define KP = 0.5
+#define KI = 0
+#define KD = 0
+
 class Chassis {
     private:
         /**

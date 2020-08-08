@@ -58,5 +58,27 @@ void Chassis::driver(okapi::Controller controller) {
 
 void Chassis::chassisPID(float leftTarg, float rightTarg, int maxVelo)
 {
-    
+    /**
+     * Convert leftTarg and rightTarg from inches to travel to degrees for the
+     * wheels to rotate
+     * The distance the wheel travels (if it isn't slipping) over 1 full rotation is
+     * equal to its circumference. So, for a wheel with a diameter of 4 inches, it would
+     * travel 4*pi inches over 1 full rotation.
+     * So, the conversion factor between inches to travel and degrees to rotate is
+     * 360 degrees/(wheel diameter * pi), as wheel diameter times pi is the inches traveled
+     * over 1 rotation, while 360 degrees is degrees rotated over 1 rotation
+     */ 
+    leftTarg *= 360/(wheelDiameter * 3.1415);
+    rightTarg *= 360/(wheelDiameter * 3.1415);
+    //Reset the encoders of each motor group to 0
+    leftBase.tarePosition();
+    rightBase.tarePosition();
+    //Calculate the initial error
+    float leftError = leftTarg - leftBase.getPosition(); 
+    float rightError = rightTarg - rightBase.getPosition();
+    //Enter a while loop that runs until both sides are within 20 degrees of target rotation
+    while(abs(leftError) > 20 && abs(rightError) > 20)
+    {
+        
+    }
 }
