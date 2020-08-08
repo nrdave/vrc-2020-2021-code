@@ -1,3 +1,3 @@
-This is the repository for ACP Robotics' code for the 2020-2021 competitive season
+# Knights Code
 
-Each team has a respective branch to push their code to
+This branch contains the code for team 6030K, the Knights, for the 2020-2021 VEX Robotics Season, Change Up
