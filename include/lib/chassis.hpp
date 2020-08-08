@@ -15,10 +15,6 @@
 #define RED okapi::AbstractMotor::gearset::red
 #define BLUE okapi::AbstractMotor::gearset::blue
 
-//Defining PID function constants
-#define KP = 0.5
-#define KI = 0
-#define KD = 0
 
 class Chassis {
     private:
@@ -36,6 +32,14 @@ class Chassis {
          * autonomous functions from inches to degrees to rotate for
          */ 
         float wheelDiameter;
+
+        /**
+         * The PID constant values, kP for the proportional constant,
+         * kI for the integral constant, and kD for the derivative constant
+         */ 
+        float kP;
+        float kI;
+        float kD;
     public:
         /**
          * One of the constructors for a chassis object. This one is for a tank
@@ -51,7 +55,7 @@ class Chassis {
          * wD: the diameter of the wheels used
          */ 
         Chassis(int leftMotor, int rightMotor, bool leftReversed, bool rightReversed, 
-                okapi::AbstractMotor::gearset gearset, float wD);
+                okapi::AbstractMotor::gearset gearset, float wheelD, float Pconst, float Iconst, float Dconst);
         /** 
          * One of the constructors for a chassis object. This one is for a tank
          * drive with 2 motors powering each side
@@ -72,7 +76,8 @@ class Chassis {
         Chassis(int leftFrontMotor, int rightFrontMotor, int leftBackMotor, int rightBackMotor, 
                 bool leftFrontReversed, bool rightFrontReversed, 
                 bool leftBackReversed, bool rightBackReversed,
-                okapi::AbstractMotor::gearset gearset, float wD);
+                okapi::AbstractMotor::gearset gearset, float wD, 
+                float Pconst, float Iconst, float Dconst);
 
         /**
          * The driver function allows control of the chassis during the opcontrol period,
@@ -99,7 +104,7 @@ class Chassis {
          * maxVelo: The maximum velocity each motor group can reach. Used to limit the robot's
          *          speed in autonomous, to minimize overshooting
          */
-        void chassisPID(float leftTarg, float rightTarg, int maxVelo); 
+        void chassisPID(float leftTarg, float rightTarg, int maxSpeed); 
 
         /**
          * The setVelocity function encapsulates the okapi moveVelocity motor group function

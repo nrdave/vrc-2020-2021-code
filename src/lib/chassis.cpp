@@ -8,7 +8,8 @@
 
 Chassis::Chassis(int leftMotor, int rightMotor, 
                  bool leftReversed, bool rightReversed, 
-                 okapi::AbstractMotor::gearset gearset, float wD):
+                 okapi::AbstractMotor::gearset gearset, float wD,
+                 float Pconst, float Iconst, float Dconst):
                  rightBase({okapi::Motor(rightMotor, rightReversed, 
                     gearset, okapi::AbstractMotor::encoderUnits::degrees)}),                 
                  leftBase({okapi::Motor(leftMotor, leftReversed, 
@@ -17,15 +18,19 @@ Chassis::Chassis(int leftMotor, int rightMotor,
     /**
      * The Chassis Constructor needs to instantiate the
      * rightBase and leftBase objects, which must be done through
-     * the constructor initializer list. Then, it sets the wheelDiameter variable
-     * to the passed in value
+     * the constructor initializer list. Then, it sets the wheelDiameter 
+     * and PID constant variables to the passed in values
      */ 
     wheelDiameter = wD;
+    kP = Pconst;
+    kI = Iconst;
+    kD = Dconst;
 }
 
 Chassis::Chassis(int leftFrontMotor, int rightFrontMotor, int leftBackMotor, int rightBackMotor, 
                 bool leftFrontReversed, bool rightFrontReversed, bool leftBackReversed, bool rightBackReversed,
-                okapi::AbstractMotor::gearset gearset, float wD):
+                okapi::AbstractMotor::gearset gearset, float wD, 
+                float Pconst, float Iconst, float Dconst):
                  rightBase({okapi::Motor(rightFrontMotor, rightFrontReversed, 
                                 gearset, okapi::AbstractMotor::encoderUnits::degrees), 
                             okapi::Motor(rightBackMotor, rightBackReversed, 
@@ -38,10 +43,13 @@ Chassis::Chassis(int leftFrontMotor, int rightFrontMotor, int leftBackMotor, int
     /**
      * The Chassis Constructor needs to instantiate the
      * rightBase and leftBase objects, which must be done through
-     * the constructor initializer list. Then, it sets the wheelDiameter variable
-     * to the passed in value
+     * the constructor initializer list. Then, it sets the wheelDiameter 
+     * and PID constant variables to the passed in values
      */ 
     wheelDiameter = wD;
+    kP = Pconst;
+    kI = Iconst;
+    kD = Dconst;
 }
 
 void Chassis::driver(okapi::Controller controller) {
@@ -56,7 +64,7 @@ void Chassis::driver(okapi::Controller controller) {
     rightBase.controllerSet(controller.getAnalog(okapi::ControllerAnalog::rightY));
 }
 
-void Chassis::chassisPID(float leftTarg, float rightTarg, int maxVelo)
+void Chassis::chassisPID(float leftTarg, float rightTarg, int maxSpeed)
 {
     /**
      * Convert leftTarg and rightTarg from inches to travel to degrees for the
@@ -73,13 +81,55 @@ void Chassis::chassisPID(float leftTarg, float rightTarg, int maxVelo)
     //Reset the encoders of each motor group to 0
     leftBase.tarePosition();
     rightBase.tarePosition();
-    //Calculate the initial error
-    float leftError = leftTarg - leftBase.getPosition(); 
-    float rightError = rightTarg - rightBase.getPosition();
+    //Declare or initialize all variables used in the loop
+    float leftError;
+    float rightError;
+    float leftOutput;
+    float rightOutput;
+    //Integral variables are initiated so that the += operator can be used throughout the while loop
+    float leftIntegral = 0;
+    float rightIntegral = 0;
+    float leftDerivative;
+    float rightDerivative;
+    //Previous error will be equal to the current error, but it is cleaner to set the current error in the while loop
+    float leftPrevError = leftTarg - leftBase.getPosition();
+    float rightPrevError = rightTarg - rightBase.getPosition();
     //Enter a while loop that runs until both sides are within 20 degrees of target rotation
     while(abs(leftError) > 20 && abs(rightError) > 20)
     {
+        //Calculate the error
+        leftError = leftTarg - leftBase.getPosition(); 
+        rightError = rightTarg - rightBase.getPosition();
 
+        //Calculate the integral
+        leftIntegral += leftError;
+        rightIntegral += rightError;
+
+        //Calculate the derivative
+        leftDerivative = leftError - leftPrevError;
+        rightDerivative = rightError - rightPrevError;
+
+        //Set the previous error
+        leftPrevError = leftError;
+        rightPrevError = rightError;
+
+        //Set the output values
+        leftOutput = leftError * kP + leftIntegral * kI + leftDerivative * kD;
+        rightOutput = rightError * kP + rightIntegral * kI + rightDerivative * kD;
+        /**
+         * Ensure that the output velocities are not greater than the 
+         * upper speed bound passed in
+         */ 
+        if(abs(leftOutput) > maxSpeed)
+            if(leftOutput < 0) leftOutput = -maxSpeed;
+            else leftOutput = maxSpeed;
+        if(abs(rightOutput) > maxSpeed)
+            if(rightOutput < 0) rightOutput = -maxSpeed;
+            else rightOutput = maxSpeed;
+        //Set the motor group velocities to the output speeds
+        setVelocity(leftOutput, rightOutput);
+
+        pros::delay(15);
     }
 }
 
