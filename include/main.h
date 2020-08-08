@@ -35,12 +35,13 @@
 #define PROS_USE_LITERALS
 
 #include "api.h"
+#include "okapi/api.hpp"
+//#include "pros/api_legacy.h"
 
 /**
- * You should add more #includes here
- */
-//#include "okapi/api.hpp"
-//#include "pros/api_legacy.h"
+ * #includes for the various user-written header files
+ */ 
+#include "lib/chassis.hpp"
 
 /**
  * If you find doing pros::Motor() to be tedious and you'd prefer just to do
