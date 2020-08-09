@@ -101,22 +101,43 @@ class Chassis {
          *           Can be negative to indicate rotating backwards
          * rightTarg: The target length to move to, in inches, for the right side of the base
          *           Can be negative to indicate rotating backwards
-         * maxVelo: The maximum velocity each motor group can reach. Used to limit the robot's
-         *          speed in autonomous, to minimize overshooting
+         * maxSpeed: the maximum speed the chassis motors can run at (in RPM)
          */
         void chassisPID(float leftTarg, float rightTarg, int maxSpeed); 
 
         /**
-         * The setVelocity function encapsulates the okapi moveVelocity motor group function
-         * for each base motor group into 1 function. This serves 2 purposes:
+         * The setVelocity function manually sets the velocity of each motor group. This has 2 main
+         * use cases:
          * 1. More convenient setting of motor group velocities in Chassis member functions
          * 2. In the case of extreme emergency (i.e. all autonomous code has broken for some
-         *      reason and the team has a match soon), setVelocity can be used to manually
-         *      control the motors in a timer-based autonomous.
+         *    reason and the team has a match soon), setVelocity can be used to manually
+         *    control the motors in a timer-based autonomous.
          * 
          * Parameters:
          * leftVelo: the velocity to set the leftBase motor group to
          * rightVelo: the velocity to set the rightBase motor group to
          */
         void setVelocity(int leftVelo, int rightVelo); 
+
+        /**
+         * The turnAngle function is an autonomous function used to turn the robot
+         * to a specific angle, relative to its current position.
+         * 
+         * Parameters:
+         * angle: the angle to which to turn. Clockwise is positive, counterclockwise
+         *        is negative. For example, passing in 45 would make the robot turn
+         *        45 degrees to the right (clockwise, from an overhead view)
+         * maxSpeed: the maximum speed the chassis motors can run at (in RPM)
+         */ 
+        void turnAngle(float angle, int maxSpeed);
+
+        /**
+         * The moveStraight function is an autonomous function used to
+         * tell the robot to drive forward or backward a given amount
+         * 
+         * Parameters: 
+         * distance: the distance to travel, in inches. Negative values = backwards
+         * maxSpeed: the maximum speed the chassis motors can run at (in RPM)
+         */
+        void moveStraight(float distance, int maxSpeed); 
 };
