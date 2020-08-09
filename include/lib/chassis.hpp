@@ -34,6 +34,11 @@ class Chassis {
         float wheelDiameter;
 
         /**
+         * Variable to hold the "Radius" of the base, which is the distance from
+         * the middle to one of the sides. This value is used in the turnAngle function
+         */ 
+        float baseRadius;
+        /**
          * The chassisPID function is a PID controller for the base. It sets each side of 
          * the base to move a specified length. It is used as the base for all autonomous 
          * functions. Individual functions conduct any calculations needed to get the 
@@ -74,7 +79,8 @@ class Chassis {
          * Dconst: the value of the derivative constant in the PID controller
          */ 
         Chassis(int leftMotor, int rightMotor, bool leftReversed, bool rightReversed, 
-                okapi::AbstractMotor::gearset gearset, float wheelD, float Pconst, float Iconst, float Dconst);
+                okapi::AbstractMotor::gearset gearset, float wD, float bR,
+                float Pconst, float Iconst, float Dconst);
         /** 
          * One of the constructors for a chassis object. This one is for a tank
          * drive with 2 motors powering each side
@@ -98,7 +104,7 @@ class Chassis {
         Chassis(int leftFrontMotor, int rightFrontMotor, int leftBackMotor, int rightBackMotor, 
                 bool leftFrontReversed, bool rightFrontReversed, 
                 bool leftBackReversed, bool rightBackReversed,
-                okapi::AbstractMotor::gearset gearset, float wD, 
+                okapi::AbstractMotor::gearset gearset, float wD, float bR,
                 float Pconst, float Iconst, float Dconst);
 
         /**

@@ -8,7 +8,7 @@
 
 Chassis::Chassis(int leftMotor, int rightMotor, 
                  bool leftReversed, bool rightReversed, 
-                 okapi::AbstractMotor::gearset gearset, float wD,
+                 okapi::AbstractMotor::gearset gearset, float wD, float bR,
                  float Pconst, float Iconst, float Dconst):
                  rightBase({okapi::Motor(rightMotor, rightReversed, 
                     gearset, okapi::AbstractMotor::encoderUnits::degrees)}),                 
@@ -18,10 +18,11 @@ Chassis::Chassis(int leftMotor, int rightMotor,
     /**
      * The Chassis Constructor needs to instantiate the
      * rightBase and leftBase objects, which must be done through
-     * the constructor initializer list. Then, it sets the wheelDiameter 
-     * and PID constant variables to the passed in values
+     * the constructor initializer list. Then, it sets the wheelDiameter, 
+     * baseRadius, and PID constant variables to the passed in values
      */ 
     wheelDiameter = wD;
+    baseRadius = bR;
     kP = Pconst;
     kI = Iconst;
     kD = Dconst;
@@ -29,7 +30,7 @@ Chassis::Chassis(int leftMotor, int rightMotor,
 
 Chassis::Chassis(int leftFrontMotor, int rightFrontMotor, int leftBackMotor, int rightBackMotor, 
                 bool leftFrontReversed, bool rightFrontReversed, bool leftBackReversed, bool rightBackReversed,
-                okapi::AbstractMotor::gearset gearset, float wD, 
+                okapi::AbstractMotor::gearset gearset, float wD, float bR, 
                 float Pconst, float Iconst, float Dconst):
                  rightBase({okapi::Motor(rightFrontMotor, rightFrontReversed, 
                                 gearset, okapi::AbstractMotor::encoderUnits::degrees), 
@@ -43,10 +44,11 @@ Chassis::Chassis(int leftFrontMotor, int rightFrontMotor, int leftBackMotor, int
     /**
      * The Chassis Constructor needs to instantiate the
      * rightBase and leftBase objects, which must be done through
-     * the constructor initializer list. Then, it sets the wheelDiameter 
-     * and PID constant variables to the passed in values
+     * the constructor initializer list. Then, it sets the wheelDiameter, 
+     * baseRadius, and PID constant variables to the passed in values
      */ 
     wheelDiameter = wD;
+    baseRadius = bR;
     kP = Pconst;
     kI = Iconst;
     kD = Dconst;
