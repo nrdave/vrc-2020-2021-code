@@ -36,6 +36,10 @@ class Chassis {
         /**
          * Variable to hold the "Radius" of the base, which is the distance from
          * the middle to one of the sides. This value is used in the turnAngle function
+         * 
+         * As long as the base is rectangular, the turning point of the robot will always
+         * be down the robot's front-facing middle. So, this value will be usable no matter
+         * the wheel configuration
          */ 
         float baseRadius;
         /**

@@ -159,3 +159,29 @@ void Chassis::moveStraight(float distance, int maxSpeed)
      */ 
     chassisPID(distance, distance, maxSpeed);
 }
+
+void Chassis::turnAngle(float angle, int maxSpeed)
+{
+    /**
+     * The distance each side needs to rotate can be found with the 
+     * arc length equation s = r * theta, where theta is the angle
+     * in radians, r is the radius of the circle, and s is the 
+     * arc length.
+     * This equation works because the robot turns around a point,
+     * so while it might not be perfectly accurate, it is more than a
+     * good enough approximation.
+     * Relating the equation with the statement below, baseRadius is r,
+     * angle * (3.1415/180) is theta (as the angle passed in is degrees,
+     * and the arc length equation uses radians), and turnLength is s
+     */ 
+    double turnLength = angle * (3.1415/180) * baseRadius;
+    /**
+     * As stated in chassis.hpp, a positive angle will make the robot
+     * turn clockwise. To achieve this, the left side of the base must 
+     * move forward. So, the target for the right side is negative by
+     * default. If the input angle is negative, the signs are switched,
+     * so the right side goes forward, and the left goes backward, turning
+     * the robot counterclockwise
+     */ 
+    chassisPID(distance, -distance, maxSpeed);
+}
