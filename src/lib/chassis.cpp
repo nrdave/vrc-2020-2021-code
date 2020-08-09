@@ -144,3 +144,16 @@ void Chassis::setVelocity(int leftVelo, int rightVelo)
     leftBase.moveVelocity(leftVelo);
     rightBase.moveVelocity(rightVelo);
 }
+
+void Chassis::moveStraight(float distance, int maxSpeed)
+{
+    /**
+     * The moveStraight function just slightly simplifies the chassisPID
+     * function, cutting down on a paramter. This is purely added for
+     * convenience/readability. Although not having this function wouldn't
+     * change anything signifigant, I wanted to keep the chassisPID function
+     * private, as, in my mind, it makes sense for an object's PID controller
+     * to be kept private.
+     */ 
+    chassisPID(distance, distance, maxSpeed);
+}
