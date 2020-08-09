@@ -34,6 +34,23 @@ class Chassis {
         float wheelDiameter;
 
         /**
+         * The chassisPID function is a PID controller for the base. It sets each side of 
+         * the base to move a specified length. It is used as the base for all autonomous 
+         * functions. Individual functions conduct any calculations needed to get the 
+         * needed target values before passing those values into chassisPID. This means
+         * that the PID controller for the chassis need only be tuned once, but used in all
+         * autonomous functions
+         * 
+         * Parameters:
+         * leftTarg: The target length to move to, in inches, for the left side of the base
+         *           Can be negative to indicate rotating backwards
+         * rightTarg: The target length to move to, in inches, for the right side of the base
+         *           Can be negative to indicate rotating backwards
+         * maxSpeed: the maximum speed the chassis motors can run at (in RPM)
+         */
+        void chassisPID(float leftTarg, float rightTarg, int maxSpeed); 
+
+        /**
          * The PID constant values, kP for the proportional constant,
          * kI for the integral constant, and kD for the derivative constant
          */ 
@@ -53,6 +70,9 @@ class Chassis {
          * gearset: the motor gearset used in the motors (it is assumed that both 
          * motors use the same gearset)
          * wD: the diameter of the wheels used
+         * Pconst: the value of the proportional constant in the PID controller
+         * Iconst: the value of the integral constant in the PID controller
+         * Dconst: the value of the derivative constant in the PID controller
          */ 
         Chassis(int leftMotor, int rightMotor, bool leftReversed, bool rightReversed, 
                 okapi::AbstractMotor::gearset gearset, float wheelD, float Pconst, float Iconst, float Dconst);
@@ -72,6 +92,9 @@ class Chassis {
          * gearset: the motor gearset used in the motors (it is assumed that both 
          *          motors use the same gearset)
          * wD: the diameter of the wheels used
+         * Pconst: the value of the proportional constant in the PID controller
+         * Iconst: the value of the integral constant in the PID controller
+         * Dconst: the value of the derivative constant in the PID controller
          */ 
         Chassis(int leftFrontMotor, int rightFrontMotor, int leftBackMotor, int rightBackMotor, 
                 bool leftFrontReversed, bool rightFrontReversed, 
@@ -88,22 +111,7 @@ class Chassis {
          */ 
         void driver(okapi::Controller controller);
 
-        /**
-         * The chassisPID function is a PID controller for the base. It sets each side of 
-         * the base to move a specified length. It is used as the base for all autonomous 
-         * functions. Individual functions conduct any calculations needed to get the 
-         * needed target values before passing those values into chassisPID. This means
-         * that the PID controller for the chassis need only be tuned once, but used in all
-         * autonomous functions
-         * 
-         * Parameters:
-         * leftTarg: The target length to move to, in inches, for the left side of the base
-         *           Can be negative to indicate rotating backwards
-         * rightTarg: The target length to move to, in inches, for the right side of the base
-         *           Can be negative to indicate rotating backwards
-         * maxSpeed: the maximum speed the chassis motors can run at (in RPM)
-         */
-        void chassisPID(float leftTarg, float rightTarg, int maxSpeed); 
+
 
         /**
          * The setVelocity function manually sets the velocity of each motor group. This has 2 main
