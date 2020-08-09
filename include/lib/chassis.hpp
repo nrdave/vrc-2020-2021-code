@@ -38,8 +38,7 @@ class Chassis {
          * the base to move a specified length. It is used as the base for all autonomous 
          * functions. Individual functions conduct any calculations needed to get the 
          * needed target values before passing those values into chassisPID. This means
-         * that the PID controller for the chassis need only be tuned once, but used in all
-         * autonomous functions
+         * that the PID controller for the chassis need only be tuned once
          * 
          * Parameters:
          * leftTarg: The target length to move to, in inches, for the left side of the base
