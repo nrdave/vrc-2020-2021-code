@@ -13,7 +13,12 @@
 
 class GUI
 {
-    public:
     private:
 
+        Screen scrMain;
+        
+        std::vector<Screen> screens;
+
+    public:
+        GUI(std::initializer_list<Screen> scrs);
 };

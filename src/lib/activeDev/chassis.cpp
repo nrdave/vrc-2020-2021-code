@@ -1,10 +1,10 @@
+#include "main.h"
+
 /**
  * The implementation of the Chassis class
  * This file contains the source code for the chassis class, along with
  * explanations of how each function works
  */ 
-
-#include "main.h"
 
 Chassis::Chassis(int leftMotor, int rightMotor, 
                  bool leftReversed, bool rightReversed, 
@@ -16,7 +16,7 @@ Chassis::Chassis(int leftMotor, int rightMotor,
                     gearset, okapi::AbstractMotor::encoderUnits::degrees)})
 {
     /**
-     * The Chassis Constructor needs to instantiate the
+     * The Chassis Constructor needs to initialize the
      * rightBase and leftBase objects, which must be done through
      * the constructor initializer list. Then, it sets the wheelDiameter, 
      * baseRadius, and PID constant variables to the passed in values
@@ -42,7 +42,7 @@ Chassis::Chassis(int leftFrontMotor, int rightFrontMotor, int leftBackMotor, int
                                 gearset, okapi::AbstractMotor::encoderUnits::degrees)})
 {
     /**
-     * The Chassis Constructor needs to instantiate the
+     * The Chassis Constructor needs to initialize the
      * rightBase and leftBase objects, which must be done through
      * the constructor initializer list. Then, it sets the wheelDiameter, 
      * baseRadius, and PID constant variables to the passed in values
