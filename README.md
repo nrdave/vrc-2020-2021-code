@@ -2,9 +2,9 @@
 
 This branch contains the code for team 6030K, the Knights, for the 2020-2021 VEX Robotics Season, Change Up
 
-# Project Structure
+## Project Structure
 
-## Class Library
+### Class Library
 
 The majority of the source code resides in the lib folder under src. This folder contains user-written source files that
 serve as a class library allowing for robot programming. For example, the Chassis class, which allows for the creation of
@@ -20,7 +20,7 @@ they are only included in wired uploads, rather than wireless ones. In theory, o
 tested and found to work without issues), there is no reason to include it in the image PROS sends to the V5 Brain in a wireless
 upload.
 
-## PROS Function Files
+### PROS Function Files
 
 When you create a new PROS project, all the functions defined in main.h (like opcontrol, autonomous, initialize, and disabled) are
 included in a single main.cpp file. However, PROS used to split the functions into 3 files, opcontrol.cpp, autonomous.cpp, and
