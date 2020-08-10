@@ -183,5 +183,5 @@ void Chassis::turnAngle(float angle, int maxSpeed)
      * so the right side goes forward, and the left goes backward, turning
      * the robot counterclockwise
      */ 
-    chassisPID(distance, -distance, maxSpeed);
+    chassisPID(turnLength, -turnLength, maxSpeed);
 }
