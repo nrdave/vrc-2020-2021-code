@@ -42,7 +42,6 @@
  * #includes for the various user-written header files
  */ 
 #include "lib/chassis.hpp"
-#include "lib/gui.hpp"
 #include "lib/screen.hpp"
 /**
  * If you find doing pros::Motor() to be tedious and you'd prefer just to do
