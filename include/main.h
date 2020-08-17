@@ -42,7 +42,8 @@
  * #includes for the various user-written header files
  */ 
 #include "lib/chassis.hpp"
-#include "lib/screen.hpp"
+#include "lib/gui.hpp"
+#include "lib/externs.hpp"
 /**
  * If you find doing pros::Motor() to be tedious and you'd prefer just to do
  * Motor, you can use the namespace with the following commented out line.
