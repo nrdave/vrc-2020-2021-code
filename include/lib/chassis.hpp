@@ -35,7 +35,7 @@ class Chassis {
 
         /**
          * Variable to hold the "Radius" of the base, which is the distance from
-         * the middle to one of the sides. This value is used in the turnAngle function
+         * the middle to the wheels on one side. This value is used in the turnAngle function
          * 
          * As long as the base is rectangular, the turning point of the robot will always
          * be down the robot's front-facing middle. So, this value will be usable no matter
@@ -78,6 +78,7 @@ class Chassis {
          * gearset: the motor gearset used in the motors (it is assumed that both 
          * motors use the same gearset)
          * wD: the diameter of the wheels used
+         * bR: the distance from the middle of the robot to the wheels
          * Pconst: the value of the proportional constant in the PID controller
          * Iconst: the value of the integral constant in the PID controller
          * Dconst: the value of the derivative constant in the PID controller
@@ -101,6 +102,7 @@ class Chassis {
          * gearset: the motor gearset used in the motors (it is assumed that both 
          *          motors use the same gearset)
          * wD: the diameter of the wheels used
+         * bR: the distance from the middle of the robot to the wheels
          * Pconst: the value of the proportional constant in the PID controller
          * Iconst: the value of the integral constant in the PID controller
          * Dconst: the value of the derivative constant in the PID controller
