@@ -6,8 +6,10 @@
  * All other competition modes are blocked by initialize; it is recommended
  * to keep execution time for this mode under a few seconds.
  */
-void initialize() {
-
+void initialize() 
+{
+    chassis = Chassis(1, 2, false, true, GREEN, 3, 8, 0.5, 0, 0);
+    GUI::initialize();
 }
 
 /**
