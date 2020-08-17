@@ -15,9 +15,7 @@ The documentation for the classes are split between the header and source files 
 in the lib folder under include, contain descriptions of each class and function, while the source files contain documentation
 about the inner workings of each function.
 
-Files in the activeDev folder are still being written. They are separated so as to exclude them from the PROS hot image, so that
-they are only included in wired uploads, rather than wireless ones. In theory, once a library file is finished (i.e. it has been
-tested and found to work without issues), there is no reason to include it in the image PROS sends to the V5 Brain in a wireless
+Files in the activeDev folder are still being written. Files outside activeDev are separated so as to exclude them from the PROS hot image, so that they are only included in wired uploads, rather than wireless ones. In theory, once a library file is finished (i.e. it has been tested and found to work without issues), there is no reason to include it in the image PROS sends to the V5 Brain in a wireless
 upload.
 
 ### PROS Function Files
