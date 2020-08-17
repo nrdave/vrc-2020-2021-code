@@ -11,6 +11,8 @@ serve as a class library allowing for robot programming. For example, the Chassi
 an object representing the drivetrain, allows for a variety of parameters in its constructors that let the user define 
 values like motor ports, gearsets, wheel diameter, and base width.
 
+The exception to this is gui.cpp. As LittleVGL (the graphics library included with PROS) doesn't seem to play nice with classes (as it is a C-based library) attempting to use it in a class led to signifigant issues caused by LVGL's nature. So, I elected to instead use a namespace to contain all code and objects. This allowed me to still organize the code reasonably well without running into any issues.
+
 The documentation for the classes are split between the header and source files for each class. The header files, found
 in the lib folder under include, contain descriptions of each class and function, while the source files contain documentation
 about the inner workings of each function.
@@ -23,5 +25,4 @@ upload.
 When you create a new PROS project, all the functions defined in main.h (like opcontrol, autonomous, initialize, and disabled) are
 included in a single main.cpp file. However, PROS used to split the functions into 3 files, opcontrol.cpp, autonomous.cpp, and
 initialize.cpp. Last year, I just used the PROS-generated main.cpp, but this year, I've decided to separate the functions like how
-PROS used to. I think this improves organization, since having the GUI initialization and a long autonomous program followed by the opcontrol function might get
-a bit hectic. Also, I can exclude files from the PROS hot image once they are done.
+PROS used to. I think this improves organization, since having the GUI initialization and a long autonomous program followed by the opcontrol function might get a bit hectic. Also, I can exclude files from the PROS hot image once they are done.
