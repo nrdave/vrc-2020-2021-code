@@ -1,3 +1,4 @@
+#pragma once
 #include "pros/apix.h"
 
 /**
@@ -26,6 +27,15 @@ namespace GUI
      */ 
     lv_obj_t * navAuton;
     lv_obj_t * navMainFromAuton;
+
+    /**
+     * The LVGL objects used in the autonomous routine selection menu. There are 
+     * 
+     * 
+     */ 
+    //lv_obj_t * autonMenu;
+    //lv_obj_t * curAutonLbl;
+    //lv_obj_t * runAuton;
 
     //Function to initialize the entire GUI
     void initialize();
