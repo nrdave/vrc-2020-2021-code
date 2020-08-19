@@ -1,10 +1,33 @@
 #include "main.h"
 
 /**
- * The implementations for the GUI namespace functions
+ * The implementations for the GUI namespace functions and LVGL objects
  * These functions initialize LVGL objects or handle
  * event triggers from those objects.
  */ 
+
+/**
+ * The LVGL objects for the GUI's screens. As of now there are 2, the main 
+ * home screen and the screen for autonomous selection
+ */ 
+lv_obj_t * scrMain;
+lv_obj_t * scrAuton;
+
+/**
+ * The LVGL objects used for the navigation between the screens. There are
+ * 2 per screen besides the main menu, so currently just 2
+ */ 
+lv_obj_t * navAuton;
+lv_obj_t * navMainFromAuton;
+
+/**
+ * The LVGL objects used in the autonomous routine selection menu. There are 
+ * 
+ * 
+ */ 
+lv_obj_t * autonMenu;
+lv_obj_t * curAutonLbl;
+lv_obj_t * runAuton;
 
 void GUI::initScreens()
 {
