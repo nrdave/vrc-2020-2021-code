@@ -1,5 +1,7 @@
 #include "main.h"
 
+okapi::Controller controller;
+Chassis chassis = Chassis(1, 2, false, true, GREEN, 4, 8, .5, 0, 0);
 /**
  * Runs initialization code. This occurs as soon as the program is started.
  *
@@ -8,7 +10,6 @@
  */
 void initialize() 
 {
-    chassis = Chassis(1, 2, false, true, GREEN, 3, 8, 0.5, 0, 0);
     GUI::initialize();
 }
 
