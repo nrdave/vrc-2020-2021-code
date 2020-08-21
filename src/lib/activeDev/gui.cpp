@@ -33,6 +33,15 @@ lv_obj_t * scrMain;
 //The screen containing the autonomous routine selection menu
 lv_obj_t * scrAuton;
 
+//The LVGL image object holding the main screen background
+lv_obj_t * mainBackgroundIMG;
+
+/**
+ * Declaring the background.c file as an LVGL image, so
+ * it can be used in the creation of the main screen
+ * background
+ */ 
+LV_IMG_DECLARE(background);
 /**
  * The LVGL objects used for the navigation between the screens. There are
  * 2 per screen besides the main menu, so currently just 2
@@ -65,6 +74,13 @@ void GUI::initScreens()
      */ 
     scrMain = lv_obj_create(NULL, NULL);
     scrAuton = lv_obj_create(NULL, NULL);
+
+    /**
+     * Initializing the main screen background image
+     */ 
+    mainBackgroundIMG = lv_img_create(scrMain, NULL);
+    lv_img_set_src(mainBackgroundIMG, &background);
+    lv_obj_align(mainBackgroundIMG, NULL, LV_ALIGN_IN_TOP_LEFT, 0, 0);
 }
 
 void GUI::initialize()

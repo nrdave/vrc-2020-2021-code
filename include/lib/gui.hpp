@@ -15,7 +15,6 @@
 namespace GUI
 {
 
-
     //Function to initialize the entire GUI
     void initialize();
 
