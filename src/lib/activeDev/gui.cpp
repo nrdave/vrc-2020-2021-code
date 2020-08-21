@@ -45,8 +45,9 @@ lv_obj_t * navMainFromAuton;
 /**
  * The LVGL objects used in the autonomous routine selection menu.
  */ 
+
 /**
- * The LVGL button matrix objects that allows users to select an autonomous
+ * The LVGL button matrix object that allows users to select an autonomous
  * routine.
  */ 
 lv_obj_t * autonMenu;
@@ -71,6 +72,7 @@ void GUI::initialize()
     //Calling all init functions
     initScreens();
     initNavButtons();
+    initAutonMenu();
 }
 
 void GUI::initNavButtons()
@@ -95,29 +97,49 @@ void GUI::initNavButtons()
 
 void GUI::initAutonMenu()
 {
-
+    /**
+     * This series of LVGL functions creates the autonMenu button matrix,
+     * assigns it a map from which to build the matrix, sets the callback function
+     * to updateAutonID, aligns it in the screen, and sets the size.
+     */ 
     autonMenu = lv_btnm_create(scrAuton, NULL);
     lv_btnm_set_map(autonMenu, autonMap);
     lv_btnm_set_action(autonMenu, updateAutonID);
     lv_obj_align(autonMenu, NULL, LV_ALIGN_IN_TOP_MID, 35, 20);
     lv_obj_set_size(autonMenu, 300, 200);
 
+    /**
+     * This series of LVGL functions creates the curAutonLbl label,
+     * aligns it in the screen, and sets the text to "Auton"
+     */ 
     curAutonLbl = lv_label_create(scrAuton, NULL);
     lv_obj_align(curAutonLbl, NULL, LV_ALIGN_IN_TOP_LEFT, 10, 10);
     lv_label_set_text(curAutonLbl, "Auton");    
 }
 
 lv_res_t GUI::updateAutonID(lv_obj_t * btnm, const char * txt){
-
+    /**
+     * Running the current selected button in the matrix through a
+     * series of if-else-if statements to determine which autonomous
+     * routine is selected. If there are any issues, the function
+     * defaults to no autonomous
+     */ 
     if(txt == "Test") autonID = AUTON_TEST;
     else if(txt == "None") autonID = AUTON_NONE;
     else autonID = AUTON_NONE;
+    //Updating the label for the current selected autonomous
     updateAutonLbl();
     return LV_RES_OK;
 }
 
 void GUI::updateAutonLbl()
 {
+    /**
+     * Using autonID as a switch, the function determines
+     * the current autonomous routine selected and sets 
+     * the current Autonomous label to the corresponding
+     * text
+     */ 
     switch(autonID)
     {
         case AUTON_TEST:
