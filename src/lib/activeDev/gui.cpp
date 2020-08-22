@@ -35,6 +35,12 @@ lv_obj_t * scrAuton;
 
 //The LVGL image object holding the main screen background
 lv_obj_t * mainBackgroundIMG;
+//The LVGL image object holding the auton screen background
+lv_obj_t * autonBackgroundIMG;
+
+
+//LVGL style object used to make the auton screen background translucent
+static lv_style_t autonIMGstyle;
 
 /**
  * Declaring the background.c file as an LVGL image, so
@@ -81,6 +87,13 @@ void GUI::initScreens()
     mainBackgroundIMG = lv_img_create(scrMain, NULL);
     lv_img_set_src(mainBackgroundIMG, &background);
     lv_obj_align(mainBackgroundIMG, NULL, LV_ALIGN_IN_TOP_LEFT, 0, 0);
+
+    autonBackgroundIMG = lv_img_create(scrAuton, NULL);
+    lv_img_set_src(autonBackgroundIMG, &background);
+    lv_obj_align(autonBackgroundIMG, NULL, LV_ALIGN_IN_TOP_LEFT, 0, 0);
+    lv_style_copy(&autonIMGstyle, &lv_style_scr);
+    autonIMGstyle.image.opa = LV_OPA_10;
+    lv_img_set_style(autonBackgroundIMG, &autonIMGstyle);
 }
 
 void GUI::initialize()
