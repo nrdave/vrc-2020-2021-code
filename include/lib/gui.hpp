@@ -15,7 +15,11 @@
 namespace GUI
 {
 
-    //Function to initialize the entire GUI
+    /**
+     * A function containing all the function calls I make to initialize the GUI
+     * This allows me to write all the GUI code in gui.cpp, and just call this function
+     * in initialize.cpp, rather than initialize the GUI in the PROS initialize() function
+     */ 
     void initialize();
 
     /**
