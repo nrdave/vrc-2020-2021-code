@@ -182,7 +182,7 @@ lv_obj_t * GUI::createButtonMatrix(lv_obj_t * parent, const char* map[], lv_btnm
     return btnm;
 }
 
-lv_obj_t * createScreen()
+lv_obj_t * GUI::createScreen()
 {
     /**
      * This function merely hides the calling of lv_obj_create(NULL, NULL)
