@@ -49,12 +49,11 @@ class Chassis {
          * needed target values before passing those values into chassisPID. This means
          * that the PID controller for the chassis need only be tuned once
          * 
-         * Parameters:
-         * leftTarg: The target length to move to, in inches, for the left side of the base
+         * @param leftTarg: The target length to move to, in inches, for the left side of the base
          *           Can be negative to indicate rotating backwards
-         * rightTarg: The target length to move to, in inches, for the right side of the base
+         * @param rightTarg: The target length to move to, in inches, for the right side of the base
          *           Can be negative to indicate rotating backwards
-         * maxSpeed: the maximum speed the chassis motors can run at (in RPM)
+         * @param maxSpeed: the maximum speed the chassis motors can run at (in RPM)
          */
         void chassisPID(float leftTarg, float rightTarg, int maxSpeed); 
 
@@ -70,18 +69,17 @@ class Chassis {
          * One of the constructors for a chassis object. This one is for a tank
          * drive with 1 motor powering each side
          * 
-         * Parameters:
-         * leftMotor: the motor port of the motor on the left side of the base
-         * rightMotor: the motor port of the motor on the right side of the base
-         * leftReversed: a boolean to indicate if the left motor needs to be reversed
-         * rightReversed: a boolean to indicate if the right motor needs to be reversed
-         * gearset: the motor gearset used in the motors (it is assumed that both 
-         * motors use the same gearset)
-         * wD: the diameter of the wheels used
-         * bR: the distance from the middle of the robot to the wheels
-         * Pconst: the value of the proportional constant in the PID controller
-         * Iconst: the value of the integral constant in the PID controller
-         * Dconst: the value of the derivative constant in the PID controller
+         * @param leftMotor: the motor port of the motor on the left side of the base
+         * @param rightMotor: the motor port of the motor on the right side of the base
+         * @param leftReversed: a boolean to indicate if the left motor needs to be reversed
+         * @param rightReversed: a boolean to indicate if the right motor needs to be reversed
+         * @param gearset: the motor gearset used in the motors (it is assumed that both 
+         *                 motors use the same gearset)
+         * @param wD: the diameter of the wheels used
+         * @param bR: the distance from the middle of the robot to the wheels
+         * @param Pconst: the value of the proportional constant in the PID controller
+         * @param Iconst: the value of the integral constant in the PID controller
+         * @param Dconst: the value of the derivative constant in the PID controller
          */ 
         Chassis(int leftMotor, int rightMotor, bool leftReversed, bool rightReversed, 
                 okapi::AbstractMotor::gearset gearset, float wD, float bR,
@@ -90,22 +88,21 @@ class Chassis {
          * One of the constructors for a chassis object. This one is for a tank
          * drive with 2 motors powering each side
          * 
-         * Parameters:
-         * leftFrontMotor: the motor port of the motor on the left side of the base
-         * rightFrontMotor: the motor port of the motor on the right side of the base
-         * leftBackMotor: the motor port of the motor on the left side of the base
-         * leftFrontReversed: a boolean to indicate if the left front motor needs to be reversed
-         * rightFrontReversed: a boolean to indicate if the right front motor needs to be reversed
-         * leftBackReversed: a boolean to indicate if the left back motor needs to be reversed
-         * rightBackReversed: a boolean to indicate if the right back motor needs to be reversed         
-         * rightBackMotor: the motor port of the motor on the right side of the base
-         * gearset: the motor gearset used in the motors (it is assumed that both 
+         * @param leftFrontMotor: the motor port of the motor on the left side of the base
+         * @param rightFrontMotor: the motor port of the motor on the right side of the base
+         * @param leftBackMotor: the motor port of the motor on the left side of the base
+         * @param leftFrontReversed: a boolean to indicate if the left front motor needs to be reversed
+         * @param rightFrontReversed: a boolean to indicate if the right front motor needs to be reversed
+         * @param leftBackReversed: a boolean to indicate if the left back motor needs to be reversed
+         * @param rightBackReversed: a boolean to indicate if the right back motor needs to be reversed         
+         * @param rightBackMotor: the motor port of the motor on the right side of the base
+         * @param gearset: the motor gearset used in the motors (it is assumed that both 
          *          motors use the same gearset)
-         * wD: the diameter of the wheels used
-         * bR: the distance from the middle of the robot to the wheels
-         * Pconst: the value of the proportional constant in the PID controller
-         * Iconst: the value of the integral constant in the PID controller
-         * Dconst: the value of the derivative constant in the PID controller
+         * @param wD: the diameter of the wheels used
+         * @param bR: the distance from the middle of the robot to the wheels
+         * @param Pconst: the value of the proportional constant in the PID controller
+         * @param Iconst: the value of the integral constant in the PID controller
+         * @param Dconst: the value of the derivative constant in the PID controller
          */ 
         Chassis(int leftFrontMotor, int rightFrontMotor, int leftBackMotor, int rightBackMotor, 
                 bool leftFrontReversed, bool rightFrontReversed, 
@@ -117,8 +114,7 @@ class Chassis {
          * The driver function allows control of the chassis during the opcontrol period,
          * with each side of the base bound to one of the controller joysticks
          * 
-         * Parameter:
-         * controller: the OkapiLib controller object, which represents the robot controller
+         * @param controller: the OkapiLib controller object, which represents the robot controller
          */ 
         void driver(okapi::Controller controller);
 
@@ -132,9 +128,8 @@ class Chassis {
          *    reason and the team has a match soon), setVelocity can be used to manually
          *    control the motors in a timer-based autonomous.
          * 
-         * Parameters:
-         * leftVelo: the velocity to set the leftBase motor group to
-         * rightVelo: the velocity to set the rightBase motor group to
+         * @param leftVelo: the velocity to set the leftBase motor group to
+         * @param rightVelo: the velocity to set the rightBase motor group to
          */
         void setVelocity(int leftVelo, int rightVelo); 
 
@@ -142,11 +137,10 @@ class Chassis {
          * The turnAngle function is an autonomous function used to turn the robot
          * to a specific angle, relative to its current position.
          * 
-         * Parameters:
-         * angle: the angle to which to turn. Clockwise is positive, counterclockwise
+         * @param angle: the angle to which to turn. Clockwise is positive, counterclockwise
          *        is negative. For example, passing in 45 would make the robot turn
          *        45 degrees to the right (clockwise, from an overhead view)
-         * maxSpeed: the maximum speed the chassis motors can run at (in RPM)
+         * @param maxSpeed: the maximum speed the chassis motors can run at (in RPM)
          */ 
         void turnAngle(float angle, int maxSpeed);
 
@@ -154,9 +148,8 @@ class Chassis {
          * The moveStraight function is an autonomous function used to
          * tell the robot to drive forward or backward a given amount
          * 
-         * Parameters: 
-         * distance: the distance to travel, in inches. Negative values = backwards
-         * maxSpeed: the maximum speed the chassis motors can run at (in RPM)
+         * @param distance: the distance to travel, in inches. Negative values = backwards
+         * @param maxSpeed: the maximum speed the chassis motors can run at (in RPM)
          */
         void moveStraight(float distance, int maxSpeed); 
 };
