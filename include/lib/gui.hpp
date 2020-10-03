@@ -18,17 +18,55 @@ namespace GUI
     //Function to initialize the entire GUI
     void initialize();
 
-
-    //Function to initialize the screens
-    void initScreens();
-
-    //Function to initialize the navigation buttons
-    void initNavButtons();
+    /**
+     * A function to create an LVGL image object. It packages all the LVGL functions to create,
+     * set the source file of, and align an image into one function
+     * 
+     * @param parent: the LVGL object the image should be created in
+     * @param imgSRC: the file where the image source data is contained (this file needs to be
+     *         LV_IMG_DECLARE'd before passing it in)
+     * @param align: the LVGL alignment type, aligns relative to the parent object
+     * @param xCoord: the x coordinate offset from the given alignment
+     * @param yCoord: the y coordinate offset from the given alignment
+     */ 
+    lv_obj_t * createImage(lv_obj_t * parent, const lv_img_dsc_t imgSRC, lv_align_t align, lv_coord_t xCoord, lv_coord_t yCoord);
 
     /**
-     * Function to initialize the autonomous selection menu
+     * A function to create an LVGL button object. It packages all the LVGL functions to create,
+     * set the press type and action, and align a button into one function, as well as handling
+     * the creation of a label for the button
+     * 
+     * @param parent: the LVGL object the image should be created in
+     * @param pressType: the button press type (Click, hold, long press, etc.)
+     * @param function: the function to be called when the button is triggered
+     * @param text: the label text on the button
+     * @param align: the LVGL alignment type, aligns relative to the parent object
+     * @param xCoord: the x coordinate offset from the given alignment
+     * @param yCoord: the y coordinate offset from the given alignment
      */ 
-    void initAutonMenu();
+    lv_obj_t * createButton(lv_obj_t * parent, lv_btn_action_t pressType, lv_action_t function, const char* text, lv_align_t align, lv_coord_t xCoord, lv_coord_t yCoord);
+
+
+    /**
+     * A function to create an LVGL image object. It packages all the LVGL functions to create,
+     * set the source file of, and align an image into one function
+     * 
+     * @param parent: the LVGL object the image should be created in
+     * @param text: the text of the label
+     * @param align: the LVGL alignment type, aligns relative to the parent object
+     * @param xCoord: the x coordinate offset from the given alignment
+     * @param yCoord: the y coordinate offset from the given alignment
+     */ 
+    lv_obj_t * createLabel(lv_obj_t * parent, const char* text, lv_align_t align, lv_coord_t xCoord, lv_coord_t yCoord);
+
+
+    lv_obj_t * createButtonMatrix(lv_obj_t * parent, const char* map[], lv_btnm_action_t function, lv_align_t align, lv_coord_t xCoord, lv_coord_t yCoord, lv_coord_t width, lv_coord_t height);
+
+    /**
+     * A function to create an LVGL screen. It simply wraps the LVGL lv_obj_create(NULL, NULL)
+     * function call, used to create a screen, in a nicer format
+     */ 
+    lv_obj_t * createScreen();
 
     /**
      * The callback function for the auton selection button matrix

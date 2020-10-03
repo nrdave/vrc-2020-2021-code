@@ -8,7 +8,8 @@
  * 
  * The LVGL objects are declared here, as doing so in the header file leads
  * to multiple definition errors
- */ 
+ */
+
 
 /**
  * The character array used by LVGL to hold all the options in the
@@ -72,78 +73,123 @@ lv_obj_t * curAutonLbl;
 //A button to run the current autonomous selected. Used for testing
 lv_obj_t * runAuton;
 
-void GUI::initScreens()
+void GUI::initialize()
 {
-    /**
-     * To initalize a screen in LVGL, you use the lv_obj_create() function with NULL
-     * for both parameters
-     */ 
-    scrMain = lv_obj_create(NULL, NULL);
-    scrAuton = lv_obj_create(NULL, NULL);
+    //Initializing the screens
+    scrMain = createScreen();
+    scrAuton = createScreen();
 
-    /**
-     * Initializing the main screen background image
-     */ 
-    mainBackgroundIMG = lv_img_create(scrMain, NULL);
-    lv_img_set_src(mainBackgroundIMG, &background);
-    lv_obj_align(mainBackgroundIMG, NULL, LV_ALIGN_IN_TOP_LEFT, 0, 0);
+    //Initializing the backround images for the screens
 
-    autonBackgroundIMG = lv_img_create(scrAuton, NULL);
-    lv_img_set_src(autonBackgroundIMG, &background);
-    lv_obj_align(autonBackgroundIMG, NULL, LV_ALIGN_IN_TOP_LEFT, 0, 0);
+    //Initializing the home screen background
+    mainBackgroundIMG = createImage(scrMain, background, LV_ALIGN_IN_TOP_LEFT, 0, 0);
+    //Initializing the autonomous menu screen background
+    autonBackgroundIMG = createImage(scrAuton, background, LV_ALIGN_IN_TOP_LEFT, 0, 0);
+    //Making the autonomous selection background mostly transparent
     lv_style_copy(&autonIMGstyle, &lv_style_scr);
     autonIMGstyle.image.opa = LV_OPA_10;
     lv_img_set_style(autonBackgroundIMG, &autonIMGstyle);
+
+    //Initializing the navigation buttons
+
+    //Initializing the button to switch to the autonomous menu screen    
+    navAuton = createButton(scrMain, LV_BTN_ACTION_CLICK, goToAuton, "Auton Menu", LV_ALIGN_IN_LEFT_MID, 20, 0);
+
+    //Initializing the button to return to the main menu from the autonomous screen
+    navMainFromAuton = createButton(scrMain, LV_BTN_ACTION_CLICK, goToMain, "Main Menu", LV_ALIGN_IN_TOP_LEFT, 20, 20);
+
+    //Initializing the Autonomous Menu
+
+    //Initializing the autonomous selection button matrix
+    autonMenu = createButtonMatrix(scrAuton, autonMap, updateAutonID, LV_ALIGN_IN_TOP_MID, 35, 20, 300, 200);
+
+    //Initializing the label indicating the autonomous selected
+    curAutonLbl = createLabel(scrAuton, "Auton", LV_ALIGN_IN_TOP_LEFT, 10, 10);
 }
 
-void GUI::initialize()
+lv_obj_t * GUI::createImage(lv_obj_t * parent, const lv_img_dsc_t imgSRC, lv_align_t align, lv_coord_t xCoord, lv_coord_t yCoord)
 {
-    //Calling all init functions
-    initScreens();
-    initNavButtons();
-    initAutonMenu();
+    //Creating an LVGL image
+    lv_obj_t * img = lv_img_create(parent, NULL);
+    //Setting the source file for the image data
+    lv_img_set_src(img, &imgSRC);
+    //Aligning the image relative to its parent
+    lv_obj_align(img, NULL, align, xCoord, yCoord);
+    /**
+     * Return the created image
+     * This returns the image to the declared LVGL object in
+     * initialize, making that object into an identical image to 
+     * the image img created in this function.
+     */ 
+    return img;
 }
 
-void GUI::initNavButtons()
+lv_obj_t * GUI::createButton(lv_obj_t * parent, lv_btn_action_t pressType, lv_action_t function, const char* text, lv_align_t align, lv_coord_t xCoord, lv_coord_t yCoord)
 {
+    //Creating an LVGL button
+    lv_obj_t * btn = lv_btn_create(parent, NULL);
+    //Setting the button's action upon a given type of trigger
+    lv_btn_set_action(btn, pressType, function);   
+    //Aligning the button relative to its parent
+    lv_obj_align(btn, NULL, align, xCoord, yCoord);
+    //Creating a label for the button
+    lv_obj_t * label = createLabel(btn, text, LV_ALIGN_CENTER, 0, 0);
     /**
-     * Initializing the navigation buttons with the lv_btn_create function, which
-     * creates. The first parameter is the parent object (in this case, each button's
-     * respective screen), while the second parameter an object to copy
+     * Return the created button
+     * This returns the button to the declared LVGL object in
+     * initialize, making that object into an identical button to 
+     * the button btn created in this function.
      */ 
-    navAuton = lv_btn_create(scrMain, NULL);
-    navMainFromAuton = lv_btn_create(scrAuton, NULL);
-    /**
-     * Setting the action of each button when clicked to the function to 
-     * switch to each button's screen to navigate to.
-     */ 
-    lv_btn_set_action(navAuton, LV_BTN_ACTION_CLICK, goToAuton);
-    lv_btn_set_action(navMainFromAuton, LV_BTN_ACTION_CLICK, goToMain);
-    //Aligning each button relative to the screen
-    lv_obj_align(navAuton, NULL, LV_ALIGN_IN_LEFT_MID, 20, 0);
-    lv_obj_align(navMainFromAuton, NULL, LV_ALIGN_IN_TOP_LEFT, 20, 20);
+    return btn;
 }
 
-void GUI::initAutonMenu()
+lv_obj_t * GUI::createLabel(lv_obj_t * parent, const char* text, lv_align_t align, lv_coord_t xCoord, lv_coord_t yCoord)
+{
+    //Creating a LVGL Label
+    lv_obj_t * lbl = lv_label_create(parent, NULL);
+    //Aligning the label relative to its parent
+    lv_obj_align(lbl, NULL, align, xCoord, yCoord);
+    //Setting the label's text
+    lv_label_set_text(lbl, text);  
+    /**
+     * Return the created label
+     * This returns the label to the declared LVGL object in
+     * initialize, making that object into an identical label to 
+     * the label lbl created in this function.
+     */ 
+    return lbl;
+}
+
+
+lv_obj_t * GUI::createButtonMatrix(lv_obj_t * parent, const char* map[], lv_btnm_action_t function, lv_align_t align, lv_coord_t xCoord, lv_coord_t yCoord, lv_coord_t width, lv_coord_t height)
+{
+    //Creating an LVGL button matrix
+    lv_obj_t * btnm = lv_btnm_create(parent, NULL);
+    //Setting the button matrix's action upon a given type of trigger
+    lv_btnm_set_action(btnm, function);   
+    //Set the String array to be used to create the button matrix
+    lv_btnm_set_map(btnm, map);
+    //Aligning the button matrix relative to its parent
+    lv_obj_align(btnm, NULL, align, xCoord, yCoord);
+
+    lv_obj_set_size(btnm, width, height);
+    /**
+     * Return the created button matrix
+     * This returns the button matrix to the declared LVGL object in
+     * initialize, making that object into an identical button matrix to 
+     * the button matrix btnm created in this function.
+     */ 
+    return btnm;
+}
+
+lv_obj_t * createScreen()
 {
     /**
-     * This series of LVGL functions creates the autonMenu button matrix,
-     * assigns it a map from which to build the matrix, sets the callback function
-     * to updateAutonID, aligns it in the screen, and sets the size.
+     * This function merely hides the calling of lv_obj_create(NULL, NULL)
+     * so the function itself just creates a screen and returns it
      */ 
-    autonMenu = lv_btnm_create(scrAuton, NULL);
-    lv_btnm_set_map(autonMenu, autonMap);
-    lv_btnm_set_action(autonMenu, updateAutonID);
-    lv_obj_align(autonMenu, NULL, LV_ALIGN_IN_TOP_MID, 35, 20);
-    lv_obj_set_size(autonMenu, 300, 200);
-
-    /**
-     * This series of LVGL functions creates the curAutonLbl label,
-     * aligns it in the screen, and sets the text to "Auton"
-     */ 
-    curAutonLbl = lv_label_create(scrAuton, NULL);
-    lv_obj_align(curAutonLbl, NULL, LV_ALIGN_IN_TOP_LEFT, 10, 10);
-    lv_label_set_text(curAutonLbl, "Auton");    
+    lv_obj_t * scr = lv_obj_create(NULL, NULL);
+    return scr;
 }
 
 lv_res_t GUI::updateAutonID(lv_obj_t * btnm, const char * txt){
