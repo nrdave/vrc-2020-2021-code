@@ -17,7 +17,7 @@
  * a button in the matrix, while the \n characters indicate a switch
  * to a new line
  */ 
-const char * autonMap[] = {"Test", "\n", "None"};
+const char * autonMap[] = {"Test", "\n", "None", ""};
 
 /**
  * The variable used to store the ID of the current selected autonomous
@@ -171,7 +171,7 @@ lv_obj_t * GUI::createButtonMatrix(lv_obj_t * parent, const char* map[], lv_btnm
     lv_btnm_set_map(btnm, map);
     //Aligning the button matrix relative to its parent
     lv_obj_align(btnm, NULL, align, xCoord, yCoord);
-
+    //Setting the size of the button matrix
     lv_obj_set_size(btnm, width, height);
     /**
      * Return the created button matrix

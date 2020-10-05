@@ -63,7 +63,18 @@ namespace GUI
      */ 
     lv_obj_t * createLabel(lv_obj_t * parent, const char* text, lv_align_t align, lv_coord_t xCoord, lv_coord_t yCoord);
 
-
+    /**
+     * A function to create an LVGL button matrix object. It packages all the LVGL functions to 
+     * create, set the character map of, and align and size the button matrix into one function
+     * 
+     * @param parent: the LVGL object the image should be created in
+     * @param map: a pointer to a String array used to generate the matrix of
+     *             buttons and their labels
+     * @param function: the function to be called when a button in the matrix is clicked
+     * @param align: the LVGL alignment type, aligns relative to the parent object
+     * @param xCoord: the x coordinate offset from the given alignment
+     * @param yCoord: the y coordinate offset from the given alignment
+     */ 
     lv_obj_t * createButtonMatrix(lv_obj_t * parent, const char* map[], lv_btnm_action_t function, lv_align_t align, lv_coord_t xCoord, lv_coord_t yCoord, lv_coord_t width, lv_coord_t height);
 
     /**
