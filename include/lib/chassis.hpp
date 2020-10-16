@@ -34,14 +34,13 @@ class Chassis {
         float wheelDiameter;
 
         /**
-         * Variable to hold the "Radius" of the base, which is the distance from
-         * the middle to the wheels on one side. This value is used in the turnAngle function
+         * Variable to hold the width of the base. This value is used in the turnAngle function
          * 
          * As long as the base is rectangular, the turning point of the robot will always
          * be down the robot's front-facing middle. So, this value will be usable no matter
          * the wheel configuration
          */ 
-        float baseRadius;
+        float baseWidth;
         /**
          * The chassisPID function is a PID controller for the base. It sets each side of 
          * the base to move a specified length. It is used as the base for all autonomous 

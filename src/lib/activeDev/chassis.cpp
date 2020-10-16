@@ -19,10 +19,10 @@ Chassis::Chassis(int leftMotor, int rightMotor,
      * The Chassis Constructor needs to initialize the
      * rightBase and leftBase objects, which must be done through
      * the constructor initializer list. Then, it sets the wheelDiameter, 
-     * baseRadius, and PID constant variables to the passed in values
+     * baseWidth, and PID constant variables to the passed in values
      */ 
     wheelDiameter = wD;
-    baseRadius = bR;
+    baseWidth = bR;
     kP = Pconst;
     kI = Iconst;
     kD = Dconst;
@@ -45,10 +45,10 @@ Chassis::Chassis(int leftFrontMotor, int rightFrontMotor, int leftBackMotor, int
      * The Chassis Constructor needs to initialize the
      * rightBase and leftBase objects, which must be done through
      * the constructor initializer list. Then, it sets the wheelDiameter, 
-     * baseRadius, and PID constant variables to the passed in values
+     * baseWidth, and PID constant variables to the passed in values
      */ 
     wheelDiameter = wD;
-    baseRadius = bR;
+    baseWidth = bR;
     kP = Pconst;
     kI = Iconst;
     kD = Dconst;
@@ -171,11 +171,12 @@ void Chassis::turnAngle(float angle)
      * This equation works because the robot turns around a point,
      * so while it might not be perfectly accurate, it is more than a
      * good enough approximation.
-     * Relating the equation with the statement below, baseRadius is r,
-     * angle * (3.1415/180) is theta (as the angle passed in is degrees,
-     * and the arc length equation uses radians), and turnLength is s
+     * Relating the equation with the statement below, baseWidth is r * 2, so
+     * we divide the baseWidth by 2, angle * (3.1415/180) is theta 
+     * (as the angle passed in is degrees, and the arc length equation 
+     * uses radians), and turnLength is s
      */ 
-    double turnLength = angle * (3.1415/180) * baseRadius;
+    double turnLength = angle * (3.1415/180) * (baseWidth / 2);
     /**
      * As stated in chassis.hpp, a positive angle will make the robot
      * turn clockwise. To achieve this, the left side of the base must 
