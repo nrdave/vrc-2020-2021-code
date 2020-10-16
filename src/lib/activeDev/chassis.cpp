@@ -66,7 +66,7 @@ void Chassis::driver(okapi::Controller controller) {
     rightBase.controllerSet(controller.getAnalog(okapi::ControllerAnalog::rightY));
 }
 
-void Chassis::chassisPID(float leftTarg, float rightTarg, int maxSpeed)
+void Chassis::chassisPID(float leftTarg, float rightTarg)
 {
     /**
      * Convert leftTarg and rightTarg from inches to travel to degrees for the
@@ -119,18 +119,19 @@ void Chassis::chassisPID(float leftTarg, float rightTarg, int maxSpeed)
         leftOutput = leftError * kP + leftIntegral * kI + leftDerivative * kD;
         rightOutput = rightError * kP + rightIntegral * kI + rightDerivative * kD;
         /**
-         * Ensure that the output velocities are not greater than the 
-         * upper speed bound passed in
+         * Ensure that the output voltages are not greater than the 
+         * maximum voltages the moveVoltage function allows 
+         * Voltage levels are in milliVolts
          */ 
-        if(abs(leftOutput) > maxSpeed)
-            if(leftOutput < 0) leftOutput = -maxSpeed;
-            else leftOutput = maxSpeed;
-        if(abs(rightOutput) > maxSpeed)
-            if(rightOutput < 0) rightOutput = -maxSpeed;
-            else rightOutput = maxSpeed;
-        //Set the motor group velocities to the output speeds
-        setVelocity(leftOutput, rightOutput);
-
+        if(abs(leftOutput) > 12000)
+            if(leftOutput < 0) leftOutput = -12000;
+            else leftOutput = 12000;
+        if(abs(rightOutput) > 12000)
+            if(rightOutput < 0) rightOutput = -12000;
+            else rightOutput = 12000;
+        //Set the motor group voltages to the output voltage levels
+        leftBase.moveVoltage(leftOutput);
+        rightBase.moveVoltage(rightOutput);
         pros::delay(15);
     }
 }
@@ -147,7 +148,7 @@ void Chassis::setVelocity(int leftVelo, int rightVelo)
     rightBase.moveVelocity(rightVelo);
 }
 
-void Chassis::moveStraight(float distance, int maxSpeed)
+void Chassis::moveStraight(float distance)
 {
     /**
      * The moveStraight function just slightly simplifies the chassisPID
@@ -157,10 +158,10 @@ void Chassis::moveStraight(float distance, int maxSpeed)
      * private, as, in my mind, it makes sense for an object's PID controller
      * to be kept private.
      */ 
-    chassisPID(distance, distance, maxSpeed);
+    chassisPID(distance, distance);
 }
 
-void Chassis::turnAngle(float angle, int maxSpeed)
+void Chassis::turnAngle(float angle)
 {
     /**
      * The distance each side needs to rotate can be found with the 
@@ -183,5 +184,5 @@ void Chassis::turnAngle(float angle, int maxSpeed)
      * so the right side goes forward, and the left goes backward, turning
      * the robot counterclockwise
      */ 
-    chassisPID(turnLength, -turnLength, maxSpeed);
+    chassisPID(turnLength, -turnLength);
 }
