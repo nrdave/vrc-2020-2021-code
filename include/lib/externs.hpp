@@ -35,8 +35,8 @@
 //The Chassis object, representing the robot drivetrain
 extern Chassis chassis;
 
-//The okapi::Controller object, which represent the robot controller
+//The okapi::Controller object, which represents the robot controller
 extern okapi::Controller controller;
 
-//The variable used to store the current autonomous program to run
+//The variable used to store the ID of the currently selected autonomous
 extern int autonID;
