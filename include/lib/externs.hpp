@@ -1,6 +1,6 @@
 #pragma once
 #include "okapi/api.hpp"
-#include "lib/chassis.hpp"
+#include "lib/TankDrive.hpp"
 
 /**
  * This header file contains declarations for objects and
@@ -32,8 +32,8 @@
 #define AUTON_RED_RIGHT_1GOAL 8
 #define AUTON_RED_RIGHT_2GOAL 9
 
-//The Chassis object, representing the robot drivetrain
-extern Chassis chassis;
+//The TankDrive object, representing the robot drivetrain
+extern TankDrive drive;
 
 //The okapi::Controller object, which represents the robot controller
 extern okapi::Controller controller;

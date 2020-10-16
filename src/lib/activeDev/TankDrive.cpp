@@ -1,12 +1,12 @@
 #include "main.h"
 
 /**
- * The implementation of the Chassis class
- * This file contains the source code for the chassis class, along with
+ * The implementation of the TankDrive class
+ * This file contains the source code for the TankDrive class, along with
  * explanations of how each function works
  */ 
 
-Chassis::Chassis(int leftMotor, int rightMotor, 
+TankDrive::TankDrive(int leftMotor, int rightMotor, 
                  bool leftReversed, bool rightReversed, 
                  okapi::AbstractMotor::gearset gearset, float wD, float bR,
                  float Pconst, float Iconst, float Dconst):
@@ -16,7 +16,7 @@ Chassis::Chassis(int leftMotor, int rightMotor,
                     gearset, okapi::AbstractMotor::encoderUnits::degrees)})
 {
     /**
-     * The Chassis Constructor needs to initialize the
+     * The TankDrive Constructor needs to initialize the
      * rightBase and leftBase objects, which must be done through
      * the constructor initializer list. Then, it sets the wheelDiameter, 
      * baseWidth, and PID constant variables to the passed in values
@@ -28,7 +28,7 @@ Chassis::Chassis(int leftMotor, int rightMotor,
     kD = Dconst;
 }
 
-Chassis::Chassis(int leftFrontMotor, int rightFrontMotor, int leftBackMotor, int rightBackMotor, 
+TankDrive::TankDrive(int leftFrontMotor, int rightFrontMotor, int leftBackMotor, int rightBackMotor, 
                 bool leftFrontReversed, bool rightFrontReversed, bool leftBackReversed, bool rightBackReversed,
                 okapi::AbstractMotor::gearset gearset, float wD, float bR, 
                 float Pconst, float Iconst, float Dconst):
@@ -42,7 +42,7 @@ Chassis::Chassis(int leftFrontMotor, int rightFrontMotor, int leftBackMotor, int
                                 gearset, okapi::AbstractMotor::encoderUnits::degrees)})
 {
     /**
-     * The Chassis Constructor needs to initialize the
+     * The TankDrive Constructor needs to initialize the
      * rightBase and leftBase objects, which must be done through
      * the constructor initializer list. Then, it sets the wheelDiameter, 
      * baseWidth, and PID constant variables to the passed in values
@@ -54,7 +54,7 @@ Chassis::Chassis(int leftFrontMotor, int rightFrontMotor, int leftBackMotor, int
     kD = Dconst;
 }
 
-void Chassis::driver(okapi::Controller controller) {
+void TankDrive::driver(okapi::Controller controller) {
     /**
      * The driver function uses the okapi controller object to get the values of
      * the Y axes on each controller joystick. Then, each base motor group is set 
@@ -66,7 +66,7 @@ void Chassis::driver(okapi::Controller controller) {
     rightBase.controllerSet(controller.getAnalog(okapi::ControllerAnalog::rightY));
 }
 
-void Chassis::chassisPID(float leftTarg, float rightTarg)
+void TankDrive::drivePID(float leftTarg, float rightTarg)
 {
     /**
      * Convert leftTarg and rightTarg from inches to travel to degrees for the
@@ -136,10 +136,10 @@ void Chassis::chassisPID(float leftTarg, float rightTarg)
     }
 }
 
-void Chassis::setVelocity(int leftVelo, int rightVelo)
+void TankDrive::setVelocity(int leftVelo, int rightVelo)
 {
     /**
-     * As noted in chassis.hpp, setVelocity simply encapsulates
+     * As noted in TankDrive.hpp, setVelocity simply encapsulates
      * the okapi moveVelocity function into a cleaner package,
      * while also allowing manual velocity setting in an
      * autonomous routine
@@ -148,20 +148,20 @@ void Chassis::setVelocity(int leftVelo, int rightVelo)
     rightBase.moveVelocity(rightVelo);
 }
 
-void Chassis::moveStraight(float distance)
+void TankDrive::moveStraight(float distance)
 {
     /**
-     * The moveStraight function just slightly simplifies the chassisPID
+     * The moveStraight function just slightly simplifies the drivePID
      * function, cutting down on a paramter. This is purely added for
      * convenience/readability. Although not having this function wouldn't
-     * change anything signifigant, I wanted to keep the chassisPID function
+     * change anything signifigant, I wanted to keep the drivePID function
      * private, as, in my mind, it makes sense for an object's PID controller
      * to be kept private.
      */ 
-    chassisPID(distance, distance);
+    drivePID(distance, distance);
 }
 
-void Chassis::turnAngle(float angle)
+void TankDrive::turnAngle(float angle)
 {
     /**
      * The distance each side needs to rotate can be found with the 
@@ -178,12 +178,12 @@ void Chassis::turnAngle(float angle)
      */ 
     double turnLength = angle * (3.1415/180) * (baseWidth / 2);
     /**
-     * As stated in chassis.hpp, a positive angle will make the robot
+     * As stated in TankDrive.hpp, a positive angle will make the robot
      * turn clockwise. To achieve this, the left side of the base must 
      * move forward. So, the target for the right side is negative by
      * default. If the input angle is negative, the signs are switched,
      * so the right side goes forward, and the left goes backward, turning
      * the robot counterclockwise
      */ 
-    chassisPID(turnLength, -turnLength);
+    drivePID(turnLength, -turnLength);
 }

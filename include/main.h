@@ -41,7 +41,7 @@
 /**
  * #includes for the various user-written header files
  */ 
-#include "lib/chassis.hpp"
+#include "lib/TankDrive.hpp"
 #include "lib/gui.hpp"
 #include "lib/externs.hpp"
 /**

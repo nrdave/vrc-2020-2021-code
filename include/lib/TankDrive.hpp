@@ -2,8 +2,8 @@
 #include "okapi/api.hpp"
 
 /**
- * The header file for the Chassis class, which is used to create objects that 
- * represent a standard tank drive base design. 
+ * The header file for the TankDrive class, which is used to create objects that 
+ * represent a standard tank drive drivetrain design. 
  * 
  * The comments in this header file explain the purpose of each member object or function,
  * while the comments in the respective source file explain the inner workings of each
@@ -16,11 +16,11 @@
 #define BLUE okapi::AbstractMotor::gearset::blue
 
 
-class Chassis {
+class TankDrive {
     private:
         /**
          * OkapiLib motor group objects. Each one represents the 
-         * motor(s) on one side of the base
+         * motor(s) on one side of the drivetrain
          */
         okapi::MotorGroup rightBase;
 
@@ -34,26 +34,26 @@ class Chassis {
         float wheelDiameter;
 
         /**
-         * Variable to hold the width of the base. This value is used in the turnAngle function
+         * Variable to hold the width of the drivetrain. This value is used in the turnAngle function
          * 
-         * As long as the base is rectangular, the turning point of the robot will always
+         * As long as the robot's base is rectangular, the turning point of the robot will always
          * be down the robot's front-facing middle. So, this value will be usable no matter
          * the wheel configuration
          */ 
         float baseWidth;
         /**
-         * The chassisPID function is a PID controller for the base. It sets each side of 
-         * the base to move a specified length. It is used as the base for all autonomous 
+         * The drivePID function is a PID controller for the drivetrain. It sets each side of 
+         * the drivetrain to move a specified length. It is used as the base for all autonomous 
          * functions. Individual functions conduct any calculations needed to get the 
-         * needed target values before passing those values into chassisPID. This means
-         * that the PID controller for the chassis need only be tuned once
+         * needed target values before passing those values into drivePID. This means
+         * that the PID controller for the drivetrain need only be tuned once
          * 
-         * @param leftTarg: The target length to move to, in inches, for the left side of the base
+         * @param leftTarg: The target length to move to, in inches, for the left side of the drivetrain
          *           Can be negative to indicate rotating backwards
-         * @param rightTarg: The target length to move to, in inches, for the right side of the base
+         * @param rightTarg: The target length to move to, in inches, for the right side of the drivetrain
          *           Can be negative to indicate rotating backwards
          */
-        void chassisPID(float leftTarg, float rightTarg); 
+        void drivePID(float leftTarg, float rightTarg); 
 
         /**
          * The PID constant values, kP for the proportional constant,
@@ -64,11 +64,11 @@ class Chassis {
         float kD;
     public:
         /**
-         * One of the constructors for a chassis object. This one is for a tank
-         * drive with 1 motor powering each side
+         * One of the constructors for a TankDrive object. This one is for a tank
+         * drive with 1 motor powering each side of the drivetrain
          * 
-         * @param leftMotor: the motor port of the motor on the left side of the base
-         * @param rightMotor: the motor port of the motor on the right side of the base
+         * @param leftMotor: the motor port of the motor on the left side of the drivetrain
+         * @param rightMotor: the motor port of the motor on the right side of the drivetrain
          * @param leftReversed: a boolean to indicate if the left motor needs to be reversed
          * @param rightReversed: a boolean to indicate if the right motor needs to be reversed
          * @param gearset: the motor gearset used in the motors (it is assumed that both 
@@ -79,21 +79,21 @@ class Chassis {
          * @param Iconst: the value of the integral constant in the PID controller
          * @param Dconst: the value of the derivative constant in the PID controller
          */ 
-        Chassis(int leftMotor, int rightMotor, bool leftReversed, bool rightReversed, 
+        TankDrive(int leftMotor, int rightMotor, bool leftReversed, bool rightReversed, 
                 okapi::AbstractMotor::gearset gearset, float wD, float bR,
                 float Pconst, float Iconst, float Dconst);
         /** 
-         * One of the constructors for a chassis object. This one is for a tank
+         * One of the constructors for a TankDrive object. This one is for a tank
          * drive with 2 motors powering each side
          * 
-         * @param leftFrontMotor: the motor port of the motor on the left side of the base
-         * @param rightFrontMotor: the motor port of the motor on the right side of the base
-         * @param leftBackMotor: the motor port of the motor on the left side of the base
+         * @param leftFrontMotor: the motor port of the motor on the left side of the drivetrain
+         * @param rightFrontMotor: the motor port of the motor on the right side of the drivetrain
+         * @param leftBackMotor: the motor port of the motor on the left side of the drivetrain
+         * @param rightBackMotor: the motor port of the motor on the right side of the drivetrain
          * @param leftFrontReversed: a boolean to indicate if the left front motor needs to be reversed
          * @param rightFrontReversed: a boolean to indicate if the right front motor needs to be reversed
          * @param leftBackReversed: a boolean to indicate if the left back motor needs to be reversed
          * @param rightBackReversed: a boolean to indicate if the right back motor needs to be reversed         
-         * @param rightBackMotor: the motor port of the motor on the right side of the base
          * @param gearset: the motor gearset used in the motors (it is assumed that both 
          *          motors use the same gearset)
          * @param wD: the diameter of the wheels used
@@ -102,15 +102,15 @@ class Chassis {
          * @param Iconst: the value of the integral constant in the PID controller
          * @param Dconst: the value of the derivative constant in the PID controller
          */ 
-        Chassis(int leftFrontMotor, int rightFrontMotor, int leftBackMotor, int rightBackMotor, 
+        TankDrive(int leftFrontMotor, int rightFrontMotor, int leftBackMotor, int rightBackMotor, 
                 bool leftFrontReversed, bool rightFrontReversed, 
                 bool leftBackReversed, bool rightBackReversed,
                 okapi::AbstractMotor::gearset gearset, float wD, float bR,
                 float Pconst, float Iconst, float Dconst);
 
         /**
-         * The driver function allows control of the chassis during the opcontrol period,
-         * with each side of the base bound to one of the controller joysticks
+         * The driver function allows control of the drivetrain during the opcontrol period,
+         * with each side of the drivetrain bound to one of the controller joysticks
          * 
          * @param controller: the OkapiLib controller object, which represents the robot controller
          */ 
