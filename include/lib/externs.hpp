@@ -10,6 +10,11 @@
  * initialized in the global scope.
  */ 
 
+//Redefining the okapi motor gearsets to have a simpler name
+#define GEARSET_GREEN okapi::AbstractMotor::gearset::green
+#define GEARSET_RED okapi::AbstractMotor::gearset::red
+#define GEARSET_BLUE okapi::AbstractMotor::gearset::blue
+
 /**
  * #define statements for the autonID values, used to improve
  * readability. 

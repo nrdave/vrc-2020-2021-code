@@ -10,12 +10,6 @@
  * function
  */
 
-//Redefining the okapi gearsets to have a simpler name
-#define GREEN okapi::AbstractMotor::gearset::green
-#define RED okapi::AbstractMotor::gearset::red
-#define BLUE okapi::AbstractMotor::gearset::blue
-
-
 class TankDrive {
     private:
         /**
