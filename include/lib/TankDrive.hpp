@@ -68,13 +68,13 @@ class TankDrive {
          * @param gearset: the motor gearset used in the motors (it is assumed that both 
          *                 motors use the same gearset)
          * @param wD: the diameter of the wheels used
-         * @param bR: the distance from the middle of the robot to the wheels
+         * @param bW: the distance from the middle of the robot to the wheels
          * @param Pconst: the value of the proportional constant in the PID controller
          * @param Iconst: the value of the integral constant in the PID controller
          * @param Dconst: the value of the derivative constant in the PID controller
          */ 
         TankDrive(int leftMotor, int rightMotor, bool leftReversed, bool rightReversed, 
-                okapi::AbstractMotor::gearset gearset, float wD, float bR,
+                okapi::AbstractMotor::gearset gearset, float wD, float bW,
                 float Pconst, float Iconst, float Dconst);
         /** 
          * One of the constructors for a TankDrive object. This one is for a tank
@@ -91,7 +91,7 @@ class TankDrive {
          * @param gearset: the motor gearset used in the motors (it is assumed that both 
          *          motors use the same gearset)
          * @param wD: the diameter of the wheels used
-         * @param bR: the distance from the middle of the robot to the wheels
+         * @param bW: the distance from the middle of the robot to the wheels
          * @param Pconst: the value of the proportional constant in the PID controller
          * @param Iconst: the value of the integral constant in the PID controller
          * @param Dconst: the value of the derivative constant in the PID controller
@@ -99,7 +99,7 @@ class TankDrive {
         TankDrive(int leftFrontMotor, int rightFrontMotor, int leftBackMotor, int rightBackMotor, 
                 bool leftFrontReversed, bool rightFrontReversed, 
                 bool leftBackReversed, bool rightBackReversed,
-                okapi::AbstractMotor::gearset gearset, float wD, float bR,
+                okapi::AbstractMotor::gearset gearset, float wD, float bW,
                 float Pconst, float Iconst, float Dconst);
 
         /**

@@ -8,7 +8,7 @@
 
 TankDrive::TankDrive(int leftMotor, int rightMotor, 
                  bool leftReversed, bool rightReversed, 
-                 okapi::AbstractMotor::gearset gearset, float wD, float bR,
+                 okapi::AbstractMotor::gearset gearset, float wD, float bW,
                  float Pconst, float Iconst, float Dconst):
                  rightBase({okapi::Motor(rightMotor, rightReversed, 
                     gearset, okapi::AbstractMotor::encoderUnits::degrees)}),                 
@@ -22,7 +22,7 @@ TankDrive::TankDrive(int leftMotor, int rightMotor,
      * baseWidth, and PID constant variables to the passed in values
      */ 
     wheelDiameter = wD;
-    baseWidth = bR;
+    baseWidth = bW;
     kP = Pconst;
     kI = Iconst;
     kD = Dconst;
@@ -30,7 +30,7 @@ TankDrive::TankDrive(int leftMotor, int rightMotor,
 
 TankDrive::TankDrive(int leftFrontMotor, int rightFrontMotor, int leftBackMotor, int rightBackMotor, 
                 bool leftFrontReversed, bool rightFrontReversed, bool leftBackReversed, bool rightBackReversed,
-                okapi::AbstractMotor::gearset gearset, float wD, float bR, 
+                okapi::AbstractMotor::gearset gearset, float wD, float bW, 
                 float Pconst, float Iconst, float Dconst):
                  rightBase({okapi::Motor(rightFrontMotor, rightFrontReversed, 
                                 gearset, okapi::AbstractMotor::encoderUnits::degrees), 
@@ -48,7 +48,7 @@ TankDrive::TankDrive(int leftFrontMotor, int rightFrontMotor, int leftBackMotor,
      * baseWidth, and PID constant variables to the passed in values
      */ 
     wheelDiameter = wD;
-    baseWidth = bR;
+    baseWidth = bW;
     kP = Pconst;
     kI = Iconst;
     kD = Dconst;
