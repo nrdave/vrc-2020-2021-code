@@ -76,13 +76,15 @@ lv_obj_t * runAuton;
 void GUI::initialize()
 {
     //Initializing the screens
-    scrMain = createScreen();
-    scrAuton = createScreen();
+    scrMain = lv_obj_create(NULL, NULL);
+    scrAuton = lv_obj_create(NULL, NULL);
 
     //Initializing the backround images for the screens
 
     //Initializing the home screen background
-    mainBackgroundIMG = createImage(scrMain, background, LV_ALIGN_IN_TOP_LEFT, 0, 0);
+    mainBackgroundIMG = lv_img_create(scrMain, NULL);
+    lv_img_set_src(mainBackgroundIMG, &background);
+    lv_obj_align(mainBackgroundIMG, NULL, LV_ALIGN_IN_TOP_LEFT, 0, 0);
     //Initializing the autonomous menu screen background
     autonBackgroundIMG = createImage(scrAuton, background, LV_ALIGN_IN_TOP_LEFT, 0, 0);
     //Making the autonomous selection background mostly transparent
@@ -96,7 +98,7 @@ void GUI::initialize()
     navAuton = createButton(scrMain, LV_BTN_ACTION_CLICK, goToAuton, "Auton Menu", LV_ALIGN_IN_LEFT_MID, 20, 0);
 
     //Initializing the button to return to the main menu from the autonomous screen
-    navMainFromAuton = createButton(scrMain, LV_BTN_ACTION_CLICK, goToMain, "Main Menu", LV_ALIGN_IN_TOP_LEFT, 20, 20);
+    navMainFromAuton = createButton(scrAuton, LV_BTN_ACTION_CLICK, goToMain, "Main Menu", LV_ALIGN_IN_TOP_LEFT, 20, 20);
 
     //Initializing the Autonomous Menu
 
@@ -105,6 +107,8 @@ void GUI::initialize()
 
     //Initializing the label indicating the autonomous selected
     curAutonLbl = createLabel(scrAuton, "Auton", LV_ALIGN_IN_TOP_LEFT, 10, 10);
+
+    lv_scr_load(scrMain);
 }
 
 lv_obj_t * GUI::createImage(lv_obj_t * parent, const lv_img_dsc_t imgSRC, lv_align_t align, lv_coord_t xCoord, lv_coord_t yCoord)
