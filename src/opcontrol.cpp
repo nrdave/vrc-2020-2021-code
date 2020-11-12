@@ -14,5 +14,9 @@
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-    drive.driver(controller);
+    while(true)
+    {
+        drive.driver(controller);
+        pros::delay(20);
+    }
 }
