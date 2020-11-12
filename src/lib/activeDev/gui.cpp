@@ -20,11 +20,11 @@
 const char * autonMap[] = {"Test", "\n", "None", ""};
 
 /**
- * The variable used to store the ID of the current selected autonomous
- * It is set to 0 so that if no autonomous is selected, the value of 
- * autonID corresponds to not running an autonomous routine.
+ * The enumerator used to store the ID of the current selected autonomous
+ * It is set to value none by default so that if an autonomous routine is
+ * not selected, the robot does not run an autonomous routine.
  */
-int autonID = 0;
+Auton autonID = Auton::none;
 /**
  * The LVGL objects for the GUI's screens. As of now there are 2, the main 
  * home screen and the screen for autonomous selection
@@ -199,9 +199,9 @@ lv_res_t GUI::updateAutonID(lv_obj_t * btnm, const char * txt){
      * routine is selected. If there are any issues, the function
      * defaults to no autonomous
      */ 
-    if(txt == "Test") autonID = AUTON_TEST;
-    else if(txt == "None") autonID = AUTON_NONE;
-    else autonID = AUTON_NONE;
+    if(txt == "Test") autonID = Auton::test;
+    else if(txt == "None") autonID = Auton::none;
+    else autonID = Auton::none;
     //Updating the label for the current selected autonomous
     updateAutonLbl();
     return LV_RES_OK;
@@ -217,10 +217,10 @@ void GUI::updateAutonLbl()
      */ 
     switch(autonID)
     {
-        case AUTON_TEST:
+        case Auton::test:
             lv_label_set_text(curAutonLbl, "Test");
             break;
-        case AUTON_NONE:
+        case Auton::none:
             lv_label_set_text(curAutonLbl, "No Auton Selected");
             break;
     }

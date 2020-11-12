@@ -10,32 +10,17 @@
  * initialized in the global scope.
  */ 
 
-//Redefining the okapi motor gearsets to have a simpler name
-#define GEARSET_GREEN okapi::AbstractMotor::gearset::green
-#define GEARSET_RED okapi::AbstractMotor::gearset::red
-#define GEARSET_BLUE okapi::AbstractMotor::gearset::blue
-
 /**
- * #define statements for the autonID values, used to improve
- * readability. 
- */ 
-
-//The autonID value to indicate not to run an autonomous routine
-#define AUTON_NONE 0
-//The autonID value for running a test autonomous routine
-#define AUTON_TEST 1
-/**
- * These autonID values all follow a pattern:
- * AUTON_<color>_<side>_<number of goals to score on>
- */ 
-#define AUTON_BLUE_LEFT_1GOAL 2
-#define AUTON_BLUE_LEFT_2GOAL 3
-#define AUTON_BLUE_RIGHT_1GOAL 4
-#define AUTON_BLUE_RIGHT_2GOAL 5
-#define AUTON_RED_LEFT_1GOAL 6
-#define AUTON_RED_LEFT_2GOAL 7
-#define AUTON_RED_RIGHT_1GOAL 8
-#define AUTON_RED_RIGHT_2GOAL 9
+ * The Auton enumerator is an enumerator used to 
+ * store all autonomous routine selections. Whenever I
+ * write a new autonomous routine, I can just add that
+ * option to this enumerator, and then write the necessary
+ * selection code in gui.cpp and autonomous.cpp.
+ */
+enum class Auton{
+    none,
+    test
+}; 
 
 //The TankDrive object, representing the robot drivetrain
 extern TankDrive drive;
@@ -43,5 +28,5 @@ extern TankDrive drive;
 //The okapi::Controller object, which represents the robot controller
 extern okapi::Controller controller;
 
-//The variable used to store the ID of the currently selected autonomous
-extern int autonID;
+//The Auton enumerator used to store the currently selected autonomous routine
+extern Auton autonID;
