@@ -23,6 +23,8 @@ enum class Auton{
 }; 
 
 #define GEARSET_GREEN okapi::AbstractMotor::gearset::green 
+#define GEARSET_RED okapi::AbstractMotor::gearset::red 
+#define GEARSET_BLUE okapi::AbstractMotor::gearset::blue 
 
 //The TankDrive object, representing the robot drivetrain
 extern TankDrive drive;
