@@ -1,7 +1,7 @@
 #include "main.h"
 
 okapi::Controller controller;
-TankDrive drive(12, 11, 10, 1, false, true, false, true, GEARSET_GREEN, 4, 16, 0.5, 0, 0);
+TankDrive drive(12, 11, 10, 1, false, true, false, true, GEARSET_GREEN, 4, 9.3, 0.7, 0, 0);
 /**
  * Runs initialization code. This occurs as soon as the program is started.
  *
