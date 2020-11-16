@@ -54,6 +54,7 @@ TankDrive::TankDrive(int leftFrontMotor, int rightFrontMotor, int leftBackMotor,
     kD = Dconst;
 }
 
+
 void TankDrive::driver(okapi::Controller controller) {
     /**
      * The driver function uses the okapi controller object to get the values of
@@ -66,7 +67,7 @@ void TankDrive::driver(okapi::Controller controller) {
     rightBase.controllerSet(controller.getAnalog(okapi::ControllerAnalog::rightY));
 }
 
-void TankDrive::drivePID(float leftTarg, float rightTarg)
+void TankDrive::drivePID(float leftT, float rightT)
 {
     /**
      * Convert leftTarg and rightTarg from inches to travel to degrees for the
@@ -78,14 +79,14 @@ void TankDrive::drivePID(float leftTarg, float rightTarg)
      * 360 degrees/(wheel diameter * pi), as wheel diameter times pi is the inches traveled
      * over 1 rotation, while 360 degrees is degrees rotated over 1 rotation
      */ 
-    leftTarg *= 360/(wheelDiameter * 3.1415);
-    rightTarg *= 360/(wheelDiameter * 3.1415);
+    float leftTarg = leftT * 360/(wheelDiameter * 3.1415);
+    float rightTarg = rightT * 360/(wheelDiameter * 3.1415);
     //Reset the encoders of each motor group to 0
     leftBase.tarePosition();
     rightBase.tarePosition();
     //Declare or initialize all variables used in the loop
-    float leftError;
-    float rightError;
+    float leftError = leftTarg - leftBase.getPosition(); 
+    float rightError = rightTarg - rightBase.getPosition();
     float leftOutput;
     float rightOutput;
     //Integral variables are initiated so that the += operator can be used throughout the while loop
@@ -93,16 +94,12 @@ void TankDrive::drivePID(float leftTarg, float rightTarg)
     float rightIntegral = 0;
     float leftDerivative;
     float rightDerivative;
-    //Previous error will be equal to the current error, but it is cleaner to set the current error in the while loop
-    float leftPrevError = leftTarg - leftBase.getPosition();
-    float rightPrevError = rightTarg - rightBase.getPosition();
+    //Declaring the Previous Error Variable
+    float leftPrevError;
+    float rightPrevError;
     //Enter a while loop that runs until both sides are within 20 degrees of target rotation
-    while(abs(leftError) > 20 && abs(rightError) > 20)
+    while(abs(leftError) > 10 && abs(rightError) > 10)
     {
-        //Calculate the error
-        leftError = leftTarg - leftBase.getPosition(); 
-        rightError = rightTarg - rightBase.getPosition();
-
         //Calculate the integral
         leftIntegral += leftError;
         rightIntegral += rightError;
@@ -116,8 +113,8 @@ void TankDrive::drivePID(float leftTarg, float rightTarg)
         rightPrevError = rightError;
 
         //Set the output values
-        leftOutput = leftError * kP + leftIntegral * kI + leftDerivative * kD;
-        rightOutput = rightError * kP + rightIntegral * kI + rightDerivative * kD;
+        leftOutput = (leftError * kP) + (leftIntegral * kI) + (leftDerivative * kD);
+        rightOutput = (rightError * kP) + (rightIntegral * kI) + (rightDerivative * kD);
         /**
          * Ensure that the output voltages are not greater than the 
          * maximum voltages the moveVoltage function allows 
@@ -130,10 +127,15 @@ void TankDrive::drivePID(float leftTarg, float rightTarg)
             if(rightOutput < 0) rightOutput = -12000;
             else rightOutput = 12000;
         //Set the motor group voltages to the output voltage levels
-        leftBase.moveVoltage(leftOutput);
-        rightBase.moveVoltage(rightOutput);
-        pros::delay(15);
+        leftBase.moveVelocity(leftOutput);
+        rightBase.moveVelocity(rightOutput);
+
+        //Calculate the new error
+        leftError = leftTarg - leftBase.getPosition(); 
+        rightError = rightTarg - rightBase.getPosition();
+        pros::delay(20);
     }
+    setVelocity(0, 0);
 }
 
 void TankDrive::setVelocity(int leftVelo, int rightVelo)
