@@ -46,8 +46,9 @@ class TankDrive {
          *           Can be negative to indicate rotating backwards
          * @param rightTarg: The target length to move to, in inches, for the right side of the drivetrain
          *           Can be negative to indicate rotating backwards
+         * @param maxVelo: The maximum velocity that the motors can run at
          */
-        void drivePID(float leftTarg, float rightTarg); 
+        void drivePID(float leftTarg, float rightTarg, int maxVelo); 
 
         /**
          * The PID constant values, kP for the proportional constant,
@@ -131,13 +132,14 @@ class TankDrive {
          *        is negative. For example, passing in 45 would make the robot turn
          *        45 degrees to the right (clockwise, from an overhead view)
          */ 
-        void turnAngle(float angle);
+        void turnAngle(float angle, int maxVelo); 
 
         /**
          * The moveStraight function is an autonomous function used to
          * tell the robot to drive forward or backward a given amount
          * 
          * @param distance: the distance to travel, in inches. Negative values = backwards
+         * @param maxVelo: the maximum velocity that the motors can run at
          */
-        void moveStraight(float distance); 
+        void moveStraight(float distance, int maxVelo); 
 };

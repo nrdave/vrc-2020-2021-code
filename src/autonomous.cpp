@@ -12,7 +12,7 @@
  * from where it left off.
  */
 void autonomous() {
-    drive.moveStraight(5);
+    drive.moveStraight(5, 200);
     pros::delay(500);
-    drive.turnAngle(45);
+    drive.turnAngle(45, 200);
 }

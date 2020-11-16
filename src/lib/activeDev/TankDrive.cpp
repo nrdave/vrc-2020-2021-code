@@ -67,7 +67,7 @@ void TankDrive::driver(okapi::Controller controller) {
     rightBase.controllerSet(controller.getAnalog(okapi::ControllerAnalog::rightY));
 }
 
-void TankDrive::drivePID(float leftT, float rightT)
+void TankDrive::drivePID(float leftT, float rightT, int maxVelo)
 {
     /**
      * Convert leftTarg and rightTarg from inches to travel to degrees for the
@@ -117,19 +117,16 @@ void TankDrive::drivePID(float leftT, float rightT)
         rightOutput = (rightError * kP) + (rightIntegral * kI) + (rightDerivative * kD);
         /**
          * Ensure that the output voltages are not greater than the 
-         * maximum voltages the moveVoltage function allows 
-         * Voltage levels are in milliVolts
+         * maximum velocity
          */ 
-        if(abs(leftOutput) > 12000)
-            if(leftOutput < 0) leftOutput = -12000;
-            else leftOutput = 12000;
-        if(abs(rightOutput) > 12000)
-            if(rightOutput < 0) rightOutput = -12000;
-            else rightOutput = 12000;
-        //Set the motor group voltages to the output voltage levels
-        leftBase.moveVelocity(leftOutput);
-        rightBase.moveVelocity(rightOutput);
-
+        if(abs(leftOutput) > maxVelo)
+            if(leftOutput < 0) leftOutput = -maxVelo;
+            else leftOutput = maxVelo;
+        if(abs(rightOutput) > maxVelo)
+            if(rightOutput < 0) rightOutput = -maxVelo;
+            else rightOutput = maxVelo;
+        //Set the motor group velocities to the output voltage levels
+        setVelocity(leftOutput, rightOutput);
         //Calculate the new error
         leftError = leftTarg - leftBase.getPosition(); 
         rightError = rightTarg - rightBase.getPosition();
@@ -150,7 +147,7 @@ void TankDrive::setVelocity(int leftVelo, int rightVelo)
     rightBase.moveVelocity(rightVelo);
 }
 
-void TankDrive::moveStraight(float distance)
+void TankDrive::moveStraight(float distance, int maxVelo)
 {
     /**
      * The moveStraight function just slightly simplifies the drivePID
@@ -160,10 +157,10 @@ void TankDrive::moveStraight(float distance)
      * private, as, in my mind, it makes sense for an object's PID controller
      * to be kept private.
      */ 
-    drivePID(distance, distance);
+    drivePID(distance, distance, maxVelo);
 }
 
-void TankDrive::turnAngle(float angle)
+void TankDrive::turnAngle(float angle, int maxVelo)
 {
     /**
      * The distance each side needs to rotate can be found with the 
@@ -187,5 +184,5 @@ void TankDrive::turnAngle(float angle)
      * so the right side goes forward, and the left goes backward, turning
      * the robot counterclockwise
      */ 
-    drivePID(turnLength, -turnLength);
+    drivePID(turnLength, -turnLength, maxVelo);
 }
