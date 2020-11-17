@@ -39,10 +39,10 @@ lv_obj_t * mainBackgroundIMG;
 //The LVGL image object holding the auton screen background
 lv_obj_t * autonBackgroundIMG;
 
-
-//LVGL style object used to make the auton screen background translucent
-static lv_style_t autonIMGstyle;
-
+//LVGL default button style
+static lv_style_t buttonStyle;
+//LVGL button style for when the button is pressed
+static lv_style_t buttonStylePr;
 /**
  * Declaring the background.c file as an LVGL image, so
  * it can be used in the creation of the main screen
@@ -86,11 +86,9 @@ void GUI::initialize()
     lv_img_set_src(mainBackgroundIMG, &background);
     lv_obj_align(mainBackgroundIMG, NULL, LV_ALIGN_IN_TOP_LEFT, 0, 0);
     //Initializing the autonomous menu screen background
-    autonBackgroundIMG = createImage(scrAuton, background, LV_ALIGN_IN_TOP_LEFT, 0, 0);
-    //Making the autonomous selection background mostly transparent
-    lv_style_copy(&autonIMGstyle, &lv_style_scr);
-    autonIMGstyle.image.opa = LV_OPA_10;
-    lv_img_set_style(autonBackgroundIMG, &autonIMGstyle);
+    autonBackgroundIMG = lv_img_create(scrAuton, NULL);
+    lv_img_set_src(autonBackgroundIMG, &background);
+    lv_obj_align(autonBackgroundIMG, NULL, LV_ALIGN_IN_TOP_LEFT, 0, 0);
 
     //Initializing the navigation buttons
 
@@ -109,23 +107,6 @@ void GUI::initialize()
     curAutonLbl = createLabel(scrAuton, "Auton", LV_ALIGN_IN_TOP_LEFT, 10, 10);
 
     lv_scr_load(scrMain);
-}
-
-lv_obj_t * GUI::createImage(lv_obj_t * parent, const lv_img_dsc_t imgSRC, lv_align_t align, lv_coord_t xCoord, lv_coord_t yCoord)
-{
-    //Creating an LVGL image
-    lv_obj_t * img = lv_img_create(parent, NULL);
-    //Setting the source file for the image data
-    lv_img_set_src(img, &imgSRC);
-    //Aligning the image relative to its parent
-    lv_obj_align(img, NULL, align, xCoord, yCoord);
-    /**
-     * Return the created image
-     * This returns the image to the declared LVGL object in
-     * initialize, making that object into an identical image to 
-     * the image img created in this function.
-     */ 
-    return img;
 }
 
 lv_obj_t * GUI::createButton(lv_obj_t * parent, lv_btn_action_t pressType, lv_action_t function, const char* text, lv_align_t align, lv_coord_t xCoord, lv_coord_t yCoord)
