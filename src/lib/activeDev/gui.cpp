@@ -39,16 +39,41 @@ lv_obj_t * mainBackgroundIMG;
 //The LVGL image object holding the auton screen background
 lv_obj_t * autonBackgroundIMG;
 
+/**
+ * Setting up the LVGL styles and colors I use to set the colors for LVGL 
+ * objects.
+ */ 
+
 //LVGL default button style
-static lv_style_t buttonStyle;
-//LVGL button style for when the button is pressed
+static lv_style_t defaultStyle;
+//LVGL button style for when a button or button matrix is pressed
 static lv_style_t buttonStylePr;
+//LVGL Style for the background of the autonMenu button matrix
+static lv_style_t buttonMatrixStyle;
+
+//LVGL color for the default object color
+lv_color_t defaultObjectColor = LV_COLOR_MAKE(99, 46, 133);
+//LVGL color for the default background color
+lv_color_t defaultBorderColor = LV_COLOR_MAKE(194, 173, 209);
+//LVGL color for the object color of buttonStylePr
+lv_color_t buttonPrObjectColor = LV_COLOR_MAKE(67, 31, 89);
+//LVGL color for the border color of buttonStylePr
+lv_color_t buttonPrBorderColor = LV_COLOR_MAKE(142, 126, 153);
+//LVGL color for the object color of buttonMatrixStyle
+lv_color_t buttonMatrixObjectColor = LV_COLOR_MAKE(38, 17, 51);
+//LVGL color for the border color of buttonMatrixStyle
+lv_color_t buttonMatrixBorderColor = LV_COLOR_MAKE(97, 86, 104);
 /**
  * Declaring the background.c file as an LVGL image, so
  * it can be used in the creation of the main screen
  * background
  */ 
-LV_IMG_DECLARE(background);
+LV_IMG_DECLARE(backgroundMain);
+/**
+ * Declaring the backgroundAuton.c file as an LVGL image, so
+ * it can be used in the creation of the autonomous menu background
+ */ 
+LV_IMG_DECLARE(backgroundAuton);
 /**
  * The LVGL objects used for the navigation between the screens. There are
  * 2 per screen besides the main menu, so currently just 2
@@ -79,29 +104,59 @@ void GUI::initialize()
     scrMain = lv_obj_create(NULL, NULL);
     scrAuton = lv_obj_create(NULL, NULL);
 
+    //Setting up the styles
+    lv_style_copy(&defaultStyle, &lv_style_plain);
+    defaultStyle.body.main_color = defaultObjectColor;
+    defaultStyle.body.grad_color = defaultObjectColor;
+    defaultStyle.text.color = LV_COLOR_WHITE;
+    defaultStyle.body.border.color = defaultBorderColor;
+    defaultStyle.body.radius = 15;
+    defaultStyle.body.border.width = 2;
+
+    lv_style_copy(&buttonStylePr, &defaultStyle);
+    buttonStylePr.body.main_color = buttonPrObjectColor;
+    buttonStylePr.body.grad_color = buttonPrObjectColor;
+    buttonStylePr.body.border.color = buttonPrBorderColor;
+
+    lv_style_copy(&buttonMatrixStyle, &defaultStyle);
+    buttonMatrixStyle.body.border.width = 2;
+    buttonMatrixStyle.body.padding.inner = 1;
+    buttonMatrixStyle.body.padding.hor = 1;
+    buttonMatrixStyle.body.padding.ver = 1;
+    buttonMatrixStyle.body.main_color = buttonMatrixObjectColor;
+    buttonMatrixStyle.body.grad_color = buttonMatrixObjectColor;
+    buttonMatrixStyle.body.border.color = buttonMatrixBorderColor;
+
     //Initializing the backround images for the screens
 
     //Initializing the home screen background
     mainBackgroundIMG = lv_img_create(scrMain, NULL);
-    lv_img_set_src(mainBackgroundIMG, &background);
+    lv_img_set_src(mainBackgroundIMG, &backgroundMain);
     lv_obj_align(mainBackgroundIMG, NULL, LV_ALIGN_IN_TOP_LEFT, 0, 0);
     //Initializing the autonomous menu screen background
     autonBackgroundIMG = lv_img_create(scrAuton, NULL);
-    lv_img_set_src(autonBackgroundIMG, &background);
+    lv_img_set_src(autonBackgroundIMG, &backgroundAuton);
     lv_obj_align(autonBackgroundIMG, NULL, LV_ALIGN_IN_TOP_LEFT, 0, 0);
 
     //Initializing the navigation buttons
 
     //Initializing the button to switch to the autonomous menu screen    
-    navAuton = createButton(scrMain, LV_BTN_ACTION_CLICK, goToAuton, "Auton Menu", LV_ALIGN_IN_LEFT_MID, 20, 0);
+    navAuton = createButton(scrMain, LV_BTN_ACTION_CLICK, goToAuton, "Auton Menu", LV_ALIGN_IN_LEFT_MID, 20, 0, 125, 50);
+    lv_btn_set_style(navAuton, LV_BTN_STATE_REL, &defaultStyle);
+    lv_btn_set_style(navAuton, LV_BTN_STATE_PR, &buttonStylePr);
 
     //Initializing the button to return to the main menu from the autonomous screen
-    navMainFromAuton = createButton(scrAuton, LV_BTN_ACTION_CLICK, goToMain, "Main Menu", LV_ALIGN_IN_TOP_LEFT, 20, 20);
+    navMainFromAuton = createButton(scrAuton, LV_BTN_ACTION_CLICK, goToMain, "Main Menu", LV_ALIGN_IN_LEFT_MID, 20, 0, 100, 50);
+    lv_btn_set_style(navMainFromAuton, LV_BTN_STATE_REL, &defaultStyle);
+    lv_btn_set_style(navMainFromAuton, LV_BTN_STATE_PR, &buttonStylePr);
 
     //Initializing the Autonomous Menu
 
     //Initializing the autonomous selection button matrix
     autonMenu = createButtonMatrix(scrAuton, autonMap, updateAutonID, LV_ALIGN_IN_TOP_MID, 35, 20, 300, 200);
+    lv_btnm_set_style(autonMenu, LV_BTNM_STYLE_BTN_REL, &defaultStyle);
+    lv_btnm_set_style(autonMenu, LV_BTNM_STYLE_BG, &buttonMatrixStyle);
+    lv_btnm_set_style(autonMenu, LV_BTNM_STYLE_BTN_PR, &buttonStylePr);
 
     //Initializing the label indicating the autonomous selected
     curAutonLbl = createLabel(scrAuton, "Auton", LV_ALIGN_IN_TOP_LEFT, 10, 10);
@@ -109,7 +164,10 @@ void GUI::initialize()
     lv_scr_load(scrMain);
 }
 
-lv_obj_t * GUI::createButton(lv_obj_t * parent, lv_btn_action_t pressType, lv_action_t function, const char* text, lv_align_t align, lv_coord_t xCoord, lv_coord_t yCoord)
+lv_obj_t * GUI::createButton(lv_obj_t * parent, lv_btn_action_t pressType, lv_action_t function,
+                             const char* text, lv_align_t align, 
+                             lv_coord_t xCoord, lv_coord_t yCoord,
+                             lv_coord_t width, lv_coord_t height)
 {
     //Creating an LVGL button
     lv_obj_t * btn = lv_btn_create(parent, NULL);
@@ -117,6 +175,8 @@ lv_obj_t * GUI::createButton(lv_obj_t * parent, lv_btn_action_t pressType, lv_ac
     lv_btn_set_action(btn, pressType, function);   
     //Aligning the button relative to its parent
     lv_obj_align(btn, NULL, align, xCoord, yCoord);
+    //Setting the button's size
+    lv_obj_set_size(btn, width, height);
     //Creating a label for the button
     lv_obj_t * label = createLabel(btn, text, LV_ALIGN_CENTER, 0, 0);
     /**
@@ -146,7 +206,9 @@ lv_obj_t * GUI::createLabel(lv_obj_t * parent, const char* text, lv_align_t alig
 }
 
 
-lv_obj_t * GUI::createButtonMatrix(lv_obj_t * parent, const char* map[], lv_btnm_action_t function, lv_align_t align, lv_coord_t xCoord, lv_coord_t yCoord, lv_coord_t width, lv_coord_t height)
+lv_obj_t * GUI::createButtonMatrix(lv_obj_t * parent, const char* map[], lv_btnm_action_t function,
+                                   lv_align_t align, lv_coord_t xCoord, lv_coord_t yCoord, 
+                                   lv_coord_t width, lv_coord_t height)
 {
     //Creating an LVGL button matrix
     lv_obj_t * btnm = lv_btnm_create(parent, NULL);
