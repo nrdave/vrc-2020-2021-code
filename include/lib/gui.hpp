@@ -34,8 +34,12 @@ namespace GUI
      * @param align: the LVGL alignment type, aligns relative to the parent object
      * @param xCoord: the x coordinate offset from the given alignment
      * @param yCoord: the y coordinate offset from the given alignment
+     * @param width: the width of the button 
+     * @param height: the height of the button     
      */ 
-    lv_obj_t * createButton(lv_obj_t * parent, lv_btn_action_t pressType, lv_action_t function, const char* text, lv_align_t align, lv_coord_t xCoord, lv_coord_t yCoord);
+    lv_obj_t * createButton(lv_obj_t * parent, lv_btn_action_t pressType, lv_action_t function,
+                            const char* text, lv_align_t align, lv_coord_t xCoord, 
+                            lv_coord_t yCoord, lv_coord_t width, lv_coord_t height);
 
 
     /**
@@ -61,8 +65,12 @@ namespace GUI
      * @param align: the LVGL alignment type, aligns relative to the parent object
      * @param xCoord: the x coordinate offset from the given alignment
      * @param yCoord: the y coordinate offset from the given alignment
+     * @param width: the width of the button matrix
+     * @param height: the height of the button matrix
      */ 
-    lv_obj_t * createButtonMatrix(lv_obj_t * parent, const char* map[], lv_btnm_action_t function, lv_align_t align, lv_coord_t xCoord, lv_coord_t yCoord, lv_coord_t width, lv_coord_t height);
+    lv_obj_t * createButtonMatrix(lv_obj_t * parent, const char* map[], lv_btnm_action_t function,
+                                  lv_align_t align, lv_coord_t xCoord, lv_coord_t yCoord,
+                                  lv_coord_t width, lv_coord_t height);
 
     /**
      * A function to create an LVGL screen. It simply wraps the LVGL lv_obj_create(NULL, NULL)
