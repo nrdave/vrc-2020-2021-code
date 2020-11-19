@@ -42,7 +42,7 @@
  * #includes for the various user-written header files
  */ 
 #include "lib/TankDrive.hpp"
-#include "lib/gui.hpp"
+#include "lib/gui.h"
 #include "lib/externs.hpp"
 /**
  * If you find doing pros::Motor() to be tedious and you'd prefer just to do
