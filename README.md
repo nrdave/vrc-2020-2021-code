@@ -6,7 +6,7 @@ This branch contains the code for team 6030K, the Knights, for the 2020-2021 VEX
 
 ### Code Library
 
-The majority of the source code resides in the lib folder under src. This folder contains user-written source files that serve as a class library allowing for robot programming. For example, the Chassis class, which allows for the creation of an object representing the drivetrain, allows for a variety of parameters in its constructors that let the user define  values like motor ports, gearsets, wheel diameter, and base width.
+The majority of the source code resides in the lib folder under src. This folder contains user-written source files that serve as a class library allowing for robot programming. For example, the TankDrive class, which allows for the creation of an object representing the drivetrain, allows for a variety of parameters in its constructors that let the user define  values like motor ports, gearsets, wheel diameter, and base width.
 
 The exception to this is gui.cpp. As LittleVGL (the graphics library included with PROS) doesn't seem to play nice with classes (as it is a C-based library) attempting to use it in a class led to signifigant issues caused by LVGL's nature. So, I elected to instead use a namespace to contain all code and objects. This allowed me to still organize the code reasonably well without running into any issues.
 
