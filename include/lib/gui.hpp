@@ -99,4 +99,5 @@ namespace GUI
     //Functions to navigate to specific LVGL Screens. Used in the navigation buttons
     lv_res_t goToMain(lv_obj_t * btn);
     lv_res_t goToAuton(lv_obj_t * btn);
+    lv_res_t goToDebug(lv_obj_t * btn);
 }

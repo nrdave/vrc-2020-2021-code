@@ -107,7 +107,7 @@ void GUI::initialize()
     //Initializing the screens
     scrMain = createScreen();
     scrAuton = createScreen();
-
+    scrDebug = createScreen();
 
     //Setting up the styles
     lv_style_copy(&defaultStyle, &lv_style_plain);
@@ -154,6 +154,16 @@ void GUI::initialize()
     navMainFromAuton = createButton(scrAuton, LV_BTN_ACTION_CLICK, goToMain, "Main Menu", LV_ALIGN_IN_LEFT_MID, 20, 0, 100, 50);
     lv_btn_set_style(navMainFromAuton, LV_BTN_STATE_REL, &defaultStyle);
     lv_btn_set_style(navMainFromAuton, LV_BTN_STATE_PR, &buttonStylePr);
+
+    //Initializing the button to switch to the debug menu screen
+    navDebug = createButton(scrMain, LV_BTN_ACTION_CLICK, goToDebug, "Debug Menu", LV_ALIGN_IN_RIGHT_MID, -20, 0, 125, 50);
+    lv_btn_set_style(navDebug, LV_BTN_STATE_REL, &defaultStyle);
+    lv_btn_set_style(navDebug, LV_BTN_STATE_PR, &buttonStylePr);
+
+    //Initializing the button to return to the main menu from the autonomous screen
+    navMainFromDebug = createButton(scrDebug, LV_BTN_ACTION_CLICK, goToMain, "Main Menu", LV_ALIGN_IN_LEFT_MID, 20, 0, 100, 50);
+    lv_btn_set_style(navMainFromDebug, LV_BTN_STATE_REL, &defaultStyle);
+    lv_btn_set_style(navMainFromDebug, LV_BTN_STATE_PR, &buttonStylePr);
 
     //Initializing the Autonomous Menu
 
@@ -294,6 +304,12 @@ lv_res_t GUI::goToAuton(lv_obj_t * btn)
 lv_res_t GUI::goToMain(lv_obj_t * btn)
 {
     lv_scr_load(scrMain);
+    return LV_RES_OK;
+}
+
+lv_res_t GUI::goToDebug(lv_obj_t * btn)
+{
+    lv_scr_load(scrDebug);
     return LV_RES_OK;
 }
 
