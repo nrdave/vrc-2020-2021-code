@@ -5,7 +5,7 @@
 /**
  * This header file contains declarations for objects and
  * values that are accessed in multiple files. For example,
- * the Chassis class is used in opcontrol and autonomous, so
+ * the autonID enumerator is used in gui and autonomous, so
  * it must be declared with the extern keyword so that it is
  * initialized in the global scope.
  */ 
