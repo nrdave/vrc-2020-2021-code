@@ -22,7 +22,9 @@ When a new PROS project is created, the PROS conductor automatically generates a
  - autonomous(), which runs when the Brain is in its autonomous mode (set through either a competition switch or field control system)
  - disabled(), which runs whenever the Brain is disabled by a competition switch or the field control system
  - competition_initialize(), which runs after initialize() and before autonomous() if the Brain is connected to a field control system or competition switch.
+
 The only source file the PROS conductor generates is main.cpp. This is where all of the aforementioned functions are defined by the user. In my case, I only use opcontrol(), initialize(), and autonomous(). However, since
 1. I plan to use hot-cold linking to wirelessly upload, and 
 2. I will likely be writing a fair bit of code in autonomous, and likely opcontrol
+
 I decided to use PROS's old file format of having 3 source files: autonomous.cpp (which contains autonomous()), opcontrol.cpp(which contains opcontrol()), and initialize.cpp(which contains initialize(), disabled(), and competition_initialize()). 
