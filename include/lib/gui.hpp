@@ -89,6 +89,13 @@ namespace GUI
     //The function to update label displaying the selected autonomous routine
     void updateAutonLbl();
 
+    /**
+     * A function used to call autonomous() when the runAuton button is pressed
+     * LVGL requires callback functions to return type lv_res_t, so I had
+     * to wrap autonomous() in this function
+     */ 
+    lv_res_t runAuton(lv_obj_t * btn);
+
     //Functions to navigate to specific LVGL Screens. Used in the navigation buttons
     lv_res_t goToMain(lv_obj_t * btn);
     lv_res_t goToAuton(lv_obj_t * btn);

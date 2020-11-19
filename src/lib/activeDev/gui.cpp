@@ -26,18 +26,20 @@ const char * autonMap[] = {"Test", "\n", "None", ""};
  */
 Auton autonID = Auton::none;
 /**
- * The LVGL objects for the GUI's screens. As of now there are 2, the main 
- * home screen and the screen for autonomous selection
+ * The LVGL objects for the GUI's screens.
  */ 
 //The main menu screen
 lv_obj_t * scrMain;
 //The screen containing the autonomous routine selection menu
 lv_obj_t * scrAuton;
+//The screen containing the debug menu
+lv_obj_t * scrDebug;
 
 //The LVGL image object holding the main screen background
 lv_obj_t * mainBackgroundIMG;
 //The LVGL image object holding the auton screen background
 lv_obj_t * autonBackgroundIMG;
+//The LVGL image object holding the debug screen background
 
 /**
  * Setting up the LVGL styles and colors I use to set the colors for LVGL 
@@ -75,14 +77,16 @@ LV_IMG_DECLARE(backgroundMain);
  */ 
 LV_IMG_DECLARE(backgroundAuton);
 /**
- * The LVGL objects used for the navigation between the screens. There are
- * 2 per screen besides the main menu, so currently just 2
+ * The LVGL objects used for the navigation between the screens. 
  */ 
 //The button to go from scrMain to scrAuton
 lv_obj_t * navAuton;
 //The button to go from scrAuton to scrMain
 lv_obj_t * navMainFromAuton;
-
+//The button to go from scrMain to scrDebug
+lv_obj_t * navDebug;
+//the button to go from scrAuton to scrMain
+lv_obj_t * navMainFromDebug;
 /**
  * The LVGL objects used in the autonomous routine selection menu.
  */ 
@@ -96,13 +100,14 @@ lv_obj_t * autonMenu;
 //A label indicating what autonomous routine is currently selected
 lv_obj_t * curAutonLbl;
 //A button to run the current autonomous selected. Used for testing
-lv_obj_t * runAuton;
+lv_obj_t * autonRunBtn;
 
 void GUI::initialize()
 {
     //Initializing the screens
-    scrMain = lv_obj_create(NULL, NULL);
-    scrAuton = lv_obj_create(NULL, NULL);
+    scrMain = createScreen();
+    scrAuton = createScreen();
+
 
     //Setting up the styles
     lv_style_copy(&defaultStyle, &lv_style_plain);
@@ -157,6 +162,8 @@ void GUI::initialize()
     lv_btnm_set_style(autonMenu, LV_BTNM_STYLE_BTN_REL, &defaultStyle);
     lv_btnm_set_style(autonMenu, LV_BTNM_STYLE_BG, &buttonMatrixStyle);
     lv_btnm_set_style(autonMenu, LV_BTNM_STYLE_BTN_PR, &buttonStylePr);
+
+    autonRunBtn = createButton(scrAuton, LV_BTN_ACTION_CLICK, runAuton, "Run Current Autonomous", LV_ALIGN_IN_BOTTOM_LEFT, 20, -50, 150, 100);
 
     //Initializing the label indicating the autonomous selected
     curAutonLbl = createLabel(scrAuton, "Auton", LV_ALIGN_IN_TOP_LEFT, 10, 10);
@@ -275,7 +282,7 @@ void GUI::updateAutonLbl()
 
 /**
  * LVGL doesn't allow functions with parameters to be a callback function for a
- * button action, so I had to wrap the lv_scr_load() function, which loads a screen,
+ * button action, so I had to wrap a few functions, such as lv_scr_load(), which loads a screen,
  * in a format that the lv_btn_set_action() function would accept
  */ 
 lv_res_t GUI::goToAuton(lv_obj_t * btn)
@@ -287,5 +294,11 @@ lv_res_t GUI::goToAuton(lv_obj_t * btn)
 lv_res_t GUI::goToMain(lv_obj_t * btn)
 {
     lv_scr_load(scrMain);
+    return LV_RES_OK;
+}
+
+lv_res_t GUI::runAuton(lv_obj_t * btn)
+{
+    autonomous();
     return LV_RES_OK;
 }
