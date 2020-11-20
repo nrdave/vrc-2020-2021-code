@@ -40,7 +40,7 @@ lv_obj_t * mainBackgroundIMG;
 //The LVGL image object holding the auton screen background
 lv_obj_t * autonBackgroundIMG;
 //The LVGL image object holding the debug screen background
-
+lv_obj_t * debugBackgroundIMG;
 /**
  * Setting up the LVGL styles and colors I use to set the colors for LVGL 
  * objects.
@@ -66,16 +66,16 @@ lv_color_t buttonMatrixObjectColor = LV_COLOR_MAKE(38, 17, 51);
 //LVGL color for the border color of buttonMatrixStyle
 lv_color_t buttonMatrixBorderColor = LV_COLOR_MAKE(97, 86, 104);
 /**
- * Declaring the background.c file as an LVGL image, so
+ * Declaring the backgroundHome.c file as an LVGL image, so
  * it can be used in the creation of the main screen
  * background
  */ 
-LV_IMG_DECLARE(backgroundMain);
+LV_IMG_DECLARE(backgroundHome);
 /**
- * Declaring the backgroundAuton.c file as an LVGL image, so
+ * Declaring the backgroundAlt.c file as an LVGL image, so
  * it can be used in the creation of the autonomous menu background
  */ 
-LV_IMG_DECLARE(backgroundAuton);
+LV_IMG_DECLARE(backgroundAlt);
 /**
  * The LVGL objects used for the navigation between the screens. 
  */ 
@@ -136,12 +136,16 @@ void GUI::initialize()
 
     //Initializing the home screen background
     mainBackgroundIMG = lv_img_create(scrMain, NULL);
-    lv_img_set_src(mainBackgroundIMG, &backgroundMain);
+    lv_img_set_src(mainBackgroundIMG, &backgroundHome);
     lv_obj_align(mainBackgroundIMG, NULL, LV_ALIGN_IN_TOP_LEFT, 0, 0);
     //Initializing the autonomous menu screen background
     autonBackgroundIMG = lv_img_create(scrAuton, NULL);
-    lv_img_set_src(autonBackgroundIMG, &backgroundAuton);
+    lv_img_set_src(autonBackgroundIMG, &backgroundAlt);
     lv_obj_align(autonBackgroundIMG, NULL, LV_ALIGN_IN_TOP_LEFT, 0, 0);
+    //Initializing the debug menu screen background
+    debugBackgroundIMG = lv_img_create(scrDebug, NULL);
+    lv_img_set_src(debugBackgroundIMG, &backgroundAlt);
+    lv_obj_align(debugBackgroundIMG, NULL, LV_ALIGN_IN_TOP_LEFT, 0, 0);
 
     //Initializing the navigation buttons
 
@@ -172,6 +176,8 @@ void GUI::initialize()
 
     //Initializing the label indicating the autonomous selected
     curAutonLbl = createLabel(scrAuton, "Auton", LV_ALIGN_IN_TOP_LEFT, 10, 10);
+
+    //Initializing the Debug Menu
 
     lv_scr_load(scrMain);
 }
