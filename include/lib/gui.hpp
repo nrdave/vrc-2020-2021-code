@@ -36,10 +36,15 @@ namespace GUI
      * @param yCoord: the y coordinate offset from the given alignment
      * @param width: the width of the button 
      * @param height: the height of the button     
+     * @param btnStyleRel: the LVGL style of the button when released, used to set the colors, shape, and
+     *                     other cosmetic factors of the button when it isn't pressed     
+     * @param btnStylePr: the LVGL style of the button when pressed, used to set the colors, shape, and
+     *                     other cosmetic factors of the button when it is being pressed
      */ 
     lv_obj_t * createButton(lv_obj_t * parent, lv_btn_action_t pressType, lv_action_t function,
                             const char* text, lv_align_t align, lv_coord_t xCoord, 
-                            lv_coord_t yCoord, lv_coord_t width, lv_coord_t height);
+                            lv_coord_t yCoord, lv_coord_t width, lv_coord_t height,
+                            lv_style_t btnStyleRel, lv_style_t btnStylePr);
 
 
     /**
@@ -67,10 +72,16 @@ namespace GUI
      * @param yCoord: the y coordinate offset from the given alignment
      * @param width: the width of the button matrix
      * @param height: the height of the button matrix
+     * @param btnmStyleRel: the LVGL style of the button matrix when pressed, used to set the colors, shape, and
+     *                     other cosmetic factors of the button matrix when one of the buttons are being pressed  
+     * @param btnmStylePr: the LVGL style of the button matrix when pressed, used to set the colors, shape, and
+     *                     other cosmetic factors of the button matrix when no buttons are being pressed
+     * @param btnmStyleBG: The LVGL style of the button matrix's background    
      */ 
     lv_obj_t * createButtonMatrix(lv_obj_t * parent, const char* map[], lv_btnm_action_t function,
                                   lv_align_t align, lv_coord_t xCoord, lv_coord_t yCoord,
-                                  lv_coord_t width, lv_coord_t height);
+                                  lv_coord_t width, lv_coord_t height,
+                                  lv_style_t btnmStyleRel, lv_style_t btnmStylePr, lv_style_t btnmStyleBG);
 
     /**
      * A function to create an LVGL screen. It simply wraps the LVGL lv_obj_create(NULL, NULL)
