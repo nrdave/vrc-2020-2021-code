@@ -186,3 +186,27 @@ void TankDrive::turnAngle(float angle, int maxVelo)
      */ 
     drivePID(turnLength, -turnLength, maxVelo);
 }
+
+Telemetry TankDrive::getLeftTelemetry()
+{
+    Telemetry t;
+    t.pos = leftBase.getPosition();
+    t.targetPos = leftBase.getTargetPosition();
+    t.velo = leftBase.getTargetVelocity();
+    t.targetVelo = leftBase.getTargetVelocity();
+    t.temp = leftBase.getTemperature();
+    t.torque = leftBase.getTorque();
+    return t;
+}
+
+Telemetry TankDrive::getRightTelemetry()
+{
+    Telemetry t;
+    t.pos = rightBase.getPosition();
+    t.targetPos = rightBase.getTargetPosition();
+    t.velo = rightBase.getTargetVelocity();
+    t.targetVelo = rightBase.getTargetVelocity();
+    t.temp = rightBase.getTemperature();
+    t.torque = rightBase.getTorque();
+    return t;
+}

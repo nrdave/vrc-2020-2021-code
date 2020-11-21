@@ -17,10 +17,21 @@
  * option to this enumerator, and then write the necessary
  * selection code in gui.cpp and autonomous.cpp.
  */
-enum class Auton{
+enum class Auton
+{
     none,
     test
 }; 
+
+struct Telemetry
+{
+    double pos;
+    double targetPos;
+    double velo;
+    double targetVelo;
+    double temp;
+    double torque;
+};
 
 #define GEARSET_GREEN okapi::AbstractMotor::gearset::green 
 #define GEARSET_RED okapi::AbstractMotor::gearset::red 

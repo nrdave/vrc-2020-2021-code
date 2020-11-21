@@ -102,6 +102,16 @@ lv_obj_t * curAutonLbl;
 //A button to run the current autonomous selected. Used for testing
 lv_obj_t * autonRunBtn;
 
+/**
+ * The LVGL objects used in the debug menu screen
+ */ 
+//A label for the debug menu to provide information as to what each value is
+lv_obj_t * debugHeader;
+//The label used to label telemetry data of the leftBase in the TankDrive
+lv_obj_t * leftBaseLabel;
+//The label used to display telemetry data of the leftBase in the TankDrive
+lv_obj_t * leftBaseData;
+
 void GUI::initialize()
 {
     //Initializing the screens
@@ -178,7 +188,11 @@ void GUI::initialize()
     curAutonLbl = createLabel(scrAuton, "Auton", LV_ALIGN_IN_TOP_LEFT, 10, 10);
 
     //Initializing the Debug Menu
+    debugHeader = createLabel(scrDebug, "Position, Target Pos., Velocity, Target Velo,, Torque, Temp.", LV_ALIGN_IN_TOP_MID, 0, 0);
 
+    leftBaseLabel = createLabel(scrDebug, "Left Base", LV_ALIGN_IN_TOP_LEFT, 0, 20);
+    leftBaseData = createLabel(scrDebug, "", LV_ALIGN_IN_TOP_LEFT, 50, 20);
+    //Loading the main screen to the brain display
     lv_scr_load(scrMain);
 }
 

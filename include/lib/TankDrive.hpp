@@ -142,4 +142,23 @@ class TankDrive {
          * @param maxVelo: the maximum velocity that the motors can run at
          */
         void moveStraight(float distance, int maxVelo); 
+
+        /**
+         * getLeftTelemetry() returns a struct containing motor telemetry values for the left
+         * side of the base. It uses the Telemetry struct declared in externs.hpp, which 
+         * includes the current and target positions and velocities, and the temperature and
+         * torque output of each motor. 
+         * 
+         * As TankDrive uses motor groups for each side of the drive, I'm not sure exactly what
+         * values are collected, i.e. which motor in the groump the telemetry values are collected from,
+         * but the values provide a good picture of the motor group's condition
+         * 
+         * @return The Telemetry values of the leftBase motor group
+         */ 
+        Telemetry getLeftTelemetry();
+        /**
+         * The same as getLeftTelemetry(), but for the right side of the drive
+         * @return The Telemetry values of the rightBase motor group
+         */ 
+        Telemetry getRightTelemetry();
 };
