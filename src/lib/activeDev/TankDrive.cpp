@@ -26,6 +26,9 @@ TankDrive::TankDrive(int leftMotor, int rightMotor,
     kP = Pconst;
     kI = Iconst;
     kD = Dconst;
+
+    updateLeftTelemetry();
+    updateRightTelemetry();
 }
 
 TankDrive::TankDrive(int leftFrontMotor, int rightFrontMotor, int leftBackMotor, int rightBackMotor, 
@@ -52,6 +55,10 @@ TankDrive::TankDrive(int leftFrontMotor, int rightFrontMotor, int leftBackMotor,
     kP = Pconst;
     kI = Iconst;
     kD = Dconst;
+
+    //Initializing the Telemetry struct values
+    updateLeftTelemetry();
+    updateRightTelemetry();
 }
 
 
@@ -187,26 +194,36 @@ void TankDrive::turnAngle(float angle, int maxVelo)
     drivePID(turnLength, -turnLength, maxVelo);
 }
 
+void TankDrive::updateLeftTelemetry()
+{
+    //Updating all the values in the leftTelemetry struct
+    leftTelemetry.pos = leftBase.getPosition();
+    leftTelemetry.targetPos = leftBase.getTargetPosition();
+    leftTelemetry.velo = leftBase.getTargetVelocity();
+    leftTelemetry.targetVelo = leftBase.getTargetVelocity();
+    leftTelemetry.temp = leftBase.getTemperature();
+    leftTelemetry.torque = leftBase.getTorque();
+}
+
+void TankDrive::updateRightTelemetry()
+{
+    //Updating all the values in the rightTelemetry struct
+    rightTelemetry.pos = leftBase.getPosition();
+    rightTelemetry.targetPos = leftBase.getTargetPosition();
+    rightTelemetry.velo = leftBase.getTargetVelocity();
+    rightTelemetry.targetVelo = leftBase.getTargetVelocity();
+    rightTelemetry.temp = leftBase.getTemperature();
+    rightTelemetry.torque = leftBase.getTorque();
+}
+
 Telemetry TankDrive::getLeftTelemetry()
 {
-    Telemetry t;
-    t.pos = leftBase.getPosition();
-    t.targetPos = leftBase.getTargetPosition();
-    t.velo = leftBase.getTargetVelocity();
-    t.targetVelo = leftBase.getTargetVelocity();
-    t.temp = leftBase.getTemperature();
-    t.torque = leftBase.getTorque();
-    return t;
+    updateLeftTelemetry();
+    return leftTelemetry;
 }
 
 Telemetry TankDrive::getRightTelemetry()
 {
-    Telemetry t;
-    t.pos = rightBase.getPosition();
-    t.targetPos = rightBase.getTargetPosition();
-    t.velo = rightBase.getTargetVelocity();
-    t.targetVelo = rightBase.getTargetVelocity();
-    t.temp = rightBase.getTemperature();
-    t.torque = rightBase.getTorque();
-    return t;
+    updateRightTelemetry();
+    return rightTelemetry;
 }

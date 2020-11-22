@@ -188,7 +188,7 @@ void GUI::initialize()
     curAutonLbl = createLabel(scrAuton, "Auton", LV_ALIGN_IN_TOP_LEFT, 10, 10);
 
     //Initializing the Debug Menu
-    debugHeader = createLabel(scrDebug, "Position, Target Pos., Velocity, Target Velo,, Torque, Temp.", LV_ALIGN_IN_TOP_MID, 0, 0);
+    debugHeader = createLabel(scrDebug, "Position, Target Pos., Velocity, Target Velo., Torque, Temp.", LV_ALIGN_IN_TOP_MID, 0, 0);
 
     leftBaseLabel = createLabel(scrDebug, "Left Base", LV_ALIGN_IN_TOP_LEFT, 0, 20);
     leftBaseData = createLabel(scrDebug, "", LV_ALIGN_IN_TOP_LEFT, 50, 20);

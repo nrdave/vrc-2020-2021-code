@@ -35,6 +35,17 @@ class TankDrive {
          * the wheel configuration
          */ 
         float baseWidth;
+
+        /**
+         * A struct of type Telemetry (defined in externs.hpp) that holds the telemetry values for
+         * the left side of the drive
+         */ 
+        Telemetry leftTelemetry;        
+        /**
+         * A struct of type Telemetry (defined in externs.hpp) that holds the telemetry values for
+         * the right side of the drive
+         */ 
+        Telemetry rightTelemetry;
         /**
          * The drivePID function is a PID controller for the drivetrain. It sets each side of 
          * the drivetrain to move a specified length. It is used as the base for all autonomous 
@@ -49,6 +60,13 @@ class TankDrive {
          * @param maxVelo: The maximum velocity that the motors can run at
          */
         void drivePID(float leftTarg, float rightTarg, int maxVelo); 
+
+        /**
+         * Functions to update the telemetry data for each motor group of the
+         * drive
+         */ 
+        void updateLeftTelemetry();
+        void updateRightTelemetry();
 
         /**
          * The PID constant values, kP for the proportional constant,
