@@ -1,6 +1,6 @@
 #pragma once
 #include "okapi/api.hpp"
-
+#include "library.hpp"
 /**
  * The header file for the TankDrive class, which is used to create objects that 
  * represent a standard tank drive drivetrain design. 

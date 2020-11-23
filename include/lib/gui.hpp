@@ -1,6 +1,6 @@
 #pragma once
 #include "pros/apix.h"
-
+#include "library.hpp"
 /**
  * The header file for the GUI namespace. The GUI uses a namespace rather
  * than a class due to the nature of the LittleVGL C graphics library. I've
