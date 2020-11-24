@@ -197,23 +197,23 @@ void TankDrive::turnAngle(float angle, int maxVelo)
 void TankDrive::updateLeftTelemetry()
 {
     //Updating all the values in the leftTelemetry struct
-    leftTelemetry.pos = leftBase.getPosition();
-    leftTelemetry.targetPos = leftBase.getTargetPosition();
-    leftTelemetry.velo = leftBase.getTargetVelocity();
-    leftTelemetry.targetVelo = leftBase.getTargetVelocity();
-    leftTelemetry.temp = leftBase.getTemperature();
-    leftTelemetry.torque = leftBase.getTorque();
+    leftTelemetry.pos = roundDouble(leftBase.getPosition(), 2);
+    leftTelemetry.targetPos = roundDouble(leftBase.getTargetPosition(), 2);
+    leftTelemetry.velo = roundDouble(leftBase.getTargetVelocity(), 2);
+    leftTelemetry.targetVelo = roundDouble(leftBase.getTargetVelocity(), 2);
+    leftTelemetry.temp = roundDouble(leftBase.getTemperature(), 2);
+    leftTelemetry.torque = roundDouble(leftBase.getTorque(), 2);
 }
 
 void TankDrive::updateRightTelemetry()
 {
     //Updating all the values in the rightTelemetry struct
-    rightTelemetry.pos = leftBase.getPosition();
-    rightTelemetry.targetPos = leftBase.getTargetPosition();
-    rightTelemetry.velo = leftBase.getTargetVelocity();
-    rightTelemetry.targetVelo = leftBase.getTargetVelocity();
-    rightTelemetry.temp = leftBase.getTemperature();
-    rightTelemetry.torque = leftBase.getTorque();
+    rightTelemetry.pos = roundDouble(rightBase.getPosition(), 2);
+    rightTelemetry.targetPos = roundDouble(rightBase.getTargetPosition(), 2);
+    rightTelemetry.velo = roundDouble(rightBase.getTargetVelocity(), 2);
+    rightTelemetry.targetVelo = roundDouble(rightBase.getTargetVelocity(), 2);
+    rightTelemetry.temp = roundDouble(rightBase.getTemperature(), 2);
+    rightTelemetry.torque = roundDouble(rightBase.getTorque(), 2);
 }
 
 Telemetry TankDrive::getLeftTelemetry()
