@@ -240,6 +240,10 @@ lv_obj_t * GUI::createLabel(lv_obj_t * parent, const char* text, lv_align_t alig
     return lbl;
 }
 
+void GUI::updateTelemetryLabel(lv_obj_t * label, Telemetry t)
+{
+    //lv_label_set_text(label, tempStr);
+}
 
 lv_obj_t * GUI::createButtonMatrix(lv_obj_t * parent, const char* map[], lv_btnm_action_t function,
                                   lv_align_t align, lv_coord_t xCoord, lv_coord_t yCoord,

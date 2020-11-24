@@ -100,6 +100,8 @@ namespace GUI
     //The function to update label displaying the selected autonomous routine
     void updateAutonLbl();
 
+    void updateTelemetryLabel(lv_obj_t * label, Telemetry t);
+
     /**
      * A function used to call autonomous() when the runAuton button is pressed
      * LVGL requires callback functions to return type lv_res_t, so I had
