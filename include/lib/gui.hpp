@@ -1,6 +1,7 @@
 #pragma once
 #include "pros/apix.h"
 #include "library.hpp"
+#include "stdio.h"
 /**
  * The header file for the GUI namespace. The GUI uses a namespace rather
  * than a class due to the nature of the LittleVGL C graphics library. I've
@@ -99,7 +100,11 @@ namespace GUI
 
     //The function to update label displaying the selected autonomous routine
     void updateAutonLbl();
-
+    /**
+     * A function used to update any telemetry label.
+     * @param label: a pointer to the LVGL label to write the telemetry data to
+     * @param t: the telemetry data to write
+     */ 
     void updateTelemetryLabel(lv_obj_t * label, Telemetry t);
 
     /**

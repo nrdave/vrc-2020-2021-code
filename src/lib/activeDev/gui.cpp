@@ -240,11 +240,6 @@ lv_obj_t * GUI::createLabel(lv_obj_t * parent, const char* text, lv_align_t alig
     return lbl;
 }
 
-void GUI::updateTelemetryLabel(lv_obj_t * label, Telemetry t)
-{
-    //lv_label_set_text(label, tempStr);
-}
-
 lv_obj_t * GUI::createButtonMatrix(lv_obj_t * parent, const char* map[], lv_btnm_action_t function,
                                   lv_align_t align, lv_coord_t xCoord, lv_coord_t yCoord,
                                   lv_coord_t width, lv_coord_t height,
@@ -315,6 +310,16 @@ void GUI::updateAutonLbl()
             lv_label_set_text(curAutonLbl, "No Auton Selected");
             break;
     }
+}
+
+void GUI::updateTelemetryLabel(lv_obj_t * label, Telemetry t)
+{
+    //Creating a char[] buffer to write the data to
+    char output[64];
+    //Writing the Telemetry data, formatted, to output
+    snprintf(output, 64, "%f %f %f %f %f %f", t.pos, t.targetPos, t.velo, t.targetVelo, t.temp, t.torque);
+    //Setting the text on the label
+    lv_label_set_text(label, output);
 }
 
 /**
