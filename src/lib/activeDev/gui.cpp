@@ -111,6 +111,10 @@ lv_obj_t * debugHeader;
 lv_obj_t * leftBaseLabel;
 //The label used to display telemetry data of the leftBase in the TankDrive
 lv_obj_t * leftBaseData;
+//The label used to label telemetry data of the rightBase in the TankDrive
+lv_obj_t * rightBaseLabel;
+//The label used to display telemetry data of the rightBase in the TankDrive
+lv_obj_t * rightBaseData;
 
 void GUI::initialize()
 {
@@ -191,7 +195,12 @@ void GUI::initialize()
     debugHeader = createLabel(scrDebug, "Position, Target Pos., Velocity, Target Velo., Torque, Temp.", LV_ALIGN_IN_TOP_MID, 0, 0);
 
     leftBaseLabel = createLabel(scrDebug, "Left Base", LV_ALIGN_IN_TOP_LEFT, 0, 20);
-    leftBaseData = createLabel(scrDebug, "", LV_ALIGN_IN_TOP_LEFT, 50, 20);
+    leftBaseData = createLabel(scrDebug, "", LV_ALIGN_IN_TOP_LEFT, 50, 20);    
+    rightBaseLabel = createLabel(scrDebug, "Right Base", LV_ALIGN_IN_TOP_LEFT, 0, 40);
+    rightBaseData = createLabel(scrDebug, "", LV_ALIGN_IN_TOP_LEFT, 50, 40);
+
+    //Writing all initial telemetry data
+    updateTelemetry();
     //Loading the main screen to the brain display
     lv_scr_load(scrMain);
 }
@@ -320,6 +329,12 @@ void GUI::updateTelemetryLabel(lv_obj_t * label, Telemetry t)
     snprintf(output, 64, "%f %f %f %f %f %f", t.pos, t.targetPos, t.velo, t.targetVelo, t.temp, t.torque);
     //Setting the text on the label
     lv_label_set_text(label, output);
+}
+
+void GUI::updateTelemetry()
+{
+    updateTelemetryLabel(leftBaseData, drive.getLeftTelemetry());
+    updateTelemetryLabel(rightBaseData, drive.getRightTelemetry());
 }
 
 /**

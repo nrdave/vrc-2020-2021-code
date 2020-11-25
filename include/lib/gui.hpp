@@ -108,6 +108,12 @@ namespace GUI
     void updateTelemetryLabel(lv_obj_t * label, Telemetry t);
 
     /**
+     * A function that wraps all updateTelemetryLabel() calls
+     * into one function
+     */ 
+    void updateTelemetry();
+
+    /**
      * A function used to call autonomous() when the runAuton button is pressed
      * LVGL requires callback functions to return type lv_res_t, so I had
      * to wrap autonomous() in this function
