@@ -22,7 +22,7 @@ namespace GUI
      * in initialize.cpp, rather than initialize the GUI in the PROS initialize() function
      */ 
     void initialize();
-    
+
     /**
      * A function to create an LVGL button object. It packages all the LVGL functions to create,
      * set the press type and action, and align a button into one function, as well as handling
@@ -91,6 +91,13 @@ namespace GUI
 
     //The function to update label displaying the selected autonomous routine
     void updateAutonLbl();
+
+    /**
+     * The callback function for the debugData button matrix, displays the
+     * selected telemetry data using updateTelemetryLabel
+     */ 
+    lv_res_t updateTelemetryData(lv_obj_t * btnm, const char* txt);
+
     /**
      * A function used to update any telemetry label.
      * @param label: a pointer to the LVGL label to write the telemetry data to
