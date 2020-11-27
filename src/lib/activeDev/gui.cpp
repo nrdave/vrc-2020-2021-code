@@ -20,6 +20,13 @@
 const char * autonMap[] = {"Test", "\n", "None", ""};
 
 /**
+ * The character array used by LVGL to hold the options in the
+ * debug/telemetry data selection menu. Each entry in the array is 
+ * a button in the matrix.
+ * 
+ */ 
+const char * debugMap[] = {"Drive Data", ""};
+/**
  * The enumerator used to store the ID of the current selected autonomous
  * It is set to value none by default so that if an autonomous routine is
  * not selected, the robot does not run an autonomous routine.
@@ -105,16 +112,16 @@ lv_obj_t * autonRunBtn;
 /**
  * The LVGL objects used in the debug menu screen
  */ 
-//A label for the debug menu to provide information as to what each value is
-lv_obj_t * debugHeader;
-//The label used to label telemetry data of the leftBase in the TankDrive
-lv_obj_t * leftBaseLabel;
-//The label used to display telemetry data of the leftBase in the TankDrive
-lv_obj_t * leftBaseData;
-//The label used to label telemetry data of the rightBase in the TankDrive
-lv_obj_t * rightBaseLabel;
-//The label used to display telemetry data of the rightBase in the TankDrive
-lv_obj_t * rightBaseData;
+/**
+ * LVGL button matrix the debug screen used to select which
+ * subsystem data to display
+ */ 
+lv_obj_t * debugSelectBtnm;
+/**
+ * LVGL labels used to display the data selected
+ */ 
+lv_obj_t * debugData1;
+lv_obj_t * debugData2;
 
 void GUI::initialize()
 {
@@ -164,7 +171,7 @@ void GUI::initialize()
     //Initializing the navigation buttons
 
     //Initializing the button to switch to the autonomous menu screen    
-    navAuton = createButton(scrMain, LV_BTN_ACTION_CLICK, goToAuton, "Auton Menu", LV_ALIGN_IN_LEFT_MID, 20, 0, 125, 50);
+    navAuton = createButton(scrMain, LV_BTN_ACTION_CLICK, goToAuton, "Auton Menu", LV_ALIGN_IN_LEFT_MID, 10, 0, 125, 50);
     lv_btn_set_style(navAuton, LV_BTN_STATE_REL, &defaultStyle);
     lv_btn_set_style(navAuton, LV_BTN_STATE_PR, &buttonStylePr);
 
@@ -174,12 +181,12 @@ void GUI::initialize()
     lv_btn_set_style(navMainFromAuton, LV_BTN_STATE_PR, &buttonStylePr);
 
     //Initializing the button to switch to the debug menu screen
-    navDebug = createButton(scrMain, LV_BTN_ACTION_CLICK, goToDebug, "Debug Menu", LV_ALIGN_IN_RIGHT_MID, -20, 0, 125, 50);
+    navDebug = createButton(scrMain, LV_BTN_ACTION_CLICK, goToDebug, "Debug Menu", LV_ALIGN_IN_RIGHT_MID, -10, 0, 125, 50);
     lv_btn_set_style(navDebug, LV_BTN_STATE_REL, &defaultStyle);
     lv_btn_set_style(navDebug, LV_BTN_STATE_PR, &buttonStylePr);
 
     //Initializing the button to return to the main menu from the autonomous screen
-    navMainFromDebug = createButton(scrDebug, LV_BTN_ACTION_CLICK, goToMain, "Main Menu", LV_ALIGN_IN_LEFT_MID, 20, 0, 100, 50);
+    navMainFromDebug = createButton(scrDebug, LV_BTN_ACTION_CLICK, goToMain, "Main Menu", LV_ALIGN_IN_TOP_LEFT, 10, 10, 125, 30);
     lv_btn_set_style(navMainFromDebug, LV_BTN_STATE_REL, &defaultStyle);
     lv_btn_set_style(navMainFromDebug, LV_BTN_STATE_PR, &buttonStylePr);
 
@@ -200,15 +207,13 @@ void GUI::initialize()
     curAutonLbl = createLabel(scrAuton, "Auton", LV_ALIGN_IN_TOP_LEFT, 10, 10);
 
     //Initializing the Debug Menu
-    debugHeader = createLabel(scrDebug, "Position, Target Pos., Velocity, Target Velo., Torque, Temp.", LV_ALIGN_IN_TOP_LEFT, 30, 0);
+    debugSelectBtnm = createButtonMatrix(scrDebug, debugMap, updateTelemetryData, LV_ALIGN_IN_TOP_LEFT, 10, 45, 460, 50);
+    lv_btnm_set_style(debugSelectBtnm, LV_BTNM_STYLE_BTN_REL, &defaultStyle);
+    lv_btnm_set_style(debugSelectBtnm, LV_BTNM_STYLE_BG, &buttonMatrixStyle);
+    lv_btnm_set_style(debugSelectBtnm, LV_BTNM_STYLE_BTN_PR, &buttonStylePr);   
 
-    leftBaseLabel = createLabel(scrDebug, "Left Base", LV_ALIGN_IN_TOP_LEFT, 0, 20);
-    leftBaseData = createLabel(scrDebug, "", LV_ALIGN_IN_TOP_LEFT, 50, 20);    
-    rightBaseLabel = createLabel(scrDebug, "Right Base", LV_ALIGN_IN_TOP_LEFT, 0, 40);
-    rightBaseData = createLabel(scrDebug, "", LV_ALIGN_IN_TOP_LEFT, 50, 40);
-
-    //Writing all initial telemetry data
-    updateTelemetry();
+    debugData1 = createLabel(scrDebug, "Debug Data", LV_ALIGN_IN_LEFT_MID, 10, -10); 
+    debugData2 = createLabel(scrDebug, "Debug Data", LV_ALIGN_IN_LEFT_MID, 10, 55); 
     //Loading the main screen to the brain display
     lv_scr_load(scrMain);
 }
@@ -320,22 +325,31 @@ void GUI::updateAutonLbl()
     }
 }
 
+lv_res_t GUI::updateTelemetryData(lv_obj_t * btnm, const char* txt)
+{
+    if(txt == "Drive Data")
+    {
+        updateTelemetryLabel(debugData1, drive.getLeftTelemetry());
+        updateTelemetryLabel(debugData2, drive.getRightTelemetry());
+    }
+    else
+    {
+        lv_label_set_text(debugData1, "No Data Selected");
+        lv_label_set_text(debugData2, "No Data Selected");
+    }
+    
+    return LV_RES_OK;
+}
+
 void GUI::updateTelemetryLabel(lv_obj_t * label, Telemetry t)
 {
     //Creating a char[] buffer to write the data to
-    char output[64];
+    char output[256];
     //Writing the Telemetry data, formatted, to output
-    snprintf(output, 64, "%f %f %f %f %f %f", t.pos, t.targetPos, t.velo, t.targetVelo, t.temp, t.torque);
+    snprintf(output, 256, "Position: %f Target Pos: %f\nVelocity: %f Target Velo: %f\nTemp: %f Torque: %f", t.pos, t.targetPos, t.velo, t.targetVelo, t.temp, t.torque);
     //Setting the text on the label
     lv_label_set_text(label, output);
 }
-
-void GUI::updateTelemetry()
-{
-    updateTelemetryLabel(leftBaseData, drive.getLeftTelemetry());
-    updateTelemetryLabel(rightBaseData, drive.getRightTelemetry());
-}
-
 /**
  * LVGL doesn't allow functions with parameters to be a callback function for a
  * button action, so I had to wrap a few functions, such as lv_scr_load(), which loads a screen,
