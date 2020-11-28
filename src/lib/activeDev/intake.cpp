@@ -36,23 +36,23 @@ void Intake::out()
 void Intake::updateLeftTelemetry()
 {
     //Updating all the values in the leftTelemetry struct
-    leftTelemetry.pos = leftMotor.getPosition();
-    leftTelemetry.targetPos = leftMotor.getTargetPosition();
-    leftTelemetry.velo = leftMotor.getTargetVelocity();
-    leftTelemetry.targetVelo = leftMotor.getTargetVelocity();
-    leftTelemetry.temp = leftMotor.getTemperature();
-    leftTelemetry.torque = leftMotor.getTorque();
+    leftTelemetry.pos = leftMotor.get_position();
+    leftTelemetry.targetPos = leftMotor.get_target_position();
+    leftTelemetry.velo = leftMotor.get_actual_velocity();
+    leftTelemetry.targetVelo = leftMotor.get_target_velocity();
+    leftTelemetry.temp = leftMotor.get_temperature();
+    leftTelemetry.torque = leftMotor.get_torque();
 }
 
 void Intake::updateRightTelemetry()
 {
     //Updating all the values in the rightTelemetry struct
-    rightTelemetry.pos = rightMotor.getPosition();
-    rightTelemetry.targetPos = rightMotor.getTargetPosition();
-    rightTelemetry.velo = rightMotor.getTargetVelocity();
-    rightTelemetry.targetVelo = rightMotor.getTargetVelocity();
-    rightTelemetry.temp = rightMotor.getTemperature();
-    rightTelemetry.torque = rightMotor.getTorque();
+    rightTelemetry.pos = rightMotor.get_position();
+    rightTelemetry.targetPos = rightMotor.get_target_position();
+    rightTelemetry.velo = rightMotor.get_actual_velocity();
+    rightTelemetry.targetVelo = rightMotor.get_target_velocity();
+    rightTelemetry.temp = rightMotor.get_temperature();
+    rightTelemetry.torque = rightMotor.get_torque();
 }
 
 Telemetry Intake::getLeftTelemetry()
