@@ -36,6 +36,7 @@ class Intake
                okapi::ControllerDigital inBtn, okapi::ControllerDigital outBtn);
     /**
      * The function used to control the intakes during opcontrol
+     * @param controller The controller object representing the v5 controller
      */ 
         void driver(okapi::Controller controller);
     /**
