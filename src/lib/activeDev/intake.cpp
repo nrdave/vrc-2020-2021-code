@@ -36,23 +36,23 @@ void Intake::out()
 void Intake::updateLeftTelemetry()
 {
     //Updating all the values in the leftTelemetry struct
-    leftTelemetry.pos = roundDouble(leftBase.getPosition(), 2);
-    leftTelemetry.targetPos = roundDouble(leftBase.getTargetPosition(), 2);
-    leftTelemetry.velo = roundDouble(leftBase.getTargetVelocity(), 2);
-    leftTelemetry.targetVelo = roundDouble(leftBase.getTargetVelocity(), 2);
-    leftTelemetry.temp = roundDouble(leftBase.getTemperature(), 2);
-    leftTelemetry.torque = roundDouble(leftBase.getTorque(), 2);
+    leftTelemetry.pos = leftMotor.getPosition();
+    leftTelemetry.targetPos = leftMotor.getTargetPosition();
+    leftTelemetry.velo = leftMotor.getTargetVelocity();
+    leftTelemetry.targetVelo = leftMotor.getTargetVelocity();
+    leftTelemetry.temp = leftMotor.getTemperature();
+    leftTelemetry.torque = leftMotor.getTorque();
 }
 
 void Intake::updateRightTelemetry()
 {
     //Updating all the values in the rightTelemetry struct
-    rightTelemetry.pos = roundDouble(rightBase.getPosition(), 2);
-    rightTelemetry.targetPos = roundDouble(rightBase.getTargetPosition(), 2);
-    rightTelemetry.velo = roundDouble(rightBase.getTargetVelocity(), 2);
-    rightTelemetry.targetVelo = roundDouble(rightBase.getTargetVelocity(), 2);
-    rightTelemetry.temp = roundDouble(rightBase.getTemperature(), 2);
-    rightTelemetry.torque = roundDouble(rightBase.getTorque(), 2);
+    rightTelemetry.pos = rightMotor.getPosition();
+    rightTelemetry.targetPos = rightMotor.getTargetPosition();
+    rightTelemetry.velo = rightMotor.getTargetVelocity();
+    rightTelemetry.targetVelo = rightMotor.getTargetVelocity();
+    rightTelemetry.temp = rightMotor.getTemperature();
+    rightTelemetry.torque = rightMotor.getTorque();
 }
 
 Telemetry Intake::getLeftTelemetry()

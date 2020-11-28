@@ -1,5 +1,10 @@
 #pragma once
 #include "okapi/api.hpp"
+/**
+ * library.hpp includes a few type definitions, as well as macros, 
+ * that I use throughout my code.
+ */ 
+
 
 /**
  * The Auton enumerator is an enumerator used to 
@@ -30,8 +35,8 @@ struct Telemetry
     double torque;
 };
 
-double roundDouble(double input, int places);
 
+//Creating macros for the motor gearsets
 #define GEARSET_GREEN okapi::AbstractMotor::gearset::green 
 #define GEARSET_RED okapi::AbstractMotor::gearset::red 
 #define GEARSET_BLUE okapi::AbstractMotor::gearset::blue 
