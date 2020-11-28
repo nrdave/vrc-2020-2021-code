@@ -1,6 +1,7 @@
 #pragma once
 #include "okapi/api.hpp"
 #include "lib/TankDrive.hpp"
+#include "lib/Intake.hpp"
 
 /**
  * This header file contains declarations for objects and
