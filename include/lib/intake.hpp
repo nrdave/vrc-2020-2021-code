@@ -53,4 +53,4 @@ class Intake
      */ 
         Telemetry getLeftTelemetry();
         Telemetry getRightTelemetry();
-}
+};
