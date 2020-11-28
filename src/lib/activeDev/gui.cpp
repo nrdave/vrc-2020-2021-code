@@ -334,7 +334,8 @@ lv_res_t GUI::updateTelemetryData(lv_obj_t * btnm, const char* txt)
     }
     else if(txt == "Intake Data")
     {
-        updateTelemetryLabel(debugData2, )
+        updateTelemetryLabel(debugData1, intake.getLeftTelemetry());
+        updateTelemetryLabel(debugData2, intake.getRightTelemetry());
     }
     else
     {
