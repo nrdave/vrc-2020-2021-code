@@ -21,7 +21,7 @@ class Intake
      * Functions to update the telemetry data for each motor
      */ 
         void updateLeftTelemetry();
-        void updateLeftTelemetry();
+        void updateRightTelemetry();
     public:
     /**
      * The constructor for the Intake class

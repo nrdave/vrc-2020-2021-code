@@ -13,6 +13,9 @@
 //The TankDrive object, representing the robot drivetrain
 extern TankDrive drive;
 
+//The Intake object, representing the robot's intakes
+extern Intake intake;
+
 //The okapi::Controller object, which represents the robot controller
 extern okapi::Controller controller;
 

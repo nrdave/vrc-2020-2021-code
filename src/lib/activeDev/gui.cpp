@@ -25,7 +25,7 @@ const char * autonMap[] = {"Test", "\n", "None", ""};
  * a button in the matrix.
  * 
  */ 
-const char * debugMap[] = {"Drive Data", ""};
+const char * debugMap[] = {"Drive Data", "Intake Data", ""};
 /**
  * The enumerator used to store the ID of the current selected autonomous
  * It is set to value none by default so that if an autonomous routine is
@@ -331,6 +331,10 @@ lv_res_t GUI::updateTelemetryData(lv_obj_t * btnm, const char* txt)
     {
         updateTelemetryLabel(debugData1, drive.getLeftTelemetry());
         updateTelemetryLabel(debugData2, drive.getRightTelemetry());
+    }
+    else if(txt == "Intake Data")
+    {
+        updateTelemetryLabel(debugData2, )
     }
     else
     {
