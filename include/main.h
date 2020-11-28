@@ -42,10 +42,8 @@
  * #includes for the various user-written header files
  */ 
 #include "lib/library.hpp"
-#include "lib/TankDrive.hpp"
-#include "lib/gui.hpp"
 #include "lib/externs.hpp"
-#include "lib/intake.hpp"
+#include "lib/gui.hpp"
 /**
  * If you find doing pros::Motor() to be tedious and you'd prefer just to do
  * Motor, you can use the namespace with the following commented out line.
