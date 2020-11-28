@@ -5,11 +5,10 @@ class Intake
 {
     private:
     /**
-     * OkapiLib Motor objects. Each one corresponds to the motor
+     * PROS Motor objects. Each one corresponds to the motor
      * on each intake
      */ 
-        pros::Motor leftMotor;
-        pros::Motor rightMotor;
+        pros::Motor leftMotor, rightMotor;
     /**
      * Telemetry structs (defined in library.hpp) used to hold telemetry data
      * for each motor

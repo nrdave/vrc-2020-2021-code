@@ -20,9 +20,7 @@ class TankDrive {
          * side of the drive is easier than creating a motor for each 
          * motor on the drive.
          */
-        okapi::MotorGroup rightBase;
-
-        okapi::MotorGroup leftBase;
+        okapi::MotorGroup rightBase, leftBase;
 
         /**
          * Variable to store the diameter of the wheel
@@ -41,15 +39,11 @@ class TankDrive {
         float baseWidth;
 
         /**
-         * A struct of type Telemetry (defined in externs.hpp) that holds the telemetry values for
-         * the left side of the drive
+         * Structs of type Telemetry (defined in externs.hpp) that hold the telemetry values for
+         * each side of the drive
          */ 
-        Telemetry leftTelemetry;        
-        /**
-         * A struct of type Telemetry (defined in externs.hpp) that holds the telemetry values for
-         * the right side of the drive
-         */ 
-        Telemetry rightTelemetry;
+        Telemetry leftTelemetry ,rightTelemetry;        
+
         /**
          * The drivePID function is a PID controller for the drivetrain. It sets each side of 
          * the drivetrain to move a specified length. It is used as the base for all autonomous 
@@ -76,9 +70,7 @@ class TankDrive {
          * The PID constant values, kP for the proportional constant,
          * kI for the integral constant, and kD for the derivative constant
          */ 
-        float kP;
-        float kI;
-        float kD;
+        float kP, kI, kD;
     public:
         /**
          * One of the constructors for a TankDrive object. This one is for a tank
