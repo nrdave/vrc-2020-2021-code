@@ -15,6 +15,10 @@ class TankDrive {
         /**
          * OkapiLib motor group objects. Each one represents the 
          * motor(s) on one side of the drivetrain
+         * 
+         * I use OkapiLib here because using motor groups for each
+         * side of the drive is easier than creating a motor for each 
+         * motor on the drive.
          */
         okapi::MotorGroup rightBase;
 
