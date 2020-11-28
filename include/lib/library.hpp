@@ -35,8 +35,30 @@ struct Telemetry
     double torque;
 };
 
-
 //Creating macros for the motor gearsets
 #define GEARSET_GREEN okapi::AbstractMotor::gearset::green 
 #define GEARSET_RED okapi::AbstractMotor::gearset::red 
 #define GEARSET_BLUE okapi::AbstractMotor::gearset::blue 
+
+//Creating macros for Controller buttons
+//Trigger button macros
+#define CONTROLLER_L1 okapi::ControllerDigital::L1
+#define CONTROLLER_L2 okapi::ControllerDigital::L2
+#define CONTROLLER_R1 okapi::ControllerDigital::R1
+#define CONTROLLER_R2 okapi::ControllerDigital::R2
+//A-B-X-Y Macros
+#define CONTROLLER_A okapi::ControllerDigital::A
+#define CONTROLLER_B okapi::ControllerDigital::B
+#define CONTROLLER_X okapi::ControllerDigital::X
+#define CONTROLLER_Y okapi::ControllerDigital::Y
+//D-Pad macros
+#define CONTROLLER_DPAD_UP okapi::ControllerDigital::up
+#define CONTROLLER_DPAD_DOWN okapi::ControllerDigital::down
+#define CONTROLLER_DPAD_LEFT okapi::ControllerDigital::left
+#define CONTROLLER_DPAD_RIGHT okapi::ControllerDigital::right
+//Joystick Macros
+#define CONTROLLER_JOYSTICK_LEFT_Y okapi::ControllerAnalog::leftY
+#define CONTROLLER_JOYSTICK_LEFT_X okapi::ControllerAnalog::leftX
+#define CONTROLLER_JOYSTICK_RIGHT_Y okapi::ControllerAnalog::rightY
+#define CONTROLLER_JOYSTICK_RIGHT_X okapi::ControllerAnalog::rightX
+

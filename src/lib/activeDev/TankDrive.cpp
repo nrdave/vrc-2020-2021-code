@@ -70,8 +70,8 @@ void TankDrive::driver(okapi::Controller controller) {
      * returns a value between -1 and 1, the controllerSet function is used to 
      * set the motors, as it accepts values in that range
      */ 
-    leftBase.controllerSet(controller.getAnalog(okapi::ControllerAnalog::leftY));
-    rightBase.controllerSet(controller.getAnalog(okapi::ControllerAnalog::rightY));
+    leftBase.controllerSet(controller.getAnalog(CONTROLLER_JOYSTICK_LEFT_Y));
+    rightBase.controllerSet(controller.getAnalog(CONTROLLER_JOYSTICK_RIGHT_Y));
 }
 
 void TankDrive::drivePID(float leftT, float rightT, int maxVelo)
