@@ -17,6 +17,7 @@ void opcontrol() {
     while(true)
     {
         drive.driver(controller);
+        intake.driver(controller);
         pros::delay(20);
     }
 }
