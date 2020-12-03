@@ -12,7 +12,14 @@
  * from where it left off.
  */
 void autonomous() {
-    drive.moveStraight(5, 200);
-    pros::delay(500);
-    drive.turnAngle(45, 200);
+    switch(autonID)
+    {
+        case Auton::test:
+            drive.moveStraight(5, 200);
+            pros::delay(500);
+            drive.turnAngle(45, 200);
+            break;
+        case Auton::none:
+            break;
+    }
 }
