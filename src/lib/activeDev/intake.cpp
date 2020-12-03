@@ -1,9 +1,9 @@
 #include "main.h"
 
-Intake::Intake(int leftPort, int rightPort, bool leftReversed, bool rightReversed,
+Intake::Intake(int leftPort, int rightPort, bool leftRev, bool rightRev,
                okapi::ControllerDigital inBtn, okapi::ControllerDigital outBtn):
-    leftMotor(leftPort, leftReversed), 
-    rightMotor(rightPort, rightReversed)
+    leftMotor(leftPort, leftRev), 
+    rightMotor(rightPort, rightRev)
 {
     outButton = outBtn;
     inButton = inBtn;

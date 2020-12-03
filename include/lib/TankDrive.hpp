@@ -10,7 +10,8 @@
  * function
  */
 
-class TankDrive {
+class TankDrive 
+{
     private:
         /**
          * OkapiLib motor group objects. Each one represents the 
