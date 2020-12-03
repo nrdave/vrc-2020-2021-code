@@ -2,6 +2,7 @@
 #include "okapi/api.hpp"
 #include "lib/TankDrive.hpp"
 #include "lib/Intake.hpp"
+#include "lib/Conveyor.hpp"
 
 /**
  * This header file contains declarations for objects and
@@ -16,6 +17,9 @@ extern TankDrive drive;
 
 //The Intake object, representing the robot's intakes
 extern Intake intake;
+
+//The Conveyor object, representing the conveyor that moves balls up and scores them
+extern Conveyor conveyor;
 
 //The okapi::Controller object, which represents the robot controller
 extern okapi::Controller controller;
