@@ -1,13 +1,19 @@
 #include "main.h"
 
+/**
+ * The implementation of the Intake class
+ * This file contains the source code for the Intake class, along with
+ * explanations of how each function works
+ */ 
+
 Intake::Intake(int leftPort, int rightPort, bool leftRev, bool rightRev,
                okapi::ControllerDigital inBtn, okapi::ControllerDigital outBtn):
     leftMotor(leftPort, leftRev), 
     rightMotor(rightPort, rightRev)
-{
-    outButton = outBtn;
-    inButton = inBtn;
-}
+    {
+        outButton = outBtn;
+        inButton = inBtn;
+    }
 
 void Intake::driver(okapi::Controller controller)
 {
