@@ -132,7 +132,7 @@ void TankDrive::drivePID(float leftT, float rightT, int maxVelo)
         if(abs(rightOutput) > maxVelo)
             if(rightOutput < 0) rightOutput = -maxVelo;
             else rightOutput = maxVelo;
-        //Set the motor group velocities to the output voltage levels
+        //Set the motor group velocities to the output velocity levels
         setVelocity(leftOutput, rightOutput);
         //Calculate the new error
         leftError = leftTarg - leftBase.getPosition(); 
