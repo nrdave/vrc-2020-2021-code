@@ -8,7 +8,7 @@ class Conveyor
     /**
      * The Okapi MotorGroup object used to control any motors powering the conveyor
      */ 
-         okapi::MotorGroup motors;
+        okapi::MotorGroup motors;
     /**
     * The buttons on the controller that tell the conveyor to 
     * push up or down an object
@@ -29,8 +29,9 @@ class Conveyor
      * The constructor for a conveyor with 1 motor
      * @param port The port of the motor
      * @param rev A boolean indicating if the motor needs to be reversed
+     * @param gearset The gearset of the motors    
      * @param upBtn The button on the controller that tells the conveyor to move objects up
-     * @param downBtn The button on the controller that tells the conveyor to move objects up     
+     * @param downBtn The button on the controller that tells the conveyor to move objects up 
      */ 
          Conveyor(int port, bool rev, okapi::AbstractMotor::gearset gearset, 
                  okapi::ControllerDigital upBtn, okapi::ControllerDigital downBtn);    
@@ -40,6 +41,7 @@ class Conveyor
      * @param port2 The port of the second motor
      * @param rev1 A boolean indicating if the first motor is reversed
      * @param rev2 A boolean indicating if the second motor is reversed
+     * @param gearset The gearset of the motors    
      * @param upBtn The button on the controller that tells the conveyor to move objects up
      * @param downBtn The button on the controller that tells the conveyor to move objects up
      */ 
