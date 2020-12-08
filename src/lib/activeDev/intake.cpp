@@ -39,6 +39,11 @@ void Intake::out()
     rightMotor.move(-127);
 }
 
+void Intake::stop()
+{
+    leftMotor.move(0);
+    rightMotor.move(0);}
+
 void Intake::updateLeftTelemetry()
 {
     //Updating all the values in the leftTelemetry struct
