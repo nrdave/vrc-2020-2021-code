@@ -6,16 +6,26 @@
  * explanations of how each function works
  */ 
 
-Conveyor::Conveyor(int lowerPort, int upperPort, bool lowerRev, bool upperRev, 
-                 pros::motor_gearset_e gearset, 
+Conveyor::Conveyor(int port1, int port2, bool rev1, bool rev2, 
+                 okapi::AbstractMotor::gearset gearset, 
                  okapi::ControllerDigital upBtn, okapi::ControllerDigital downBtn):
-                lowerMotor(lowerPort, gearset, lowerRev), 
-                upperMotor(upperPort, gearset, upperRev)
+                 motors({okapi::Motor(port1, rev1, gearset, okapi::AbstractMotor::encoderUnits::degrees), 
+                 okapi::Motor(port2, rev2, gearset, okapi::AbstractMotor::encoderUnits::degrees)})
+
         {
         upButton = upBtn;
         downButton = downBtn;
         }
 
+Conveyor::Conveyor(int port, bool rev, 
+                 okapi::AbstractMotor::gearset gearset, 
+                 okapi::ControllerDigital upBtn, okapi::ControllerDigital downBtn):
+                 motors({okapi::Motor(port, rev, gearset, okapi::AbstractMotor::encoderUnits::degrees)})
+
+        {
+        upButton = upBtn;
+        downButton = downBtn;
+        }
 void Conveyor::driver(okapi::Controller controller)
 {
     if(controller.getDigital(upButton)) moveUp();
@@ -23,57 +33,39 @@ void Conveyor::driver(okapi::Controller controller)
     else
     {
         //If neither button is pressed, set the velocity of the motors to 0
-        upperMotor.move(0);
-        lowerMotor.move(0);
+        motors.moveVelocity(0);
     }
 }
 
 void Conveyor::moveUp()
 {
-    //Setting both motors to move at their maximum positive speed
-    upperMotor.move(127);
-    lowerMotor.move(127);
+    //Setting the motor group to move at their maximum positive speed
+    if(motors.getGearing() == GEARSET_BLUE) motors.moveVelocity(600);
+    else if(motors.getGearing() == GEARSET_RED) motors.moveVelocity(100);
+    else motors.moveVelocity(200);
 }
 
 void Conveyor::moveDown()
 {
     //Setting both motors to move at their maximum negative speed
-    upperMotor.move(-127);
-    lowerMotor.move(-127);
+    //Setting the motor group to move at their maximum positive speed
+    if(motors.getGearing() == GEARSET_BLUE) motors.moveVelocity(-600);
+    else if(motors.getGearing() == GEARSET_RED) motors.moveVelocity(-100);
+    else motors.moveVelocity(-200);
 }
 
-void Intake::updateLowerTelemetry()
+void Conveyor::updateTelemetry()
 {
-    //Updating all the values in the lowerTelemetry struct
-    lowerTelemetry.pos = lowerMotor.get_position();
-    lowerTelemetry.targetPos = lowerMotor.get_target_position();
-    lowerTelemetry.velo = lowerMotor.get_actual_velocity();
-    lowerTelemetry.targetVelo = lowerMotor.get_target_velocity();
-    lowerTelemetry.temp = lowerMotor.get_temperature();
-    lowerTelemetry.torque = lowerMotor.get_torque();
+    telem.pos = motors.getPosition();
+    telem.targetPos = motors.getTargetPosition();
+    telem.velo = motors.getActualVelocity();
+    telem.targetVelo = motors.getTargetVelocity();
+    telem.temp = motors.getTemperature();
+    telem.torque = motors.getTorque();
 }
 
-void Intake::updateUpperTelemetry()
+Telemetry Conveyor::getTelemetry()
 {
-    //Updating all the values in the upperTelemetry struct
-    upperTelemetry.pos = upperMotor.get_position();
-    upperTelemetry.targetPos = upperMotor.get_target_position();
-    upperTelemetry.velo = upperMotor.get_actual_velocity();
-    upperTelemetry.targetVelo = upperMotor.get_target_velocity();
-    upperTelemetry.temp = upperMotor.get_temperature();
-    upperTelemetry.torque = upperMotor.get_torque();
-}
-
-Telemetry Intake::getLowerTelemetry()
-{
-    //Updating lowerTelemetry before returning it
-    updatelowerTelemetry();
-    return lowerTelemetry;
-}
-
-Telemetry Intake::getUpperTelemetry()
-{
-    //Updating upperTelemetry before returning it
-    updateUpperTelemetry();
-    return upperTelemetry;
+    updateTelemetry();
+    return telem;
 }
