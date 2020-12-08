@@ -18,6 +18,7 @@ void opcontrol() {
     {
         drive.driver(controller);
         intake.driver(controller);
+        conveyor.driver(controller);
         pros::delay(20);
     }
 }
