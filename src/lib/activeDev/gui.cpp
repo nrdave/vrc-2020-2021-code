@@ -350,26 +350,27 @@ void GUI::updateTelemetryLabel(lv_obj_t * label, Telemetry t)
 {   
     /**
      * Creating char arrays to hold the rounded data for each telemetry value
-     * I do this to cut the size of the data to 11 characters, rather than
+     * I do this to cut the size of the data, rather than
      * printing every character, which includes a lot of zeros at the end
+     * The arrays are 30 characters in order to include the labels for each data value
      */ 
-    char pos[11]; 
-    char targPos[11]; 
-    char velo[11]; 
-    char targVelo[11]; 
-    char temp[11]; 
-    char torque[11]; 
+    char pos[30]; 
+    char targPos[30]; 
+    char velo[30]; 
+    char targVelo[30]; 
+    char temp[30]; 
+    char torque[30]; 
     //Creating a char[] to write the output to
     char output[256];
     //Printing the Telemetry values to their respective arrays
-    sprintf(pos, "Position: %f", t.pos);
-    sprintf(targPos, "Target Position: %f", t.targetPos);
-    sprintf(velo, "Velocity: %f", t.velo);
-    sprintf(targVelo, "Target Velocity%f", t.targetVelo);
-    sprintf(temp, "Temperature: %f", t.temp);
-    sprintf(torque, "Torque %f", t.torque);
+    snprintf(pos, 30, "Position: %f", t.pos);
+    snprintf(targPos, 30, "Target Position: %f", t.targetPos);
+    snprintf(velo, 30, "Velocity: %f", t.velo);
+    snprintf(targVelo, 30, "Target Velocity%f", t.targetVelo);
+    snprintf(temp, 30, "Temperature: %f", t.temp);
+    snprintf(torque, 30, "Torque %f", t.torque);
     //Printing the shortened telemetry values to the output array
-    sprintf(output, "%s%s\n%s%s\n%s%s", pos, targPos, velo, targVelo, temp, torque);
+    snprintf(output, 256, "%s%s\n%s%s\n%s%s", pos, targPos, velo, targVelo, temp, torque);
     //Setting the text on the label
     lv_label_set_text(label, output);
 }
