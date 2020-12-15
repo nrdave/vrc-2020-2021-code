@@ -39,7 +39,7 @@ void Conveyor::driver(okapi::Controller controller)
 
 void Conveyor::moveUp()
 {
-    //Setting the motor group to move at their maximum positive speed
+    //Setting the motor group to move at their maximum positive speed, based on the internal gearing
     if(motors.getGearing() == GEARSET_BLUE) motors.moveVelocity(600);
     else if(motors.getGearing() == GEARSET_RED) motors.moveVelocity(100);
     else motors.moveVelocity(200);
@@ -47,8 +47,7 @@ void Conveyor::moveUp()
 
 void Conveyor::moveDown()
 {
-    //Setting both motors to move at their maximum negative speed
-    //Setting the motor group to move at their maximum positive speed
+    //Setting both motors to move at their maximum negative speed, based on the internal gearing
     if(motors.getGearing() == GEARSET_BLUE) motors.moveVelocity(-600);
     else if(motors.getGearing() == GEARSET_RED) motors.moveVelocity(-100);
     else motors.moveVelocity(-200);
