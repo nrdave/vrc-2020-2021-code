@@ -2,7 +2,7 @@
 
 okapi::Controller controller;
 TankDrive drive(12, 11, 10, 1, false, true, false, true, GEARSET_GREEN, 4, 9.3, 0.7, 0, 0);
-Intake intake(20, 12, false, true, CONTROLLER_L1, CONTROLLER_L2);
+Intake intake(19, 13, false, true, CONTROLLER_L1, CONTROLLER_L2);
 Conveyor conveyor(15, true, GEARSET_GREEN, CONTROLLER_R1, CONTROLLER_R2);
 /**
  * Runs initialization code. This occurs as soon as the program is started.
