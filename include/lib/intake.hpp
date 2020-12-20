@@ -61,7 +61,8 @@ class Intake
         void out();
     /**
      * A function to set the motors to not move
-     */ 
+     */
+        void stop(); 
     /**
      * Functions to retrieve telemetry data for each motor
      * @return The telemetry data for the given motor (left or right)

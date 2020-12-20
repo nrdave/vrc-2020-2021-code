@@ -42,7 +42,8 @@ void Intake::out()
 void Intake::stop()
 {
     leftMotor.move(0);
-    rightMotor.move(0);}
+    rightMotor.move(0);
+}
 
 void Intake::updateLeftTelemetry()
 {
