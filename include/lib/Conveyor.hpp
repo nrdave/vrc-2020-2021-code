@@ -62,6 +62,10 @@ class Conveyor
      */ 
         void moveDown();
     /**
+     * A function to set the motors to stop
+     */ 
+        void stop();
+    /**
      * Functions that return the telemetry data for the motor group
      */ 
         Telemetry getTelemetry();
