@@ -199,10 +199,6 @@ void GUI::initialize()
     lv_btnm_set_style(autonMenu, LV_BTNM_STYLE_BG, &buttonMatrixStyle);
     lv_btnm_set_style(autonMenu, LV_BTNM_STYLE_BTN_PR, &buttonStylePr);
 
-    autonRunBtn = createButton(scrAuton, LV_BTN_ACTION_CLICK, runAuton, "Run Current Autonomous", LV_ALIGN_IN_BOTTOM_LEFT, 20, -50, 150, 100);
-    lv_btn_set_style(autonRunBtn, LV_BTN_STATE_REL, &defaultStyle);
-    lv_btn_set_style(autonRunBtn, LV_BTN_STATE_PR, &buttonStylePr);
-
     //Initializing the label indicating the autonomous selected
     curAutonLbl = createLabel(scrAuton, "Auton", LV_ALIGN_IN_TOP_LEFT, 10, 10);
 
