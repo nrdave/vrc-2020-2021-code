@@ -12,21 +12,25 @@
  * from where it left off.
  */
 void autonomous() {
+    drive.moveStraight(5);
     switch(autonID)
     {
         case Auton::test:
-            drive.moveStraight(15, 150);
-            drive.turnAngle(90, 100);
-            drive.moveStraight(16.75, 100);            
-            drive.turnAngle(90, 100);
-            drive.moveStraight(12.75, 100);
+            drive.moveStraight(15);
+            drive.turnAngle(90);
+            drive.moveStraight(16.75);            
+            drive.turnAngle(90);
+            drive.moveStraight(12.75);
             pros::delay(50);
             conveyor.moveUp();
             pros::delay(3000);
             conveyor.stop();
             intake.out();
-            drive.moveStraight(-8, 100);
+            drive.moveStraight(-8);
             intake.stop();
+            drive.turnAngle(90);
+            drive.moveStraight(40);
+            intake.in();
             break;
         case Auton::none:
             break;
