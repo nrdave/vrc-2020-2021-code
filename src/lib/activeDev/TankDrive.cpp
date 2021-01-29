@@ -74,7 +74,7 @@ void TankDrive::driver(okapi::Controller controller) {
     rightBase.controllerSet(controller.getAnalog(CONTROLLER_JOYSTICK_RIGHT_Y));
 }
 
-void TankDrive::drivePID(float leftT, float rightT, int maxVelo)
+void TankDrive::drivePID(float leftT, float rightT)
 {
     /**
      * Convert leftTarg and rightTarg from inches to travel to degrees for the
@@ -104,12 +104,15 @@ void TankDrive::drivePID(float leftT, float rightT, int maxVelo)
     //Declaring the Previous Error Variable
     float leftPrevError;
     float rightPrevError;
-    //Enter a while loop that runs until both sides are within 20 degrees of target rotation
-    while(abs(leftError) > 10 && abs(rightError) > 10)
+    //Enter a while loop that runs until both sides are within 10 degrees of target rotation
+    while(abs(leftError) > 5 && abs(rightError) > 5)
     {
         //Calculate the integral
         leftIntegral += leftError;
         rightIntegral += rightError;
+
+        if(abs(leftError) < 10) leftIntegral = 0;
+        if(abs(rightError) < 10) rightIntegral = 0;
 
         //Calculate the derivative
         leftDerivative = leftError - leftPrevError;
@@ -122,18 +125,16 @@ void TankDrive::drivePID(float leftT, float rightT, int maxVelo)
         //Set the output values
         leftOutput = (leftError * kP) + (leftIntegral * kI) + (leftDerivative * kD);
         rightOutput = (rightError * kP) + (rightIntegral * kI) + (rightDerivative * kD);
-        /**
-         * Ensure that the output voltages are not greater than the 
-         * maximum velocity
-         */ 
-        if(abs(leftOutput) > maxVelo)
-            if(leftOutput < 0) leftOutput = -maxVelo;
-            else leftOutput = maxVelo;
-        if(abs(rightOutput) > maxVelo)
-            if(rightOutput < 0) rightOutput = -maxVelo;
-            else rightOutput = maxVelo;
-        //Set the motor group velocities to the output velocity levels
-        setVelocity(leftOutput, rightOutput);
+
+        //Constraining the output voltages
+        if(abs(leftOutput) > 12000)
+            if(leftOutput < 0) leftOutput = -12000;
+            else leftOutput = 12000;
+        if(abs(rightOutput) > 12000)
+            if(rightOutput < 0) rightOutput = -12000;
+            else rightOutput = 12000;
+        //Set the motor group voltages to the output velocity levels
+        setVoltage(leftOutput, rightOutput);
         //Calculate the new error
         leftError = leftTarg - leftBase.getPosition(); 
         rightError = rightTarg - rightBase.getPosition();
@@ -154,7 +155,19 @@ void TankDrive::setVelocity(int leftVelo, int rightVelo)
     rightBase.moveVelocity(rightVelo);
 }
 
-void TankDrive::moveStraight(float distance, int maxVelo)
+void TankDrive::setVoltage(int leftVolt, int rightVolt)
+{
+    /**
+     * As noted in TankDrive.hpp, setVelocity simply encapsulates
+     * the okapi moveVelocity function into a cleaner package,
+     * while also allowing manual velocity setting in an
+     * autonomous routine
+     */ 
+    leftBase.moveVoltage(leftVolt);
+    rightBase.moveVoltage(rightVolt);
+}
+
+void TankDrive::moveStraight(float distance)
 {
     /**
      * The moveStraight function just slightly simplifies the drivePID
@@ -164,10 +177,10 @@ void TankDrive::moveStraight(float distance, int maxVelo)
      * private, as, in my mind, it makes sense for an object's PID controller
      * to be kept private.
      */ 
-    drivePID(distance, distance, maxVelo);
+    drivePID(distance, distance);
 }
 
-void TankDrive::turnAngle(float angle, int maxVelo)
+void TankDrive::turnAngle(float angle)
 {
     /**
      * The distance each side needs to rotate can be found with the 
@@ -191,7 +204,7 @@ void TankDrive::turnAngle(float angle, int maxVelo)
      * so the right side goes forward, and the left goes backward, turning
      * the robot counterclockwise
      */ 
-    drivePID(turnLength, -turnLength, maxVelo);
+    drivePID(turnLength, -turnLength);
 }
 
 void TankDrive::updateLeftTelemetry()
