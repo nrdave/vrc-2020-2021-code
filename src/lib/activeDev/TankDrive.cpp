@@ -141,6 +141,7 @@ void TankDrive::drivePID(float leftT, float rightT)
         pros::delay(20);
     }
     setVelocity(0, 0);
+    pros::delay(10);
 }
 
 void TankDrive::setVelocity(int leftVelo, int rightVelo)
