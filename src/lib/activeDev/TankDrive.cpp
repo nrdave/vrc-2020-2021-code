@@ -127,12 +127,12 @@ void TankDrive::drivePID(float leftT, float rightT)
         rightOutput = (rightError * kP) + (rightIntegral * kI) + (rightDerivative * kD);
 
         //Constraining the output voltages
-        if(abs(leftOutput) > 12000)
-            if(leftOutput < 0) leftOutput = -12000;
-            else leftOutput = 12000;
-        if(abs(rightOutput) > 12000)
-            if(rightOutput < 0) rightOutput = -12000;
-            else rightOutput = 12000;
+        if(abs(leftOutput) > 10000)
+            if(leftOutput < 0) leftOutput = -10000;
+            else leftOutput = 10000;
+        if(abs(rightOutput) > 10000)
+            if(rightOutput < 0) rightOutput = -10000;
+            else rightOutput = 10000;
         //Set the motor group voltages to the output velocity levels
         setVoltage(leftOutput, rightOutput);
         //Calculate the new error
@@ -141,7 +141,7 @@ void TankDrive::drivePID(float leftT, float rightT)
         pros::delay(20);
     }
     setVelocity(0, 0);
-    pros::delay(10);
+    pros::delay(100);
 }
 
 void TankDrive::setVelocity(int leftVelo, int rightVelo)
