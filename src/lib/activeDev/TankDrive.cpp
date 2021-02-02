@@ -105,7 +105,7 @@ void TankDrive::drivePID(float leftT, float rightT)
     float leftPrevError;
     float rightPrevError;
     //Enter a while loop that runs until both sides are within 10 degrees of target rotation
-    while(abs(leftError) > 5 && abs(rightError) > 5)
+    while(abs(leftError) > 10 && abs(rightError) > 10)
     {
         //Calculate the integral
         leftIntegral += leftError;
