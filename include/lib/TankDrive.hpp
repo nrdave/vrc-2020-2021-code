@@ -56,7 +56,6 @@ class TankDrive
          *           Can be negative to indicate rotating backwards
          * @param rightTarg: The target length to move to, in inches, for the right side of the drivetrain
          *           Can be negative to indicate rotating backwards
-         * @param maxVelo: The maximum velocity that the motors can run at
          */
         void drivePID(float leftTarg, float rightTarg); 
 
@@ -156,7 +155,6 @@ class TankDrive
          * tell the robot to drive forward or backward a given amount
          * 
          * @param distance: the distance to travel, in inches. Negative values = backwards
-         * @param maxVelo: the maximum velocity that the motors can run at
          */
         void moveStraight(float distance); 
 
