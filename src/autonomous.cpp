@@ -20,6 +20,8 @@ void autonomous() {
     switch(autonID)
     {
         case Auton::test:
+            break;
+        case Auton::left:
             drive.moveStraight(15);
             drive.turnAngle(-128);
             intake.in();
@@ -27,7 +29,9 @@ void autonomous() {
             drive.moveStraight(23);
             pros::delay(1500);
             drive.moveStraight(7.5);
-            pros::delay(4000);
+            pros::delay(2000);
+            intake.stop();
+            pros::delay(1000);
             conveyor.stop();
             drive.moveStraight(-8);
             intake.out();
