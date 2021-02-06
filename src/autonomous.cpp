@@ -28,8 +28,8 @@ void autonomous() {
             conveyor.moveUp();
             drive.moveStraight(23);
             pros::delay(1500);
-            drive.moveStraight(7.5);
-            pros::delay(2000);
+            drive.moveStraight(6);
+            pros::delay(1000);
             intake.stop();
             pros::delay(1000);
             conveyor.stop();
@@ -54,7 +54,6 @@ void autonomous() {
             intake.in();
             drive.moveStraight(40);
             intake.stop();
-            //drive.turnAngle(-45);
             break;
         case Auton::right:
             drive.moveStraight(15);
@@ -63,8 +62,10 @@ void autonomous() {
             conveyor.moveUp();
             drive.moveStraight(23);
             pros::delay(1500);
-            drive.moveStraight(7.5);
-            pros::delay(4000);
+            drive.moveStraight(6);
+            pros::delay(1000);
+            intake.stop();
+            pros::delay(1000);
             conveyor.stop();
             drive.moveStraight(-8);
             intake.out();
