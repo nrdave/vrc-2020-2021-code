@@ -56,9 +56,8 @@ class TankDrive
          *           Can be negative to indicate rotating backwards
          * @param rightTarg: The target length to move to, in inches, for the right side of the drivetrain
          *           Can be negative to indicate rotating backwards
-         * @param maxVelo: The maximum velocity that the motors can run at
          */
-        void drivePID(float leftTarg, float rightTarg, int maxVelo); 
+        void drivePID(float leftTarg, float rightTarg); 
 
         /**
          * Functions to update the telemetry data for each motor group of the
@@ -139,6 +138,8 @@ class TankDrive
          */
         void setVelocity(int leftVelo, int rightVelo); 
 
+        void setVoltage(int leftVolt, int rightVolt);
+
         /**
          * The turnAngle function is an autonomous function used to turn the robot
          * to a specific angle, relative to its current position.
@@ -147,16 +148,15 @@ class TankDrive
          *        is negative. For example, passing in 45 would make the robot turn
          *        45 degrees to the right (clockwise, from an overhead view)
          */ 
-        void turnAngle(float angle, int maxVelo); 
+        void turnAngle(float angle); 
 
         /**
          * The moveStraight function is an autonomous function used to
          * tell the robot to drive forward or backward a given amount
          * 
          * @param distance: the distance to travel, in inches. Negative values = backwards
-         * @param maxVelo: the maximum velocity that the motors can run at
          */
-        void moveStraight(float distance, int maxVelo); 
+        void moveStraight(float distance); 
 
         /**
          * getLeftTelemetry() returns a struct containing motor telemetry values for the left

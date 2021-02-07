@@ -16,7 +16,11 @@
 enum class Auton
 {
     none,
-    test
+    test,
+    midleft,
+    midright,
+    left,
+    right
 }; 
 
 /**

@@ -53,6 +53,12 @@ void Conveyor::moveDown()
     else motors.moveVelocity(-200);
 }
 
+void Conveyor::stop()
+{
+    //Setting moth motors to 0 velocity
+    motors.moveVelocity(0);
+}
+
 void Conveyor::updateTelemetry()
 {
     telem.pos = motors.getPosition();
