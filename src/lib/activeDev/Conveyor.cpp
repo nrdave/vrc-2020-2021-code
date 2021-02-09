@@ -6,59 +6,46 @@
  * explanations of how each function works
  */ 
 
-Conveyor::Conveyor(int port1, int port2, bool rev1, bool rev2, 
-                 okapi::AbstractMotor::gearset gearset, 
-                 okapi::ControllerDigital upBtn, okapi::ControllerDigital downBtn):
-                 motors({okapi::Motor(port1, rev1, gearset, okapi::AbstractMotor::encoderUnits::degrees), 
-                 okapi::Motor(port2, rev2, gearset, okapi::AbstractMotor::encoderUnits::degrees)})
-
+Conveyor::Conveyor(std::initializer_list<int> ports, std::initializer_list<bool> revs, 
+                    pros::motor_gearset_e_t gearset, pros::controller_digital_e_t upBtn, pros::controller_digital_e_t downBtn)
         {
+        for(int i = 0; i < ports.size(); i++) {
+            pros::c::motor_set_gearing(ports[i], gearset);
+            motorPorts.push_back(ports[i]);
+            if(revs[i]) pros::c::motor_is_reversed(ports[i]);
+        }
         upButton = upBtn;
         downButton = downBtn;
         }
 
-Conveyor::Conveyor(int port, bool rev, 
-                 okapi::AbstractMotor::gearset gearset, 
-                 okapi::ControllerDigital upBtn, okapi::ControllerDigital downBtn):
-                 motors({okapi::Motor(port, rev, gearset, okapi::AbstractMotor::encoderUnits::degrees)})
-
-        {
-        upButton = upBtn;
-        downButton = downBtn;
-        }
 void Conveyor::driver(okapi::Controller controller)
 {
     if(controller.getDigital(upButton)) moveUp();
     else if (controller.getDigital(downButton)) moveDown();
-    else
-    {
-        //If neither button is pressed, set the velocity of the motors to 0
-        motors.moveVelocity(0);
-    }
+    else stop();
 }
 
 void Conveyor::moveUp()
 {
-    //Setting the motor group to move at their maximum positive speed, based on the internal gearing
-    if(motors.getGearing() == GEARSET_BLUE) motors.moveVelocity(600);
-    else if(motors.getGearing() == GEARSET_RED) motors.moveVelocity(100);
-    else motors.moveVelocity(200);
+    for(p : motorPorts) {
+        pros::motor_move(127);
+    }
 }
 
 void Conveyor::moveDown()
 {
-    //Setting both motors to move at their maximum negative speed, based on the internal gearing
-    if(motors.getGearing() == GEARSET_BLUE) motors.moveVelocity(-600);
-    else if(motors.getGearing() == GEARSET_RED) motors.moveVelocity(-100);
-    else motors.moveVelocity(-200);
+    for(p : motorPorts) {
+        pros::motor_move(-127);
+    }
 }
 
 void Conveyor::stop()
 {
-    //Setting moth motors to 0 velocity
-    motors.moveVelocity(0);
+    for(p : motorPorts) {
+        pros::motor_move(0);
+    }
 }
-
+/**
 void Conveyor::updateTelemetry()
 {
     telem.pos = motors.getPosition();
@@ -73,4 +60,4 @@ Telemetry Conveyor::getTelemetry()
 {
     updateTelemetry();
     return telem;
-}
+}*/
