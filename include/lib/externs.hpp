@@ -1,7 +1,7 @@
 #pragma once
 #include "okapi/api.hpp"
 #include "lib/TankDrive.hpp"
-#include "lib/Intake.hpp"
+#include "lib/intake.hpp"
 #include "lib/Conveyor.hpp"
 
 /**

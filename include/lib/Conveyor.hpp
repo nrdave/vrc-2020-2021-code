@@ -8,7 +8,6 @@ class Conveyor
 {
     private:
         std::vector<int> motorPorts;
-        std::vector<bool> motorReverses;
     /**
     * The buttons on the controller that tell the conveyor to 
     * push up or down an object

@@ -9,10 +9,11 @@
 Conveyor::Conveyor(std::initializer_list<int> ports, std::initializer_list<bool> revs, 
                     pros::motor_gearset_e_t gearset, pros::controller_digital_e_t upBtn, pros::controller_digital_e_t downBtn)
         {
-        for(int i = 0; i < ports.size(); i++) {
-            pros::c::motor_set_gearing(ports[i], gearset);
-            motorPorts.push_back(ports[i]);
-            if(revs[i]) pros::c::motor_is_reversed(ports[i]);
+        motorPorts = ports;
+        std::vector<bool> motorRevs = revs;
+        for(int i = 0; i < motorPorts.size(); i++) {
+            pros::c::motor_set_gearing(motorPorts[i], gearset);
+            if(motorRevs[i]) pros::c::motor_is_reversed(motorPorts[i]);
         }
         upButton = upBtn;
         downButton = downBtn;
@@ -20,29 +21,29 @@ Conveyor::Conveyor(std::initializer_list<int> ports, std::initializer_list<bool>
 
 void Conveyor::driver(okapi::Controller controller)
 {
-    if(controller.getDigital(upButton)) moveUp();
-    else if (controller.getDigital(downButton)) moveDown();
+    if(pros::c::controller_get_digital(CONTROLLER_MASTER, upButton)) moveUp();
+    else if (pros::c::controller_get_digital(CONTROLLER_MASTER, downButton)) moveDown();
     else stop();
 }
 
 void Conveyor::moveUp()
 {
-    for(p : motorPorts) {
-        pros::motor_move(127);
+    for(int p : motorPorts) {
+        pros::c::motor_move(p, 127);
     }
 }
 
 void Conveyor::moveDown()
 {
-    for(p : motorPorts) {
-        pros::motor_move(-127);
+    for(int p : motorPorts) {
+        pros::c::motor_move(p, -127);
     }
 }
 
 void Conveyor::stop()
 {
-    for(p : motorPorts) {
-        pros::motor_move(0);
+    for(int p : motorPorts) {
+        pros::c::motor_move(p, 0);
     }
 }
 /**
