@@ -16,9 +16,9 @@
 void opcontrol() {
     while(true)
     {
-        drive.driver(controller);
-        intake.driver(controller);
-        conveyor.driver(controller);
+        drive.driver(CONTROLLER_MASTER);
+        intake.driver(CONTROLLER_MASTER);
+        conveyor.driver(CONTROLLER_MASTER);
         pros::delay(20);
     }
 }

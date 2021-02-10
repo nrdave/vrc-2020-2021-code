@@ -1,8 +1,7 @@
 #include "main.h"
 
-okapi::Controller controller;
-TankDrive drive(13, 11, 10, 3, false, true, false, true, GEARSET_GREEN, 4, 12.75, 60, 0.05, 55);
-Intake intake(18, 12, false, true, CONTROLLER_L1, CONTROLLER_L2);
+TankDrive drive({13, 11} , {10, 3} , {false, false}, {true, true}, pros::E_MOTOR_GEARSET_18, 4, 12.75, 60, 0.05, 55);
+Intake intake({18, 12}, {false, true}, pros::E_MOTOR_GEARSET_18, pros::E_CONTROLLER_DIGITAL_L1, pros::E_CONTROLLER_DIGITAL_L2);
 Conveyor conveyor({15}, {true}, pros::E_MOTOR_GEARSET_18, pros::E_CONTROLLER_DIGITAL_R1, pros::E_CONTROLLER_DIGITAL_R2);
 /**
  * Runs initialization code. This occurs as soon as the program is started.
