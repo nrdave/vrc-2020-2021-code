@@ -12,7 +12,7 @@ Intake::Intake(std::initializer_list<int> ports, std::initializer_list<bool> rev
     std::vector<bool> motorRevs = revs;
     for(int i = 0; i < motorPorts.size(); i++) {
         pros::c::motor_set_gearing(motorPorts[i], gearset);
-        if(motorRevs[i]) pros::c::motor_set_reversed(motorPorts[i]);
+        pros::c::motor_set_reversed(motorPorts[i], motorRevs[i]);
     }
     inButton = inBtn;
     outButton = outBtn;

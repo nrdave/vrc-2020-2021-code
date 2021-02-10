@@ -16,12 +16,12 @@ TankDrive::TankDrive(std::initializer_list<int> leftPorts, std::initializer_list
     std::vector<bool> rightMotorRevs = rightRevs;
     for(int i = 0; i < leftMotorPorts.size(); i++) {
         pros::c::motor_set_gearing(leftMotorPorts[i], gearset);
-        if(leftMotorRevs[i]) pros::c::motor_set_reversed(leftMotorPorts[i]);
+        pros::c::motor_set_reversed(leftMotorPorts[i], leftMotorRevs[i]);
     }
 
     for(int i = 0; i < rightMotorPorts.size(); i++) {
         pros::c::motor_set_gearing(rightMotorPorts[i], gearset);
-        if(rightMotorRevs[i]) pros::c::motor_is_reversed(rightMotorPorts[i]);
+        pros::c::motor_set_reversed(rightMotorPorts[i], rightMotorRevs[i]);
     }
     wheelDiameter = wD;
     baseWidth = bW;
