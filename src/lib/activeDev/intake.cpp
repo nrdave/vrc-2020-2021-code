@@ -6,45 +6,42 @@
  * explanations of how each function works
  */ 
 
-Intake::Intake(int leftPort, int rightPort, bool leftRev, bool rightRev,
-               okapi::ControllerDigital inBtn, okapi::ControllerDigital outBtn):
-    leftMotor(leftPort, leftRev), 
-    rightMotor(rightPort, rightRev)
-    {
-        outButton = outBtn;
-        inButton = inBtn;
+Intake::Intake(std::initializer_list<int> ports, std::initializer_list<bool> revs, 
+               pros::motor_gearset_e_t gearset, pros::controller_digital_e_t inBtn, pros::controller_digital_e_t outBtn) {
+    motorPorts = ports;
+    std::vector<bool> motorRevs = revs;
+    for(int i = 0; i < motorPorts.size(); i++) {
+        pros::c::motor_set_gearing(motorPorts[i], gearset);
+        if(motorRevs[i]) pros::c::motor_is_reversed(motorPorts[i]);
     }
+    inButton = inBtn;
+    outButton = outBtn;
+}
 
-void Intake::driver(okapi::Controller controller)
-{
-    if(controller.getDigital(inButton)) in();
-    else if(controller.getDigital(outButton)) out();
-    else
-    {
-        leftMotor.move(0);
-        rightMotor.move(0);
+void Intake::driver(pros::controller_id_e_t controller) {
+    if(pros::c::controller_get_digital(controller, inButton)) in();
+    else if(pros::c::controller_get_digital(controller, outButton)) out();
+    else stop();   
+}
+
+void Intake::in() {
+    for(int p : motorPorts) {
+        pros::c::motor_move(p, 127);
     }
-    
 }
 
-void Intake::in()
-{
-    leftMotor.move(127);
-    rightMotor.move(127);
+void Intake::out() {
+    for(int p : motorPorts) {
+        pros::c::motor_move(p, -127);
+    }
 }
 
-void Intake::out()
-{
-    leftMotor.move(-127);
-    rightMotor.move(-127);
+void Intake::stop() {
+    for(int p : motorPorts) {
+        pros::c::motor_move(p, 0);
+    }
 }
-
-void Intake::stop()
-{
-    leftMotor.move(0);
-    rightMotor.move(0);
-}
-
+/**
 void Intake::updateLeftTelemetry()
 {
     //Updating all the values in the leftTelemetry struct
@@ -77,4 +74,4 @@ Telemetry Intake::getRightTelemetry()
 {
     updateRightTelemetry();
     return rightTelemetry;
-}
+}*/

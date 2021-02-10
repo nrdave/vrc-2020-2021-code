@@ -1,7 +1,8 @@
 #pragma once
 #include "api.h"
 #include "library.hpp"
-
+#include <vector>
+#include <initializer_list>
 /**
  * The header file for the Intake class, which is used to create objects representing
  * any form of intake, a mechanism that pulls in objects.
@@ -15,10 +16,11 @@ class Intake
 {
     private:
     /**
-     * PROS Motor objects. Each one corresponds to the motor
-     * on each intake
+     * A vector of ints that stores the ports for the intakes. Since all
+     * intake motors should run to either intake/expel objects, there's no
+     * need to separate the ports for the left/right side
      */ 
-        pros::Motor leftMotor, rightMotor;
+        std::vector<int> motorPorts;
     /**
      * Telemetry structs (defined in library.hpp) used to hold telemetry data
      * for each motor
@@ -28,7 +30,7 @@ class Intake
     * The buttons on the controller that tell the intake to 
     * take in or push out an object
     */ 
-        okapi::ControllerDigital inButton, outButton;
+        pros::controller_digital_e_t inButton, outButton;
     /**
      * Functions to update the telemetry data for each motor
      */ 
@@ -36,21 +38,21 @@ class Intake
         void updateRightTelemetry();
     public:
     /**
-     * The constructor for the Intake class
-     * @param leftPort The port of the left motor
-     * @param rightPort The port of the right motor
-     * @param leftReversed A boolean indicating whether the left motor is reversed 
-     * @param rightReversed A boolean indicating whether the right motor is reversed 
-     * @param inBtn The button on the controller to press to tell the intakes to take in an object
-     * @param outBtn The button on the controller to press to tell the intakes to push out an object
+     * The constructor for a conveyor with 1 motor
+     * @param ports The ports of the motor(s)
+     * @param revs A list of booleans indicating which motors are reversed, each entry in the list refers to the motor port
+     *              in the corresponding address in ports
+     * @param gearset The gearset of the motors    
+     * @param upBtn The button on the controller that tells the intakes to intake objects
+     * @param downBtn The button on the controller that tells the intakes to expel objects
      */ 
-        Intake(int leftPort, int rightPort, bool leftRev, bool rightRev, 
-               okapi::ControllerDigital inBtn, okapi::ControllerDigital outBtn);
+        Intake(std::initializer_list<int> ports, std::initializer_list<bool> revs, 
+               pros::motor_gearset_e_t gearset, pros::controller_digital_e_t inBtn, pros::controller_digital_e_t outBtn);
     /**
-     * The function used to control the intakes during opcontrol
-     * @param controller The controller object representing the v5 controller
+     * The function controlling the conveyor during driver control
+     * @param controller The ID of the controller to get input from
      */ 
-        void driver(okapi::Controller controller);
+        void driver(pros::controller_id_e_t controller);
     /**
      * A function to set the motors to take out an object
      */ 
