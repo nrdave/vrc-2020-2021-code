@@ -6,63 +6,34 @@
  * explanations of how each function works
  */ 
 
-TankDrive::TankDrive(int leftMotor, int rightMotor, 
-                 bool leftReversed, bool rightReversed, 
-                 okapi::AbstractMotor::gearset gearset, float wD, float bW,
-                 float Pconst, float Iconst, float Dconst):
-                 rightBase({okapi::Motor(rightMotor, rightReversed, 
-                    gearset, okapi::AbstractMotor::encoderUnits::degrees)}),                 
-                 leftBase({okapi::Motor(leftMotor, leftReversed, 
-                    gearset, okapi::AbstractMotor::encoderUnits::degrees)})
-{
-    /**
-     * The TankDrive Constructor needs to initialize the
-     * rightBase and leftBase objects, which must be done through
-     * the constructor initializer list. Then, it sets the wheelDiameter, 
-     * baseWidth, and PID constant variables to the passed in values
-     */ 
+TankDrive::TankDrive(std::initializer_list<int> leftPorts, std::initializer_list<int> rightPorts, 
+                  std::initializer_list<bool> leftRevs, std::initializer_list<bool> rightRevs,
+                  pros::motor_gearset_e_t gearset, float wD, float bW,
+                  float Pconst, float Iconst, float Dconst) {
+    leftMotorPorts = leftPorts;
+    rightMotorPorts = rightPorts;
+    std::vector<bool> leftMotorRevs = leftRevs;
+    std::vector<bool> rightMotorRevs = rightRevs;
+    for(int i = 0; i < leftMotorPorts.size(); i++) {
+        pros::c::motor_set_gearing(leftMotorPorts[i], gearset);
+        if(leftMotorRevs[i]) pros::c::motor_is_reversed(leftMotorPorts[i]);
+    }
+
+    for(int i = 0; i < rightMotorPorts.size(); i++) {
+        pros::c::motor_set_gearing(rightMotorPorts[i], gearset);
+        if(rightMotorRevs[i]) pros::c::motor_is_reversed(rightMotorPorts[i]);
+    }
     wheelDiameter = wD;
     baseWidth = bW;
     kP = Pconst;
     kI = Iconst;
     kD = Dconst;
 
-    updateLeftTelemetry();
-    updateRightTelemetry();
+    //updateLeftTelemetry();
+    //updateRightTelemetry();
 }
 
-TankDrive::TankDrive(int leftFrontMotor, int rightFrontMotor, int leftBackMotor, int rightBackMotor, 
-                bool leftFrontReversed, bool rightFrontReversed, bool leftBackReversed, bool rightBackReversed,
-                okapi::AbstractMotor::gearset gearset, float wD, float bW, 
-                float Pconst, float Iconst, float Dconst):
-                 rightBase({okapi::Motor(rightFrontMotor, rightFrontReversed, 
-                                gearset, okapi::AbstractMotor::encoderUnits::degrees), 
-                            okapi::Motor(rightBackMotor, rightBackReversed, 
-                                gearset, okapi::AbstractMotor::encoderUnits::degrees)}),                 
-                 leftBase({okapi::Motor(leftFrontMotor, leftFrontReversed, 
-                                gearset, okapi::AbstractMotor::encoderUnits::degrees),
-                           okapi::Motor(leftBackMotor, leftBackReversed, 
-                                gearset, okapi::AbstractMotor::encoderUnits::degrees)})
-{
-    /**
-     * The TankDrive Constructor needs to initialize the
-     * rightBase and leftBase objects, which must be done through
-     * the constructor initializer list. Then, it sets the wheelDiameter, 
-     * baseWidth, and PID constant variables to the passed in values
-     */ 
-    wheelDiameter = wD;
-    baseWidth = bW;
-    kP = Pconst;
-    kI = Iconst;
-    kD = Dconst;
-
-    //Initializing the Telemetry struct values
-    updateLeftTelemetry();
-    updateRightTelemetry();
-}
-
-
-void TankDrive::driver(okapi::Controller controller) {
+void TankDrive::driver(pros::controller_id_e_t controller) {
     /**
      * The driver function uses the okapi controller object to get the values of
      * the Y axes on each controller joystick. Then, each base motor group is set 
@@ -70,11 +41,15 @@ void TankDrive::driver(okapi::Controller controller) {
      * returns a value between -1 and 1, the controllerSet function is used to 
      * set the motors, as it accepts values in that range
      */ 
-    leftBase.controllerSet(controller.getAnalog(CONTROLLER_JOYSTICK_LEFT_Y));
-    rightBase.controllerSet(controller.getAnalog(CONTROLLER_JOYSTICK_RIGHT_Y));
+    for(int p : leftMotorPorts) {
+        pros::c::motor_move(p, pros::c::controller_get_analog(controller, ANALOG_LEFT_Y));
+    }
+    for(int p : rightMotorPorts) {
+        pros::c::motor_move(p, pros::c::controller_get_analog(controller, ANALOG_RIGHT_Y));
+    }
 }
 
-void TankDrive::drivePID(float leftT, float rightT)
+void TankDrive::drivePID(double leftT, double rightT)
 {
     /**
      * Convert leftTarg and rightTarg from inches to travel to degrees for the
@@ -86,24 +61,24 @@ void TankDrive::drivePID(float leftT, float rightT)
      * 360 degrees/(wheel diameter * pi), as wheel diameter times pi is the inches traveled
      * over 1 rotation, while 360 degrees is degrees rotated over 1 rotation
      */ 
-    float leftTarg = leftT * 360/(wheelDiameter * 3.1415);
-    float rightTarg = rightT * 360/(wheelDiameter * 3.1415);
-    //Reset the encoders of each motor group to 0
-    leftBase.tarePosition();
-    rightBase.tarePosition();
+    double leftTarg = leftT * 360/(wheelDiameter * 3.1415);
+    double rightTarg = rightT * 360/(wheelDiameter * 3.1415);
+    //Reset the encoders of the first motor on each side
+    pros::c::motor_tare_position(leftMotorPorts[0]);
+    pros::c::motor_tare_position(rightMotorPorts[0]);
     //Declare or initialize all variables used in the loop
-    float leftError = leftTarg - leftBase.getPosition(); 
-    float rightError = rightTarg - rightBase.getPosition();
-    float leftOutput;
-    float rightOutput;
+    double leftError = leftTarg - pros::c::motor_get_position(leftMotorPorts[0]); 
+    double rightError = rightTarg - pros::c::motor_get_position(rightMotorPorts[0]);
+    double leftOutput;
+    double rightOutput;
     //Integral variables are initiated so that the += operator can be used throughout the while loop
-    float leftIntegral = 0;
-    float rightIntegral = 0;
-    float leftDerivative;
-    float rightDerivative;
+    double leftIntegral = 0;
+    double rightIntegral = 0;
+    double leftDerivative;
+    double rightDerivative;
     //Declaring the Previous Error Variable
-    float leftPrevError;
-    float rightPrevError;
+    double leftPrevError;
+    double rightPrevError;
     //Enter a while loop that runs until both sides are within 10 degrees of target rotation
     while(abs(leftError) > 10 && abs(rightError) > 10)
     {
@@ -136,8 +111,8 @@ void TankDrive::drivePID(float leftT, float rightT)
         //Set the motor group voltages to the output velocity levels
         setVoltage(leftOutput, rightOutput);
         //Calculate the new error
-        leftError = leftTarg - leftBase.getPosition(); 
-        rightError = rightTarg - rightBase.getPosition();
+        double leftError = leftTarg - pros::c::motor_get_position(leftMotorPorts[0]); 
+        double rightError = rightTarg - pros::c::motor_get_position(rightMotorPorts[0]);
         pros::delay(20);
     }
     setVelocity(0, 0);
@@ -146,26 +121,22 @@ void TankDrive::drivePID(float leftT, float rightT)
 
 void TankDrive::setVelocity(int leftVelo, int rightVelo)
 {
-    /**
-     * As noted in TankDrive.hpp, setVelocity simply encapsulates
-     * the okapi moveVelocity function into a cleaner package,
-     * while also allowing manual velocity setting in an
-     * autonomous routine
-     */ 
-    leftBase.moveVelocity(leftVelo);
-    rightBase.moveVelocity(rightVelo);
+    for(int p : leftMotorPorts) {
+        pros::c::motor_move_velocity(p, leftVelo);
+    }
+    for(int p : rightMotorPorts) {
+        pros::c::motor_move_velocity(p, rightVelo);
+    }
 }
 
 void TankDrive::setVoltage(int leftVolt, int rightVolt)
 {
-    /**
-     * As noted in TankDrive.hpp, setVelocity simply encapsulates
-     * the okapi moveVelocity function into a cleaner package,
-     * while also allowing manual velocity setting in an
-     * autonomous routine
-     */ 
-    leftBase.moveVoltage(leftVolt);
-    rightBase.moveVoltage(rightVolt);
+    for(int p : leftMotorPorts) {
+        pros::c::motor_move_voltage(p, leftVolt);
+    }
+    for(int p : rightMotorPorts) {
+        pros::c::motor_move_voltage(p, rightVolt);
+    }
 }
 
 void TankDrive::moveStraight(float distance)
@@ -207,7 +178,7 @@ void TankDrive::turnAngle(float angle)
      */ 
     drivePID(turnLength, -turnLength);
 }
-
+/**
 void TankDrive::updateLeftTelemetry()
 {
     //Updating all the values in the leftTelemetry struct
@@ -240,4 +211,4 @@ Telemetry TankDrive::getRightTelemetry()
 {
     updateRightTelemetry();
     return rightTelemetry;
-}
+}*/

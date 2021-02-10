@@ -1,6 +1,8 @@
 #pragma once
 #include "okapi/api.hpp"
 #include "library.hpp"
+#include <vector>
+#include <initializer_list>
 /**
  * The header file for the TankDrive class, which is used to create objects that 
  * represent a standard tank drive drivetrain design. 
@@ -14,14 +16,10 @@ class TankDrive
 {
     private:
         /**
-         * OkapiLib motor group objects. Each one represents the 
-         * motor(s) on one side of the drivetrain
-         * 
-         * I use OkapiLib here because using motor groups for each
-         * side of the drive is easier than creating a motor for each 
-         * motor on the drive.
+         * Vectors of ints that store the motor ports for each side of the 
+         * drivetrain
          */
-        okapi::MotorGroup rightBase, leftBase;
+        std::vector<int> leftMotorPorts, rightMotorPorts;
 
         /**
          * Variable to store the diameter of the wheel
@@ -57,7 +55,7 @@ class TankDrive
          * @param rightTarg: The target length to move to, in inches, for the right side of the drivetrain
          *           Can be negative to indicate rotating backwards
          */
-        void drivePID(float leftTarg, float rightTarg); 
+        void drivePID(double leftTarg, double rightTarg); 
 
         /**
          * Functions to update the telemetry data for each motor group of the
@@ -73,13 +71,14 @@ class TankDrive
         float kP, kI, kD;
     public:
         /**
-         * One of the constructors for a TankDrive object. This one is for a tank
-         * drive with 1 motor powering each side of the drivetrain
+         * The constructor for the TankDrive Class
          * 
-         * @param leftMotor: the motor port of the motor on the left side of the drivetrain
-         * @param rightMotor: the motor port of the motor on the right side of the drivetrain
-         * @param leftReversed: a boolean to indicate if the left motor needs to be reversed
-         * @param rightReversed: a boolean to indicate if the right motor needs to be reversed
+         * @param leftPorts: A list of the ports for the left side of the drive
+         * @param rightPorts: A list of the ports for the right side of the drivetrain
+         * @param leftRevs: A list of booleans determining which motor(s) on the left side need to be reversed
+         * @param rightRevs: A list of booleans determining which motor(s) on the left side need to be reversed
+         * The individual booleans in leftRevs and rightRevs match to the ports for each side of the base that
+         * match to the port numbers in the corresponding indeces in leftPorts/rightPorts
          * @param gearset: the motor gearset used in the motors (it is assumed that both 
          *                 motors use the same gearset)
          * @param wD: the diameter of the wheels used
@@ -88,44 +87,18 @@ class TankDrive
          * @param Iconst: the value of the integral constant in the PID controller
          * @param Dconst: the value of the derivative constant in the PID controller
          */ 
-        TankDrive(int leftMotor, int rightMotor, bool leftReversed, bool rightReversed, 
-                okapi::AbstractMotor::gearset gearset, float wD, float bW,
-                float Pconst, float Iconst, float Dconst);
-        /** 
-         * One of the constructors for a TankDrive object. This one is for a tank
-         * drive with 2 motors powering each side
-         * 
-         * @param leftFrontMotor: the motor port of the motor on the left side of the drivetrain
-         * @param rightFrontMotor: the motor port of the motor on the right side of the drivetrain
-         * @param leftBackMotor: the motor port of the motor on the left side of the drivetrain
-         * @param rightBackMotor: the motor port of the motor on the right side of the drivetrain
-         * @param leftFrontReversed: a boolean to indicate if the left front motor needs to be reversed
-         * @param rightFrontReversed: a boolean to indicate if the right front motor needs to be reversed
-         * @param leftBackReversed: a boolean to indicate if the left back motor needs to be reversed
-         * @param rightBackReversed: a boolean to indicate if the right back motor needs to be reversed         
-         * @param gearset: the motor gearset used in the motors (it is assumed that both 
-         *          motors use the same gearset)
-         * @param wD: the diameter of the wheels used
-         * @param bW: the distance from the middle of the robot to the wheels
-         * @param Pconst: the value of the proportional constant in the PID controller
-         * @param Iconst: the value of the integral constant in the PID controller
-         * @param Dconst: the value of the derivative constant in the PID controller
-         */ 
-        TankDrive(int leftFrontMotor, int rightFrontMotor, int leftBackMotor, int rightBackMotor, 
-                bool leftFrontReversed, bool rightFrontReversed, 
-                bool leftBackReversed, bool rightBackReversed,
-                okapi::AbstractMotor::gearset gearset, float wD, float bW,
-                float Pconst, float Iconst, float Dconst);
+        TankDrive(std::initializer_list<int> leftPorts, std::initializer_list<int> rightPorts, 
+                  std::initializer_list<bool> leftRevs, std::initializer_list<bool> rightRevs,
+                  pros::motor_gearset_e_t gearset, float wD, float bW,
+                  float Pconst, float Iconst, float Dconst);
 
         /**
          * The driver function allows control of the drivetrain during the opcontrol period,
          * with each side of the drivetrain bound to one of the controller joysticks
          * 
-         * @param controller: the OkapiLib controller object, which represents the robot controller
+         * @param controller the ID of the controller to get joystick values from
          */ 
-        void driver(okapi::Controller controller);
-
-
+        void driver(pros::controller_id_e_t controller);
 
         /**
          * The setVelocity function manually sets the velocity of each motor group. This really
