@@ -3,10 +3,12 @@
 #include "library.hpp"
 #include <vector>
 #include <initializer_list>
-
 class Conveyor
 {
     private:
+    /**
+     * A vector of ints that stores all the ports of the motors for the Conveyor
+     */ 
         std::vector<int> motorPorts;
     /**
     * The buttons on the controller that tell the conveyor to 
@@ -37,7 +39,7 @@ class Conveyor
                     pros::motor_gearset_e_t gearset, pros::controller_digital_e_t upBtn, pros::controller_digital_e_t downBtn);    
     /**
      * The function controlling the conveyor during driver control
-     * @param controller The controller object representing the controller, used to get controller inputs
+     * @param controller The ID of the controller to get input from
      */ 
         void driver(pros::controller_id_e_t controller);
     /**
