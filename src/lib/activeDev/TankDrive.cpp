@@ -16,7 +16,7 @@ TankDrive::TankDrive(std::initializer_list<int> leftPorts, std::initializer_list
     std::vector<bool> rightMotorRevs = rightRevs;
     for(int i = 0; i < leftMotorPorts.size(); i++) {
         pros::c::motor_set_gearing(leftMotorPorts[i], gearset);
-        if(leftMotorRevs[i]) pros::c::motor_is_reversed(leftMotorPorts[i]);
+        if(leftMotorRevs[i]) pros::c::motor_set_reversed(leftMotorPorts[i]);
     }
 
     for(int i = 0; i < rightMotorPorts.size(); i++) {
