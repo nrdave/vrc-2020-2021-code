@@ -19,10 +19,10 @@ Conveyor::Conveyor(std::initializer_list<int> ports, std::initializer_list<bool>
         downButton = downBtn;
         }
 
-void Conveyor::driver(okapi::Controller controller)
+void Conveyor::driver(pros::controller_id_e_t controller)
 {
-    if(pros::c::controller_get_digital(CONTROLLER_MASTER, upButton)) moveUp();
-    else if (pros::c::controller_get_digital(CONTROLLER_MASTER, downButton)) moveDown();
+    if(pros::c::controller_get_digital(controller, upButton)) moveUp();
+    else if (pros::c::controller_get_digital(controller, downButton)) moveDown();
     else stop();
 }
 

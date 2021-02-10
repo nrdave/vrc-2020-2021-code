@@ -39,7 +39,7 @@ class Conveyor
      * The function controlling the conveyor during driver control
      * @param controller The controller object representing the controller, used to get controller inputs
      */ 
-        void driver(okapi::Controller controller);
+        void driver(pros::controller_id_e_t controller);
     /**
      * A function to set the motor(s) to move objects up
      */ 
