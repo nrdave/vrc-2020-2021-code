@@ -80,14 +80,11 @@ void TankDrive::drivePID(double leftT, double rightT)
     double leftPrevError;
     double rightPrevError;
     //Enter a while loop that runs until both sides are within 10 degrees of target rotation
-    while(abs(leftError) > 10 && abs(rightError) > 10)
+    while(abs(leftError) > 2 && abs(rightError) > 2)
     {
         //Calculate the integral
         leftIntegral += leftError;
         rightIntegral += rightError;
-
-        if(abs(leftError) < 10) leftIntegral = 0;
-        if(abs(rightError) < 10) rightIntegral = 0;
 
         //Calculate the derivative
         leftDerivative = leftError - leftPrevError;
@@ -111,8 +108,8 @@ void TankDrive::drivePID(double leftT, double rightT)
         //Set the motor group voltages to the output velocity levels
         setVoltage(leftOutput, rightOutput);
         //Calculate the new error
-        double leftError = leftTarg - pros::c::motor_get_position(leftMotorPorts[0]); 
-        double rightError = rightTarg - pros::c::motor_get_position(rightMotorPorts[0]);
+        leftError = leftTarg - pros::c::motor_get_position(leftMotorPorts[0]); 
+        rightError = rightTarg - pros::c::motor_get_position(rightMotorPorts[0]);
         pros::delay(20);
     }
     setVelocity(0, 0);
