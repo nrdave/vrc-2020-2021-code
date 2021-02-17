@@ -12,7 +12,7 @@
  * from where it left off.
  */
 void autonomous() {
-    drive.moveStraight(3);
+    drive.moveStraight(6);
     conveyor.moveUp();
     pros::delay(500);
     conveyor.stop();
@@ -20,9 +20,21 @@ void autonomous() {
     switch(autonID)
     {
         case Auton::test:
+            intake.out();
+            drive.moveStraight(15);
+            drive.turnAngle(-135);
+            drive.moveStraight(28);
+            intake.in();
+            drive.moveStraight(6);
+            pros::delay(2000);
+            drive.moveStraight(-6);
+            pros::delay(1000);
+            intake.stop();
+            break;
+        case Auton::skills:
             break;
         case Auton::left:
-            drive.moveStraight(15);
+            drive.moveStraight(12);
             drive.turnAngle(-128);
             intake.in();
             conveyor.moveUp();
@@ -57,10 +69,10 @@ void autonomous() {
             break;
         case Auton::right:
             drive.moveStraight(15);
-            drive.turnAngle(128);
+            drive.turnAngle(140);
             intake.in();
             conveyor.moveUp();
-            drive.moveStraight(23);
+            drive.moveStraight(30);
             pros::delay(1500);
             drive.moveStraight(6);
             pros::delay(1000);
