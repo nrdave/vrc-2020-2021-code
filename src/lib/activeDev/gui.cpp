@@ -17,7 +17,7 @@
  * a button in the matrix, while the \n characters indicate a switch
  * to a new line
  */ 
-const char * autonMap[] = {"Test", "None", "\n", "Left", "Mid to Left", "\n", "Right", "Mid to Right", ""};
+const char * autonMap[] = {"None", "\n", "Test", "Skills", "\n", "Left", "Mid to Left", "\n", "Right", "Mid to Right", ""};
 
 /**
  * The character array used by LVGL to hold the options in the
@@ -296,6 +296,7 @@ lv_res_t GUI::updateAutonID(lv_obj_t * btnm, const char * txt){
      */ 
     if(txt == "Test") autonID = Auton::test;
     else if(txt == "None") autonID = Auton::none;
+    else if(txt == "Skills") autonID = Auton::skills;
     else if(txt == "Left") autonID = Auton::left;
     else if(txt == "Mid to Left") autonID = Auton::midleft;
     else if(txt == "Right") autonID = Auton::right;
@@ -318,6 +319,9 @@ void GUI::updateAutonLbl()
     {
         case Auton::test:
             lv_label_set_text(curAutonLbl, "Test");
+            break;
+        case Auton::skills:
+            lv_label_set_text(curAutonLbl, "Skills");
             break;
         case Auton::left:
             lv_label_set_text(curAutonLbl, "Left Corner");
