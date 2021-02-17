@@ -8,8 +8,8 @@
 
 TankDrive::TankDrive(std::initializer_list<int> leftPorts, std::initializer_list<int> rightPorts, 
                   std::initializer_list<bool> leftRevs, std::initializer_list<bool> rightRevs,
-                  pros::motor_gearset_e_t gearset, float wD, float bW,
-                  float Pconst, float Iconst, float Dconst) {
+                  pros::motor_gearset_e_t gearset, double wD, double bW,
+                  double Pconst, double Iconst, double Dconst) {
     leftMotorPorts = leftPorts;
     rightMotorPorts = rightPorts;
     std::vector<bool> leftMotorRevs = leftRevs;
@@ -61,8 +61,9 @@ void TankDrive::drivePID(double leftT, double rightT)
      * 360 degrees/(wheel diameter * pi), as wheel diameter times pi is the inches traveled
      * over 1 rotation, while 360 degrees is degrees rotated over 1 rotation
      */ 
-    double leftTarg = leftT * 360/(wheelDiameter * 3.1415);
-    double rightTarg = rightT * 360/(wheelDiameter * 3.1415);
+    short int count = 0;
+    double leftTarg = leftT * 360/(wheelDiameter * 3.1415) * 2;
+    double rightTarg = rightT * 360/(wheelDiameter * 3.1415) * 2;
     //Reset the encoders of the first motor on each side
     pros::c::motor_tare_position(leftMotorPorts[0]);
     pros::c::motor_tare_position(rightMotorPorts[0]);
@@ -71,6 +72,7 @@ void TankDrive::drivePID(double leftT, double rightT)
     double rightError = rightTarg - pros::c::motor_get_position(rightMotorPorts[0]);
     double leftOutput;
     double rightOutput;
+    double voltCap = 0.0;
     //Integral variables are initiated so that the += operator can be used throughout the while loop
     double leftIntegral = 0;
     double rightIntegral = 0;
@@ -80,8 +82,10 @@ void TankDrive::drivePID(double leftT, double rightT)
     double leftPrevError;
     double rightPrevError;
     //Enter a while loop that runs until both sides are within 10 degrees of target rotation
-    while(abs(leftError) > 2 && abs(rightError) > 2)
+    while(abs(leftError) > 5 || abs(rightError) > 5)
     {
+        printf("\nLeft Targ: %f, Left Error: %f", leftTarg, leftError);
+        printf("\nRight Targ: %f, Right Error: %f", rightTarg, rightError);
         //Calculate the integral
         leftIntegral += leftError;
         rightIntegral += rightError;
@@ -98,22 +102,25 @@ void TankDrive::drivePID(double leftT, double rightT)
         leftOutput = (leftError * kP) + (leftIntegral * kI) + (leftDerivative * kD);
         rightOutput = (rightError * kP) + (rightIntegral * kI) + (rightDerivative * kD);
 
-        //Constraining the output voltages
-        if(abs(leftOutput) > 10000)
-            if(leftOutput < 0) leftOutput = -10000;
-            else leftOutput = 10000;
-        if(abs(rightOutput) > 10000)
-            if(rightOutput < 0) rightOutput = -10000;
-            else rightOutput = 10000;
+        if(voltCap < 12000) voltCap += 600;
+        else voltCap = 12000;
+
+        if(abs(leftOutput) > voltCap) leftOutput = copysign(voltCap, leftOutput);
+        if(abs(rightOutput) > voltCap) rightOutput = copysign(voltCap, rightOutput);
+        printf("\nLeft Output: %f Right Output: %f", leftOutput, rightOutput);
+
         //Set the motor group voltages to the output velocity levels
         setVoltage(leftOutput, rightOutput);
         //Calculate the new error
         leftError = leftTarg - pros::c::motor_get_position(leftMotorPorts[0]); 
         rightError = rightTarg - pros::c::motor_get_position(rightMotorPorts[0]);
+        if(leftError == leftPrevError) count++;
+        else count = 0;
+        if(count >= 5) break;
         pros::delay(20);
     }
     setVelocity(0, 0);
-    pros::delay(100);
+    pros::delay(200);
 }
 
 void TankDrive::setVelocity(int leftVelo, int rightVelo)
@@ -136,7 +143,7 @@ void TankDrive::setVoltage(int leftVolt, int rightVolt)
     }
 }
 
-void TankDrive::moveStraight(float distance)
+void TankDrive::moveStraight(double distance)
 {
     /**
      * The moveStraight function just slightly simplifies the drivePID
@@ -149,7 +156,7 @@ void TankDrive::moveStraight(float distance)
     drivePID(distance, distance);
 }
 
-void TankDrive::turnAngle(float angle)
+void TankDrive::turnAngle(double angle)
 {
     /**
      * The distance each side needs to rotate can be found with the 

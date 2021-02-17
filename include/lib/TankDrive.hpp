@@ -90,7 +90,7 @@ class TankDrive
         TankDrive(std::initializer_list<int> leftPorts, std::initializer_list<int> rightPorts, 
                   std::initializer_list<bool> leftRevs, std::initializer_list<bool> rightRevs,
                   pros::motor_gearset_e_t gearset, double wD, double bW,
-                  double Pconst, double Iconst, double Dconst, double );
+                  double Pconst, double Iconst, double Dconst);
 
         /**
          * The driver function allows control of the drivetrain during the opcontrol period,
