@@ -26,7 +26,7 @@ class TankDrive
          * This value is used to convert values passed in for
          * autonomous functions from inches to degrees to rotate for
          */ 
-        float wheelDiameter;
+        double wheelDiameter;
 
         /**
          * Variable to hold the width of the drivetrain. This value is used in the turnAngle function
@@ -35,7 +35,7 @@ class TankDrive
          * be down the robot's front-facing middle. So, this value will be usable no matter
          * the wheel configuration
          */ 
-        float baseWidth;
+        double baseWidth;
 
         /**
          * Structs of type Telemetry (defined in externs.hpp) that hold the telemetry values for
@@ -68,7 +68,7 @@ class TankDrive
          * The PID constant values, kP for the proportional constant,
          * kI for the integral constant, and kD for the derivative constant
          */ 
-        float kP, kI, kD;
+        double kP, kI, kD;
     public:
         /**
          * The constructor for the TankDrive Class
@@ -89,8 +89,8 @@ class TankDrive
          */ 
         TankDrive(std::initializer_list<int> leftPorts, std::initializer_list<int> rightPorts, 
                   std::initializer_list<bool> leftRevs, std::initializer_list<bool> rightRevs,
-                  pros::motor_gearset_e_t gearset, float wD, float bW,
-                  float Pconst, float Iconst, float Dconst);
+                  pros::motor_gearset_e_t gearset, double wD, double bW,
+                  double Pconst, double Iconst, double Dconst, double );
 
         /**
          * The driver function allows control of the drivetrain during the opcontrol period,
@@ -121,7 +121,7 @@ class TankDrive
          *        is negative. For example, passing in 45 would make the robot turn
          *        45 degrees to the right (clockwise, from an overhead view)
          */ 
-        void turnAngle(float angle); 
+        void turnAngle(double angle); 
 
         /**
          * The moveStraight function is an autonomous function used to
@@ -129,7 +129,7 @@ class TankDrive
          * 
          * @param distance: the distance to travel, in inches. Negative values = backwards
          */
-        void moveStraight(float distance); 
+        void moveStraight(double distance); 
 
         /**
          * getLeftTelemetry() returns a struct containing motor telemetry values for the left
