@@ -17,6 +17,7 @@ enum class Auton
 {
     none,
     test,
+    skills,
     midleft,
     midright,
     left,
