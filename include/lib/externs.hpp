@@ -1,5 +1,4 @@
 #pragma once
-#include "okapi/api.hpp"
 #include "lib/TankDrive.hpp"
 #include "lib/intake.hpp"
 #include "lib/Conveyor.hpp"
@@ -20,9 +19,6 @@ extern Intake intake;
 
 //The Conveyor object, representing the conveyor that moves balls up and scores them
 extern Conveyor conveyor;
-
-//The okapi::Controller object, which represents the robot controller
-extern okapi::Controller controller;
 
 //The Auton enumerator used to store the currently selected autonomous routine
 extern Auton autonID;
