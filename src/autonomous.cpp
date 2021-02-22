@@ -20,14 +20,13 @@ void autonomous() {
     switch(autonID)
     {
         case Auton::test:
-            intake.out();
-            drive.moveStraight(15);
-            drive.turnAngle(-135);
+            drive.moveStraight(17);
+            drive.turnAngle(-140);
             drive.moveStraight(28);
             intake.in();
             drive.moveStraight(6);
-            pros::delay(2000);
-            drive.moveStraight(-6);
+            pros::delay(5000);
+            drive.moveStraight(-12);
             pros::delay(1000);
             intake.stop();
             break;
