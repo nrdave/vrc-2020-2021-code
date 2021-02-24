@@ -114,7 +114,7 @@ void TankDrive::drivePID(double leftT, double rightT)
         //Calculate the new error
         leftError = leftTarg - pros::c::motor_get_position(leftMotorPorts[0]); 
         rightError = rightTarg - pros::c::motor_get_position(rightMotorPorts[0]);
-        if(leftError == leftPrevError) count++;
+        if(leftError == leftPrevError && rightError == rightPrevError) count++;
         else count = 0;
         if(count >= 5) break;
         pros::delay(20);
